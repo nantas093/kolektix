@@ -826,7 +826,7 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
                     )
                 ),
                 onTap: (){
-                  Get.to(()=> const EmailVerificationView());
+                  Get.to(()=> const EmailVerificationView(), arguments: {"is_menu" : true});
                 },
               )
             ],

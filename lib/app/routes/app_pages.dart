@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/create_event/bindings/create_event_binding.dart';
+import '../modules/create_event/views/create_event_view.dart';
 import '../modules/creator_registration/bindings/creator_registration_binding.dart';
 import '../modules/creator_registration/views/creator_registration_view.dart';
 import '../modules/email_verification/bindings/email_verification_binding.dart';
@@ -8,6 +10,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/menu_screen/bindings/menu_screen_binding.dart';
+import '../modules/menu_screen/views/menu_screen_view.dart';
 import '../modules/select_role/bindings/select_role_binding.dart';
 import '../modules/select_role/views/select_role_view.dart';
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
@@ -57,6 +61,16 @@ class AppPages {
       name: _Paths.TALENT_REGISTRATION,
       page: () => const TalentRegistrationView(),
       binding: TalentRegistrationBinding(),
+    ),
+    GetPage(
+      name: _Paths.MENU_SCREEN,
+      page: () => const MenuScreenView(),
+      binding: MenuScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_EVENT,
+      page: () => const CreateEventView(),
+      binding: CreateEventBinding(),
     ),
   ];
 }

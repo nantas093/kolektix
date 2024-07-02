@@ -10,6 +10,8 @@ abstract class Routes {
   static const SELECT_ROLE = _Paths.SELECT_ROLE;
   static const CREATOR_REGISTRATION = _Paths.CREATOR_REGISTRATION;
   static const TALENT_REGISTRATION = _Paths.TALENT_REGISTRATION;
+  static const MENU_SCREEN = _Paths.MENU_SCREEN;
+  static const CREATE_EVENT = _Paths.CREATE_EVENT;
 }
 
 abstract class _Paths {
@@ -21,4 +23,6 @@ abstract class _Paths {
   static const SELECT_ROLE = '/select-role';
   static const CREATOR_REGISTRATION = '/creator-registration';
   static const TALENT_REGISTRATION = '/talent-registration';
+  static const MENU_SCREEN = '/menu-screen';
+  static const CREATE_EVENT = '/create-event';
 }

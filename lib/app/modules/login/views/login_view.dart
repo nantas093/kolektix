@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
 import 'package:kolektix/app/modules/email_verification/views/email_verification_view.dart';
+import 'package:kolektix/app/modules/select_role/views/select_role_view.dart';
 
 import '../controllers/login_controller.dart';
 
@@ -146,7 +147,7 @@ class LoginView extends GetView<LoginController> {
                                             )
                                         ),
                                         onTap: (){
-                                          Get.to(()=> const EmailVerificationView());
+                                          Get.to(()=> const EmailVerificationView(), arguments: {"is_menu" : true});
                                         },
                                       ),
                                       SizedBox(height: 0.04.sh),
@@ -162,31 +163,36 @@ class LoginView extends GetView<LoginController> {
                                           )
                                       ),
                                       SizedBox(height: 0.01.sh),
-                                      Container(
-                                          width: double.maxFinite.w,
-                                          height: 0.05.sh,
-                                          padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Color.fromRGBO(226, 237, 255, 1)
-                                              )
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                                "Daftar",
-                                                textAlign: TextAlign.center,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                    fontSize: MyConstant.TEXT_14,
-                                                    color: Color.fromRGBO(11, 56, 124, 1),
-                                                    fontWeight: FontWeight.bold
+                                      GestureDetector(
+                                        child: Container(
+                                            width: double.maxFinite.w,
+                                            height: 0.05.sh,
+                                            padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Color.fromRGBO(226, 237, 255, 1)
+                                                )
+                                            ),
+                                            child: Center(
+                                                child: Text(
+                                                    "Daftar",
+                                                    textAlign: TextAlign.center,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                        fontSize: MyConstant.TEXT_14,
+                                                        color: Color.fromRGBO(11, 56, 124, 1),
+                                                        fontWeight: FontWeight.bold
+                                                    )
                                                 )
                                             )
-                                          )
+                                        ),
+                                        onTap: (){
+                                          Get.to(()=> const SelectRoleView());
+                                        },
                                       ),
                                       SizedBox(height: 0.03.sh),
                                       RichText(
@@ -223,23 +229,23 @@ class LoginView extends GetView<LoginController> {
                                                     color: Color.fromRGBO(102, 102, 102, 1)
                                                 )),
                                             TextSpan(text: " Ketentuan Layanan ",
-                                              style: TextStyle(
-                                                fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                decoration: TextDecoration.none,
-                                                fontSize: MyConstant.TEXT_14,
-                                                fontWeight: FontWeight.normal,
-                                                height: 1.5,
-                                                color: Color.fromRGBO(11, 56, 124, 1)
-                                              )
+                                                style: TextStyle(
+                                                    fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                    decoration: TextDecoration.none,
+                                                    fontSize: MyConstant.TEXT_14,
+                                                    fontWeight: FontWeight.normal,
+                                                    height: 1.5,
+                                                    color: Color.fromRGBO(11, 56, 124, 1)
+                                                )
                                             ),
                                             TextSpan(text: "kami melindungi data Anda.",
                                                 style: TextStyle(
-                                                  fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                  decoration: TextDecoration.none,
-                                                  fontSize: MyConstant.TEXT_14,
-                                                  height: 1.5,
-                                                  fontWeight: FontWeight.normal,
-                                                  color: Color.fromRGBO(102, 102, 102, 1)
+                                                    fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                    decoration: TextDecoration.none,
+                                                    fontSize: MyConstant.TEXT_14,
+                                                    height: 1.5,
+                                                    fontWeight: FontWeight.normal,
+                                                    color: Color.fromRGBO(102, 102, 102, 1)
                                                 )
                                             )
                                           ],

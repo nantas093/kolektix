@@ -724,7 +724,7 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                     )
                 ),
                 onTap: (){
-                  Get.to(()=> const EmailVerificationView());
+                  Get.to(()=> const EmailVerificationView(), arguments: {"is_menu" : true});
                 },
               )
             ],

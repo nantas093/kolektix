@@ -5,6 +5,7 @@ import 'package:flutter_verification_code/flutter_verification_code.dart';
 
 import 'package:get/get.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
+import 'package:kolektix/app/modules/menu_screen/views/menu_screen_view.dart';
 import 'package:kolektix/app/modules/select_role/views/select_role_view.dart';
 
 import '../controllers/email_verification_controller.dart';
@@ -204,7 +205,12 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
                         )
                     ),
                     onTap: (){
-                        Get.off(()=> const SelectRoleView());
+                        if(value.isMenu){
+                          Get.off(()=> const MenuScreenView());
+                        }
+                        else{
+                          Get.off(()=> const SelectRoleView());
+                        }
                     },
                   ),
                   const Expanded(child: SizedBox(), flex: 1),
