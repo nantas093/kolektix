@@ -20,6 +20,9 @@ class MyConstant {
   static String IC_EMAIL = "assets/icons/ic_email.svg";
   static String IC_SELANJUTNYA = "assets/icons/ic_selanjutnya.svg";
   static String IC_LEFT = "assets/icons/ic_left.svg";
+  static String IC_OCTAGON = "assets/icons/ic_octagon.svg";
+  static String IC_CHECK = "assets/icons/ic_check.svg";
+  static String IC_CIRCLE_CHECK = "assets/icons/ic_circle_check.svg";
 
   //TEXT SIZE
   static double TEXT_12 = 10.5.sp;

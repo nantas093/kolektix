@@ -8,6 +8,8 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const EMAIL_VERIFICATION = _Paths.EMAIL_VERIFICATION;
   static const SELECT_ROLE = _Paths.SELECT_ROLE;
+  static const CREATOR_REGISTRATION = _Paths.CREATOR_REGISTRATION;
+  static const TALENT_REGISTRATION = _Paths.TALENT_REGISTRATION;
 }
 
 abstract class _Paths {
@@ -17,4 +19,6 @@ abstract class _Paths {
   static const LOGIN = '/login';
   static const EMAIL_VERIFICATION = '/email-verification';
   static const SELECT_ROLE = '/select-role';
+  static const CREATOR_REGISTRATION = '/creator-registration';
+  static const TALENT_REGISTRATION = '/talent-registration';
 }

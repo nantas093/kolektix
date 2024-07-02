@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/creator_registration/bindings/creator_registration_binding.dart';
+import '../modules/creator_registration/views/creator_registration_view.dart';
 import '../modules/email_verification/bindings/email_verification_binding.dart';
 import '../modules/email_verification/views/email_verification_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -10,6 +12,8 @@ import '../modules/select_role/bindings/select_role_binding.dart';
 import '../modules/select_role/views/select_role_view.dart';
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
+import '../modules/talent_registration/bindings/talent_registration_binding.dart';
+import '../modules/talent_registration/views/talent_registration_view.dart';
 
 part 'app_routes.dart';
 
@@ -43,6 +47,16 @@ class AppPages {
       name: _Paths.SELECT_ROLE,
       page: () => const SelectRoleView(),
       binding: SelectRoleBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATOR_REGISTRATION,
+      page: () => const CreatorRegistrationView(),
+      binding: CreatorRegistrationBinding(),
+    ),
+    GetPage(
+      name: _Paths.TALENT_REGISTRATION,
+      page: () => const TalentRegistrationView(),
+      binding: TalentRegistrationBinding(),
     ),
   ];
 }

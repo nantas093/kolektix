@@ -204,7 +204,7 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
                         )
                     ),
                     onTap: (){
-                        Get.to(()=> const SelectRoleView());
+                        Get.off(()=> const SelectRoleView());
                     },
                   ),
                   const Expanded(child: SizedBox(), flex: 1),
