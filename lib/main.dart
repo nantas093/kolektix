@@ -20,3 +20,6 @@ Future<void> main() async {
     ),
   ));
 }
+
+// creator -> 3
+// talent -> 2

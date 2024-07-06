@@ -12,6 +12,17 @@ abstract class Routes {
   static const TALENT_REGISTRATION = _Paths.TALENT_REGISTRATION;
   static const MENU_SCREEN = _Paths.MENU_SCREEN;
   static const CREATE_EVENT = _Paths.CREATE_EVENT;
+  static const HOME_ITEM = _Paths.HOME_ITEM;
+  static const KELOLA_ITEM = _Paths.KELOLA_ITEM;
+  static const PESAN_ITEM = _Paths.PESAN_ITEM;
+  static const NOTIFIKASI_ITEM = _Paths.NOTIFIKASI_ITEM;
+  static const PROFILE_ITEM = _Paths.PROFILE_ITEM;
+  static const EVENT = _Paths.EVENT;
+  static const EVENT_DETAIL = _Paths.EVENT_DETAIL;
+  static const CHAT_DETAIL = _Paths.CHAT_DETAIL;
+  static const SCAN = _Paths.SCAN;
+  static const CREATE_LOWONGAN = _Paths.CREATE_LOWONGAN;
+  static const CREATE_VENUE = _Paths.CREATE_VENUE;
 }
 
 abstract class _Paths {
@@ -25,4 +36,15 @@ abstract class _Paths {
   static const TALENT_REGISTRATION = '/talent-registration';
   static const MENU_SCREEN = '/menu-screen';
   static const CREATE_EVENT = '/create-event';
+  static const HOME_ITEM = '/home-item';
+  static const KELOLA_ITEM = '/kelola-item';
+  static const PESAN_ITEM = '/pesan-item';
+  static const NOTIFIKASI_ITEM = '/notifikasi-item';
+  static const PROFILE_ITEM = '/profile-item';
+  static const EVENT = '/event';
+  static const EVENT_DETAIL = '/event-detail';
+  static const CHAT_DETAIL = '/chat-detail';
+  static const SCAN = '/scan';
+  static const CREATE_LOWONGAN = '/create-lowongan';
+  static const CREATE_VENUE = '/create-venue';
 }

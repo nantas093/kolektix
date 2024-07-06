@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:kolektix/app/components/custom_toast.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
 import 'package:kolektix/app/modules/email_verification/views/email_verification_view.dart';
 
@@ -99,19 +100,19 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
                               SizedBox(height: 0.02.sh),
                               //First
                               firstStepHeader(value),
-                              firstStepContent(value),
+                              firstStepContent(value, context),
                               //Second
                               secondStepHeader(value),
-                              secondStepContent(value),
+                              secondStepContent(value, context),
                               //Third
                               threeStepHeader(value),
-                              threeStepContent(value),
+                              threeStepContent(value, context),
                               //Fourth
                               fourStepHeader(value),
-                              fourStepContent(value),
+                              fourStepContent(value, context),
                               //Fifth
                               fiveStepHeader(value),
-                              fiveStepContent(value)
+                              fiveStepContent(value, context)
                             ],
                           )
                       ))
@@ -169,7 +170,7 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
     );
   }
 
-  Widget firstStepContent(TalentRegistrationController value){
+  Widget firstStepContent(TalentRegistrationController value, BuildContext context){
     return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -200,6 +201,7 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
                       child: Row(
                         children: [
                           Expanded(child: TextField(
+                              controller: value.nameController,
                               decoration: InputDecoration.collapsed(
                                   hintText: "Nama talent",
                                   hintStyle: TextStyle(
@@ -244,6 +246,11 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
                     )
                 ),
                 onTap: (){
+                  if(value.nameController.text.toString().isEmpty){
+                    CustomToast.showToast("Masukan nama talent", context);
+                    return;
+                  }
+
                   value.changeFilled(1);
                   value.changeDropdownPosition(2);
                 },
@@ -303,7 +310,7 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
     );
   }
 
-  Widget secondStepContent(TalentRegistrationController value){
+  Widget secondStepContent(TalentRegistrationController value, BuildContext context){
     return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -318,39 +325,42 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 0.02.sh),
-              Container(
-                  width: double.maxFinite.w,
-                  height: 0.05.sh,
-                  padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                  margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      border: Border.all(
-                          width: 1,
-                          color: Color.fromRGBO(226, 237, 255, 1)
-                      )
-                  ),
-                  child: Center(
-                      child: Row(
-                        children: [
-                          Expanded(child: TextField(
-                              decoration: InputDecoration.collapsed(
-                                  hintText: "Kategori talent",
-                                  hintStyle: TextStyle(
-                                      fontFamily: MyConstant.STR_INTER_REGULAR,
-                                      fontSize: MyConstant.TEXT_14,
-                                      color: Color.fromRGBO(162, 166, 176, 1)
-                                  )
-                              ),
-                              style: TextStyle(
-                                fontFamily: MyConstant.STR_INTER_REGULAR,
-                                fontSize: MyConstant.TEXT_14,
-                                color: Color.fromRGBO(143, 143, 143, 1),
-                              )
-                          ))
-                        ],
-                      )
-                  )
+              GestureDetector(
+                child: Container(
+                    width: double.maxFinite.w,
+                    height: 0.05.sh,
+                    padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                    margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        border: Border.all(
+                            width: 1,
+                            color: Color.fromRGBO(226, 237, 255, 1)
+                        )
+                    ),
+                    child: Center(
+                        child: Row(
+                          children: [
+                            Expanded(flex: 1, child: Text(
+                                value.strCategory,
+                                textAlign: TextAlign.start,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontFamily: MyConstant.STR_INTER_REGULAR,
+                                    fontSize: MyConstant.TEXT_14,
+                                    color: Color.fromRGBO(162, 166, 176, 1)
+                                )
+                            )),
+                            SvgPicture.asset(MyConstant.IC_CIRCLE_CHECK)
+                          ],
+                        )
+                    )
+                ),
+                onTap: (){
+                  showCategory(context);
+                },
               ),
               SizedBox(height: 0.02.sh),
               GestureDetector(
@@ -378,6 +388,11 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
                     )
                 ),
                 onTap: (){
+                  if(value.categoryIndex == -1){
+                    CustomToast.showToast("Pilih kategori", context);
+                    return;
+                  }
+
                   value.changeFilled(2);
                   value.changeDropdownPosition(3);
                 },
@@ -437,7 +452,7 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
     );
   }
 
-  Widget threeStepContent(TalentRegistrationController value){
+  Widget threeStepContent(TalentRegistrationController value, BuildContext context){
     return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -468,6 +483,7 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
                       child: Row(
                         children: [
                           Expanded(child: TextField(
+                              controller: value.alamatController,
                               decoration: InputDecoration.collapsed(
                                   hintText: "Contoh: Jakarta",
                                   hintStyle: TextStyle(
@@ -512,6 +528,11 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
                     )
                 ),
                 onTap: (){
+                  if(value.alamatController.text.toString().isEmpty){
+                    CustomToast.showToast("Masukan alamat", context);
+                    return;
+                  }
+
                   value.changeFilled(3);
                   value.changeDropdownPosition(4);
                 },
@@ -569,7 +590,7 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
     );
   }
 
-  Widget fourStepContent(TalentRegistrationController value){
+  Widget fourStepContent(TalentRegistrationController value, BuildContext context){
     return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -645,6 +666,7 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
                           child: Row(
                             children: [
                               Expanded(child: TextField(
+                                  controller: value.telpController,
                                   decoration: InputDecoration.collapsed(
                                       hintText: "123 4567 890",
                                       hintStyle: TextStyle(
@@ -692,6 +714,11 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
                     )
                 ),
                 onTap: (){
+                  if(value.telpController.text.toString().isEmpty){
+                    CustomToast.showToast("Masukan no telepon", context);
+                    return;
+                  }
+
                   value.changeFilled(4);
                   value.changeDropdownPosition(5);
                 },
@@ -751,7 +778,7 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
     );
   }
 
-  Widget fiveStepContent(TalentRegistrationController value){
+  Widget fiveStepContent(TalentRegistrationController value, BuildContext context){
     return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -782,6 +809,7 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
                       child: Row(
                         children: [
                           Expanded(child: TextField(
+                              controller: value.emailController,
                               decoration: InputDecoration.collapsed(
                                   hintText: "Contoh: kolektix@mail.com",
                                   hintStyle: TextStyle(
@@ -826,12 +854,127 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
                     )
                 ),
                 onTap: (){
-                  Get.to(()=> const EmailVerificationView(), arguments: {"is_menu" : true});
+                  if(value.emailController.text.toString().isEmpty){
+                    CustomToast.showToast("Masukan email", context);
+                    return;
+                  }
+
+                  value.next(context);
                 },
               )
             ],
           )) : SizedBox()
         ]
     );
+  }
+
+  void showCategory(BuildContext context){
+    showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        barrierColor: Colors.white.withOpacity(0.3),
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return GetBuilder<TalentRegistrationController>(
+              id: "create_event",
+              init: TalentRegistrationController(),
+              builder: (value){
+                return Container(
+                    width: double.maxFinite.w,
+                    height: double.maxFinite.w,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 0.6.sh),
+                        Expanded(flex: 1, child: Container(
+                          height: double.maxFinite.w,
+                          width: double.maxFinite.w,
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(25),
+                                  topRight: Radius.circular(25)),
+                              boxShadow: [BoxShadow(
+                                color: Color.fromRGBO(99, 108, 119, 0.1),
+                                blurRadius: 1.5,
+                                spreadRadius: 1.5,
+                              )]
+                          ),
+                          child: Column(
+                              children: [
+                                SizedBox(height: 0.02.sh),
+                                Row(
+                                  children: [
+                                    SizedBox(width: 0.05.sw),
+                                    Expanded(flex: 1, child: Text(
+                                        "Kategori",
+                                        textAlign: TextAlign.start,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontFamily: MyConstant.STR_INTER_REGULAR,
+                                            fontSize: MyConstant.TEXT_16,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600
+                                        )
+                                    )),
+                                    InkWell(
+                                      child: SvgPicture.asset(MyConstant.IC_CLOSE),
+                                      onTap: (){
+                                        Get.back();
+                                      },
+                                    ),
+                                    SizedBox(width: 0.05.sw)
+                                  ],
+                                ),
+                                Container(
+                                  width: double.maxFinite.w,
+                                  height: 1,
+                                  color: Color.fromRGBO(226, 237, 255, 1),
+                                  margin: EdgeInsets.only(left: 0.05.sw, right: 0.05.sw, top: 0.02.sh, bottom: 0.01.sh),
+                                ),
+                                Expanded(child: ListView.builder(itemBuilder: (context,index){
+                                  Map data = value.categoryList[index];
+                                  String name = data["name"];
+                                  return GestureDetector(
+                                    child: Container(
+                                        width: double.maxFinite.w,
+                                        height: 0.04.sh,
+                                        padding: EdgeInsets.only(left: 0.05.sw, right: 0.05.sw),
+                                        child: Row(
+                                          children: [
+                                            Expanded(flex: 1, child: Text(
+                                                name,
+                                                textAlign: TextAlign.start,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                    fontSize: MyConstant.TEXT_16,
+                                                    color: Colors.black
+                                                )
+                                            )),
+                                            value.categoryIndex == index ?
+                                            SvgPicture.asset(MyConstant.IC_CHECK) :
+                                            SizedBox()
+                                          ],
+                                        )
+                                    ),
+                                    onTap: (){
+                                      value.selectCategory(index);
+                                      Get.back();
+                                    },
+                                  );
+                                },
+                                    itemCount: value.categoryList.length,
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.zero
+                                ))
+                              ]
+                          ),
+                        ))
+                      ],
+                    )
+                );
+              });
+        });
   }
 }

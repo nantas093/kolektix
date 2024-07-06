@@ -27,9 +27,19 @@ class LoginView extends GetView<LoginController> {
                       SizedBox(
                           width: double.maxFinite.w,
                           height: double.maxFinite.w,
-                          child: Column(
+                          child: Stack(
                             children: [
-                              Image.asset(MyConstant.IMG_LOGIN_BG)
+                              Image.asset(MyConstant.IMG_LOGIN_BG),
+                              SizedBox(
+                                  width: double.maxFinite.w,
+                                  height: double.maxFinite.w,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 0.17.sh),
+                                      Image.asset(MyConstant.IMG_LOGO, width: 85, height: 85)
+                                    ],
+                                  )
+                              )
                             ],
                           )
                       ),
@@ -97,6 +107,7 @@ class LoginView extends GetView<LoginController> {
                                                   SvgPicture.asset(MyConstant.IC_EMAIL),
                                                   SizedBox(width: 0.02.sw),
                                                   Expanded(child: TextField(
+                                                      controller: value.emailController,
                                                       decoration: InputDecoration.collapsed(
                                                           hintText: "Email",
                                                           hintStyle: TextStyle(
@@ -147,7 +158,7 @@ class LoginView extends GetView<LoginController> {
                                             )
                                         ),
                                         onTap: (){
-                                          Get.to(()=> const EmailVerificationView(), arguments: {"is_menu" : true});
+                                          value.login(context);
                                         },
                                       ),
                                       SizedBox(height: 0.04.sh),
