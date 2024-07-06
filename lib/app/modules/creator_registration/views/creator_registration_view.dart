@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:kolektix/app/components/custom_toast.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
 
 import '../../email_verification/views/email_verification_view.dart';
@@ -99,16 +100,16 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                               SizedBox(height: 0.02.sh),
                               //First
                               firstStepHeader(value),
-                              firstStepContent(value),
+                              firstStepContent(value, context),
                               //Second
                               secondStepHeader(value),
-                              secondStepContent(value),
+                              secondStepContent(value, context),
                               //Third
                               threeStepHeader(value),
-                              threeStepContent(value),
+                              threeStepContent(value, context),
                               //Fourth
                               fourStepHeader(value),
-                              fourStepContent(value),
+                              fourStepContent(value, context),
                             ],
                           )
                       ))
@@ -166,7 +167,7 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
     );
   }
 
-  Widget firstStepContent(CreatorRegistrationController value){
+  Widget firstStepContent(CreatorRegistrationController value, BuildContext context){
     return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -197,6 +198,7 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                       child: Row(
                         children: [
                           Expanded(child: TextField(
+                              controller: value.penyelenggaraController,
                               decoration: InputDecoration.collapsed(
                                   hintText: "Nama penyelenggara event",
                                   hintStyle: TextStyle(
@@ -232,6 +234,7 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                       child: Row(
                         children: [
                           Expanded(child: TextField(
+                              controller: value.penanggungJawabController,
                               decoration: InputDecoration.collapsed(
                                   hintText: "Nama penanggung jawab",
                                   hintStyle: TextStyle(
@@ -276,6 +279,16 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                     )
                 ),
                 onTap: (){
+                  if(value.penyelenggaraController.text.toString().isEmpty){
+                    CustomToast.showToast("Masukan nama penyelenggara", context);
+                    return;
+                  }
+
+                  if(value.penanggungJawabController.text.toString().isEmpty){
+                    CustomToast.showToast("Masukan nama penyelenggara", context);
+                    return;
+                  }
+
                   value.changeFilled(1);
                   value.changeDropdownPosition(2);
                 },
@@ -335,7 +348,7 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
     );
   }
 
-  Widget secondStepContent(CreatorRegistrationController value){
+  Widget secondStepContent(CreatorRegistrationController value, BuildContext context){
     return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -366,6 +379,7 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                       child: Row(
                         children: [
                           Expanded(child: TextField(
+                              controller: value.alamatController,
                               decoration: InputDecoration.collapsed(
                                   hintText: "Contoh: Jakarta",
                                   hintStyle: TextStyle(
@@ -410,6 +424,11 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                     )
                 ),
                 onTap: (){
+                  if(value.alamatController.text.toString().isEmpty){
+                    CustomToast.showToast("Masukan alamat", context);
+                    return;
+                  }
+
                   value.changeFilled(2);
                   value.changeDropdownPosition(3);
                 },
@@ -467,7 +486,7 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
     );
   }
 
-  Widget threeStepContent(CreatorRegistrationController value){
+  Widget threeStepContent(CreatorRegistrationController value, BuildContext context){
     return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -543,6 +562,7 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                           child: Row(
                             children: [
                               Expanded(child: TextField(
+                                  controller: value.telpController,
                                   decoration: InputDecoration.collapsed(
                                       hintText: "123 4567 890",
                                       hintStyle: TextStyle(
@@ -590,6 +610,11 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                     )
                 ),
                 onTap: (){
+                  if(value.telpController.text.toString().isEmpty){
+                    CustomToast.showToast("Masukan telp", context);
+                    return;
+                  }
+
                   value.changeFilled(3);
                   value.changeDropdownPosition(4);
                 },
@@ -649,7 +674,7 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
     );
   }
 
-  Widget fourStepContent(CreatorRegistrationController value){
+  Widget fourStepContent(CreatorRegistrationController value, BuildContext context){
     return Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -680,6 +705,7 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                       child: Row(
                         children: [
                           Expanded(child: TextField(
+                              controller: value.emailController,
                               decoration: InputDecoration.collapsed(
                                   hintText: "Contoh: kolektix@mail.com",
                                   hintStyle: TextStyle(
@@ -724,7 +750,12 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                     )
                 ),
                 onTap: (){
-                  Get.to(()=> const EmailVerificationView(), arguments: {"is_menu" : true});
+                  if(value.emailController.text.toString().isEmpty){
+                    CustomToast.showToast("Masukan email", context);
+                    return;
+                  }
+
+                  value.next(context);
                 },
               )
             ],

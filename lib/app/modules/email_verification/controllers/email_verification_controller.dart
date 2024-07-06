@@ -22,6 +22,9 @@ class EmailVerificationController extends GetxController {
   );
 
   Map data = {};
+  Map responseData = {};
+
+  bool buttonShow = false;
 
   @override
   void onInit() {
@@ -64,15 +67,22 @@ class EmailVerificationController extends GetxController {
         var data = e.response;
         if(data != null){
           String message = "";
+          String errors = "";
+          String error = "";
+
+          if(data.data["message"] != null){
+            message = data.data["message"].toString();
+          }
+
+          if(data.data["errors"] != null){
+            errors = data.data["errors"].toString();
+          }
 
           if(data.data["error"] != null){
-            message = data.data["error"];
-          }
-          else{
-            message = data.data["message"];
+            error = data.data["error"].toString();
           }
 
-          CustomToast.showToast(message, context);
+          CustomToast.showToast("$message $errors $error", context);
         }
         else{
           CustomToast.showToast("Something went wrong, try again later", context);
@@ -111,8 +121,23 @@ class EmailVerificationController extends GetxController {
       if(e is DioError){
         var data = e.response;
         if(data != null){
-          var message = data.data["error"] ?? "";
-          CustomToast.showToast(message, context);
+          String message = "";
+          String errors = "";
+          String error = "";
+
+          if(data.data["message"] != null){
+            message = data.data["message"].toString();
+          }
+
+          if(data.data["errors"] != null){
+            errors = data.data["errors"].toString();
+          }
+
+          if(data.data["error"] != null){
+            error = data.data["error"].toString();
+          }
+
+          CustomToast.showToast("$message $errors $error", context);
         }
         else{
           CustomToast.showToast("Something went wrong, try again later", context);
@@ -150,15 +175,22 @@ class EmailVerificationController extends GetxController {
         var data = e.response;
         if(data != null){
           String message = "";
+          String errors = "";
+          String error = "";
+
+          if(data.data["message"] != null){
+            message = data.data["message"].toString();
+          }
+
+          if(data.data["errors"] != null){
+            errors = data.data["errors"].toString();
+          }
 
           if(data.data["error"] != null){
-            message = data.data["error"];
-          }
-          else{
-            message = data.data["message"];
+            error = data.data["error"].toString();
           }
 
-          CustomToast.showToast(message, context);
+          CustomToast.showToast("$message $errors $error", context);
         }
         else{
           CustomToast.showToast("Something went wrong, try again later", context);
@@ -180,19 +212,56 @@ class EmailVerificationController extends GetxController {
     try{
       var response = await myConnection.getDioConnection("").post(
           MyConstant.VERIFY_REGISTER, data: body);
-      var responseData = response.data;
+      responseData = response.data;
+      buttonShow = true;
+      update(["email_verification"]);
+      Get.back();
+    }
+    catch(e){
+      Get.back();
+      if(e is DioError){
+        var data = e.response;
+        if(data != null){
+          String message = "";
+          String errors = "";
+          String error = "";
 
+          if(data.data["message"] != null){
+            message = data.data["message"].toString();
+          }
+
+          if(data.data["errors"] != null){
+            errors = data.data["errors"].toString();
+          }
+
+          if(data.data["error"] != null){
+            error = data.data["error"].toString();
+          }
+
+          CustomToast.showToast("$message $errors $error", context);
+        }
+        else{
+          CustomToast.showToast("Something went wrong, try again later", context);
+        }
+      }
+      else{
+        CustomToast.showToast("Something went wrong, try again later", context);
+      }
+    }
+  }
+
+  Future<void> registerTalent(BuildContext context) async {
+    CustomLoading.showLoadingDialog(context, "Loading...");
+
+    try{
       int userId = responseData["data"]["id"];
       String accessToken = responseData["access_token"];
 
-      //Create Talent
       Map<String,dynamic> talentBody = {};
-      talentBody["creator_id"] = userId;
+      talentBody["user_id"] = userId;
       talentBody["talent_category_id"] = data["category"]["id"];
-      talentBody["verify_status_id"] = 1;
-      talentBody["email"] = email;
       talentBody["name"] = data["name"];
-      talentBody["slug"] = data["name"];
+      talentBody["email"] = email;
       talentBody["phone"] = data["telp"];
       talentBody["location"] = data["alamat"];
 
@@ -216,15 +285,85 @@ class EmailVerificationController extends GetxController {
         var data = e.response;
         if(data != null){
           String message = "";
+          String errors = "";
+          String error = "";
+
+          if(data.data["message"] != null){
+            message = data.data["message"].toString();
+          }
+
+          if(data.data["errors"] != null){
+            errors = data.data["errors"].toString();
+          }
 
           if(data.data["error"] != null){
-            message = data.data["error"];
-          }
-          else{
-            message = data.data["message"];
+            error = data.data["error"].toString();
           }
 
-          CustomToast.showToast(message, context);
+          CustomToast.showToast("$message $errors $error", context);
+        }
+        else{
+          CustomToast.showToast("Something went wrong, try again later", context);
+        }
+      }
+      else{
+        CustomToast.showToast("Something went wrong, try again later", context);
+      }
+    }
+  }
+
+  Future<void> registerCreator(BuildContext context) async {
+    CustomLoading.showLoadingDialog(context, "Loading...");
+
+    try{
+      int userId = responseData["data"]["id"];
+      String accessToken = responseData["access_token"];
+
+      Map<String,dynamic> talentBody = {};
+
+      talentBody["name"] = data["name"];
+      talentBody["location"] = data["alamat"];
+      talentBody["phone_number"] = data["telp"];
+      talentBody["email"] = email;
+      talentBody["user_id"] = userId;
+      talentBody["status"] = "active";
+
+      await myConnection.getDioConnection(accessToken).post(
+          MyConstant.CREATE_CREATOR, data: talentBody);
+
+      String strData = jsonEncode(responseData["data"]).toString();
+
+      var preference = await SharedPreferences.getInstance();
+      preference.setString("access_token", responseData["access_token"]);
+      preference.setString("data", strData);
+
+      Get.back();
+      CustomToast.showSuccessToast("Berhasil register", context);
+
+      Get.offAll(()=> const MenuScreenView());
+    }
+    catch(e){
+      Get.back();
+      if(e is DioError){
+        var data = e.response;
+        if(data != null){
+          String message = "";
+          String errors = "";
+          String error = "";
+
+          if(data.data["message"] != null){
+            message = data.data["message"].toString();
+          }
+
+          if(data.data["errors"] != null){
+            errors = data.data["errors"].toString();
+          }
+
+          if(data.data["error"] != null){
+            error = data.data["error"].toString();
+          }
+
+          CustomToast.showToast("$message $errors $error", context);
         }
         else{
           CustomToast.showToast("Something went wrong, try again later", context);

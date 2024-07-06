@@ -40,7 +40,7 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
                           ),
                           SizedBox(width: 0.03.sw),
                           Text(
-                              "Verifikasi email",
+                              !value.buttonShow ? "Verifikasi email" : "Registrasi",
                               textAlign: TextAlign.center,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -87,7 +87,7 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
                         children: [
                           SizedBox(width: 0.05.sw),
                           Text(
-                              "Mohon verifikasi email anda",
+                              value.buttonShow ? "Verifikasi berhasil" : "Mohon verifikasi email anda",
                               textAlign: TextAlign.center,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -100,7 +100,6 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 0.01.sh),
                       Row(
                         children: [
                           SizedBox(width: 0.05.sw),
@@ -109,9 +108,9 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
                               text: '',
                               style: DefaultTextStyle.of(context).style,
                               children: <TextSpan>[
-                                TextSpan(text: "Untuk memulai sebagai Creator, silahkan "
+                                TextSpan(text: !value.buttonShow ? "Untuk memulai sebagai Creator, silahkan "
                                     "verifikasi alamat email anda dengan email yang telah "
-                                    "kami kirimkan ke ",
+                                    "kami kirimkan ke " : "Tekan tombol register untuk melanjutkan pendaftaran",
                                     style: TextStyle(
                                         fontFamily: MyConstant.STR_INTER_REGULAR,
                                         decoration: TextDecoration.none,
@@ -120,7 +119,7 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
                                         fontWeight: FontWeight.normal,
                                         color: Color.fromRGBO(102, 102, 102, 1)
                                     )),
-                                TextSpan(text: value.email,
+                                TextSpan(text: !value.buttonShow ? value.email : "",
                                     style: TextStyle(
                                         fontFamily: MyConstant.STR_INTER_REGULAR,
                                         decoration: TextDecoration.none,
@@ -136,99 +135,142 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
                           SizedBox(width: 0.05.sw)
                         ],
                       ),
-                      SizedBox(height: 0.02.sh),
-                      Row(
+                      SizedBox(height: 0.01.sh),
+                      !value.buttonShow ? Column(
                         children: [
-                          SizedBox(width: 0.05.sw),
-                          Text(
-                              "Masukan 6-digit code",
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontFamily: MyConstant.STR_INTER_REGULAR,
-                                  fontSize: MyConstant.TEXT_14,
-                                  color: Colors.black
+                          SizedBox(height: 0.02.sh),
+                          Row(
+                            children: [
+                              SizedBox(width: 0.05.sw),
+                              Text(
+                                  "Masukan 6-digit code",
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                      fontSize: MyConstant.TEXT_14,
+                                      color: Colors.black
+                                  )
                               )
+                            ],
+                          ),
+                          SizedBox(height: 0.01.sh),
+                          Row(
+                            children: [
+                              SizedBox(width: 0.05.sw),
+                              Expanded(flex: 1, child: VerificationCode(
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .copyWith(color: Theme.of(context).primaryColor),
+                                keyboardType: TextInputType.number,
+                                underlineColor: Color.fromRGBO(226, 237, 255, 1),
+                                underlineUnfocusedColor: Color.fromRGBO(226, 237, 255, 1),
+                                length: 6,
+                                cursorColor: Colors.blue,
+                                fullBorder: true,
+                                onCompleted: (String code) {
+                                  if(value.isMenu){
+                                    value.verifyCode(context, code);
+                                  }
+                                  else{
+                                    value.verifyRegisterTalentCode(context, code);
+                                  }
+                                },
+                                onEditing: (bool value) {
+
+                                },
+                              )),
+                              SizedBox(width: 0.05.sw)
+                            ],
+                          ),
+                          SizedBox(height: 0.01.sh),
+                          Row(
+                            children: [
+                              SizedBox(width: 0.05.sw),
+                              Text(
+                                  "Belum menerima email? ",
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                      fontSize: MyConstant.TEXT_14,
+                                      color: Colors.black
+                                  )
+                              ),
+                              GestureDetector(
+                                child: Text(
+                                    "Kirim Ulang",
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontFamily: MyConstant.STR_INTER_REGULAR,
+                                        fontSize: MyConstant.TEXT_14,
+                                        color: Color.fromRGBO(11, 56, 124, 1)
+                                    )
+                                ),
+                                onTap: (){
+                                  if(value.isMenu){
+                                    value.getCode(context);
+                                  }
+                                  else{
+                                    value.getRegisterCode(context);
+                                  }
+                                },
+                              ),
+                              const Expanded(flex: 1, child: SizedBox()),
+                              TimerCountdown(
+                                  format: CountDownTimerFormat.minutesSeconds,
+                                  spacerWidth: 1,
+                                  enableDescriptions: false,
+                                  endTime: DateTime.now().add(value.duration)
+                              ),
+                              SizedBox(width: 0.05.sw)
+                            ],
                           )
                         ],
-                      ),
-                      SizedBox(height: 0.01.sh),
-                      Row(
+                      ) : SizedBox(),
+                      value.buttonShow ? Column(
                         children: [
-                          SizedBox(width: 0.05.sw),
-                          Expanded(flex: 1, child: VerificationCode(
-                            textStyle: Theme.of(context)
-                                .textTheme
-                                .bodyText2!
-                                .copyWith(color: Theme.of(context).primaryColor),
-                            keyboardType: TextInputType.number,
-                            underlineColor: Color.fromRGBO(226, 237, 255, 1),
-                            underlineUnfocusedColor: Color.fromRGBO(226, 237, 255, 1),
-                            length: 6,
-                            cursorColor: Colors.blue,
-                            fullBorder: true,
-                            onCompleted: (String code) {
-                              if(value.isMenu){
-                                value.verifyCode(context, code);
-                              }
-                              else{
-                                value.verifyRegisterTalentCode(context, code);
-                              }
-                            },
-                            onEditing: (bool value) {
-
-                            },
-                          )),
-                          SizedBox(width: 0.05.sw)
-                        ],
-                      ),
-                      SizedBox(height: 0.01.sh),
-                      Row(
-                        children: [
-                          SizedBox(width: 0.05.sw),
-                          Text(
-                              "Belum menerima email? ",
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontFamily: MyConstant.STR_INTER_REGULAR,
-                                  fontSize: MyConstant.TEXT_14,
-                                  color: Colors.black
-                              )
-                          ),
+                          SizedBox(height: 0.03.sh),
                           GestureDetector(
-                            child: Text(
-                                "Kirim Ulang",
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                    fontFamily: MyConstant.STR_INTER_REGULAR,
-                                    fontSize: MyConstant.TEXT_14,
+                            child: Container(
+                                width: double.maxFinite.w,
+                                height: 0.05.sh,
+                                padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                margin: EdgeInsets.only(left: 0.05.sw, right: 0.05.sw),
+                                decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
                                     color: Color.fromRGBO(11, 56, 124, 1)
+                                ),
+                                child: Center(
+                                    child: Text(
+                                        "Register",
+                                        textAlign: TextAlign.center,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontFamily: MyConstant.STR_INTER_BOLD,
+                                            fontSize: MyConstant.TEXT_14,
+                                            color: Colors.white
+                                        )
+                                    )
                                 )
                             ),
                             onTap: (){
-                              if(value.isMenu){
-                                value.getCode(context);
+                              if(value.data["type"] == "talent"){
+                                value.registerTalent(context);
                               }
                               else{
-                                value.getRegisterCode(context);
+                                value.registerCreator(context);
                               }
                             },
-                          ),
-                          const Expanded(flex: 1, child: SizedBox()),
-                          TimerCountdown(
-                              format: CountDownTimerFormat.minutesSeconds,
-                              spacerWidth: 1,
-                              enableDescriptions: false,
-                              endTime: DateTime.now().add(value.duration)
-                          ),
-                          SizedBox(width: 0.05.sw)
+                          )
                         ],
-                      )
+                      ) : SizedBox()
                     ],
                   )
               )

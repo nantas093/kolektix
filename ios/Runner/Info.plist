@@ -55,5 +55,10 @@
     <string>Kolektix uses your device's location for creating event.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Kolektix uses your device's location for creating event.</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
 </dict>
 </plist>

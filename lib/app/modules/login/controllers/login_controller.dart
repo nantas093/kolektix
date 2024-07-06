@@ -44,18 +44,24 @@ class LoginController extends GetxController {
       Get.back();
       if(e is DioError){
         var data = e.response;
-        print(data);
         if(data != null){
           String message = "";
+          String errors = "";
+          String error = "";
+
+          if(data.data["message"] != null){
+            message = data.data["message"].toString();
+          }
+
+          if(data.data["errors"] != null){
+            errors = data.data["errors"].toString();
+          }
 
           if(data.data["error"] != null){
-            message = data.data["error"];
-          }
-          else{
-            message = data.data["message"];
+            error = data.data["error"].toString();
           }
 
-          CustomToast.showToast(message, context);
+          CustomToast.showToast("$message $errors $error", context);
         }
         else{
           CustomToast.showToast("Something went wrong, try again later", context);

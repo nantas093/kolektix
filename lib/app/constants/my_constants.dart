@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class MyConstant {
   //APP NAME
   static String APP_NAME = "Kolektix";
-  static String BASE_URL = "https://bedev.kolektix.com";
+  static String BASE_URL = "http://dev.kolektix.store";
 
   static String LOGIN = "/api/login";
   static String VERIFY_LOGIN = "/api/verify-login";
@@ -11,6 +11,7 @@ class MyConstant {
   static String REGISTER = "/api/register";
   static String VERIFY_REGISTER = "/api/verify-register";
   static String CREATE_TALENT = "/api/talent";
+  static String CREATE_CREATOR = "/api/creator";
 
   //FONTS
   static String STR_INTER_REGULAR = "InterRegular";
