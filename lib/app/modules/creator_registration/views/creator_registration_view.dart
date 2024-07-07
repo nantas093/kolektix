@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -110,6 +112,9 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                               //Fourth
                               fourStepHeader(value),
                               fourStepContent(value, context),
+                              //Five
+                              fiveStepHeader(value),
+                              fiveStepContent(value, context),
                             ],
                           )
                       ))
@@ -681,7 +686,7 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
           SizedBox(width: 0.08.sw),
           Container(
               width: 2,
-              height: value.dropdownPosition == 4 ? 125 : 0,
+              height: value.dropdownPosition == 4 ? 125 : 20,
               color: value.fourFilled ? const Color.fromRGBO(11, 56, 124, 1)
                   : const Color.fromRGBO(226, 237, 255, 1)
           ),
@@ -755,6 +760,135 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
                     return;
                   }
 
+                  value.changeFilled(4);
+                  value.changeDropdownPosition(5);
+                },
+              )
+            ],
+          )) : SizedBox()
+        ]
+    );
+  }
+
+  Widget fiveStepHeader(CreatorRegistrationController value){
+    return Row(
+      children: [
+        SizedBox(width: 0.05.sw),
+        Container(
+            width: 26,
+            height: 26,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: value.dropdownPosition == 5 ? const Color.fromRGBO(11, 56, 124, 1) : value.fiveFilled ? const Color.fromRGBO(11, 56, 124, 1) : const Color.fromRGBO(246, 250, 255, 1),
+                border: value.fiveFilled ? null : Border.all(
+                    color: Color.fromRGBO(226, 237, 255, 1),
+                    width: 2
+                )
+            ),
+            child: Center(
+                child: Center(
+                    child: value.fiveFilled ? SvgPicture.asset(MyConstant.IC_CHECK, color: Colors.white, width: 16, height: 16) :
+                    Text(
+                        "5",
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: MyConstant.STR_INTER_REGULAR,
+                            fontSize: MyConstant.TEXT_14,
+                            color: value.dropdownPosition == 5 ? Colors.white : value.fiveFilled ? Colors.white : Colors.black
+                        )
+                    )
+                )
+            )
+        ),
+        SizedBox(width: 0.015.sw),
+        Text(
+            "Masukkan gambar",
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontFamily: MyConstant.STR_INTER_REGULAR,
+                fontSize: MyConstant.TEXT_16,
+                color: value.dropdownPosition == 5 ? Colors.black : value.fiveFilled ? Colors.black : const Color.fromRGBO(143, 143, 143, 1),
+                fontWeight: FontWeight.bold
+            )
+        )
+      ],
+    );
+  }
+
+  Widget fiveStepContent(CreatorRegistrationController value, BuildContext context){
+    return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(width: 0.08.sw),
+          Container(
+              width: 2,
+              height: value.dropdownPosition == 5 ? 125 : 0,
+              color: value.fiveFilled ? const Color.fromRGBO(11, 56, 124, 1)
+                  : const Color.fromRGBO(226, 237, 255, 1)
+          ),
+          value.dropdownPosition == 5 ?  Expanded(flex: 1, child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 0.02.sh),
+              GestureDetector(
+                child: Container(
+                    width: 100,
+                    height: 100,
+                    margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                    decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.5),
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        border: Border.all(
+                            width: 1,
+                            color: Color.fromRGBO(226, 237, 255, 1)
+                        )
+                    ),
+                    child: value.imagePath.isEmpty ? Center(
+                        child: SvgPicture.asset(MyConstant.IC_PLUS)
+                    ) : ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        child: Image.file(File(value.imagePath), width: double.maxFinite.w,
+                            height: double.maxFinite.w, fit: BoxFit.fill)
+                    )
+                ),
+                onTap: (){
+                  value.pickFile(context);
+                },
+              ),
+              SizedBox(height: 0.02.sh),
+              GestureDetector(
+                child: Container(
+                    width: 140,
+                    height: 0.05.sh,
+                    padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                    margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        color: Color.fromRGBO(11, 56, 124, 1)
+                    ),
+                    child: Center(
+                        child: Text(
+                            "Lanjut",
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontFamily: MyConstant.STR_INTER_BOLD,
+                                fontSize: MyConstant.TEXT_14,
+                                color: Colors.white
+                            )
+                        )
+                    )
+                ),
+                onTap: (){
+                  if(value.imagePath.isEmpty){
+                    CustomToast.showToast("Masukkan gambar", context);
+                    return;
+                  }
                   value.next(context);
                 },
               )

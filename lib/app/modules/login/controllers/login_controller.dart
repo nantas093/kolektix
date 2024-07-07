@@ -5,6 +5,7 @@ import 'package:kolektix/app/components/custom_toast.dart';
 import 'package:kolektix/app/connection/my_connection.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
 import 'package:kolektix/app/modules/email_verification/views/email_verification_view.dart';
+import 'package:kolektix/app/modules/select_role/views/select_role_view.dart';
 import 'package:kolektix/app/utils/custom_loading.dart';
 
 class LoginController extends GetxController {
@@ -49,19 +50,25 @@ class LoginController extends GetxController {
           String errors = "";
           String error = "";
 
-          if(data.data["message"] != null){
-            message = data.data["message"].toString();
+          if(data.statusCode! == 401){
+            Get.to(()=> const SelectRoleView());
+            CustomToast.showToast("Email anda belum terdaftar", context);
           }
+          else{
+            if(data.data["message"] != null){
+              message = data.data["message"].toString();
+            }
 
-          if(data.data["errors"] != null){
-            errors = data.data["errors"].toString();
+            if(data.data["errors"] != null){
+              errors = data.data["errors"].toString();
+            }
+
+            if(data.data["error"] != null){
+              error = data.data["error"].toString();
+            }
+
+            CustomToast.showToast("$message $errors $error", context);
           }
-
-          if(data.data["error"] != null){
-            error = data.data["error"].toString();
-          }
-
-          CustomToast.showToast("$message $errors $error", context);
         }
         else{
           CustomToast.showToast("Something went wrong, try again later", context);

@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kolektix/app/components/custom_toast.dart';
@@ -17,12 +21,16 @@ class CreatorRegistrationController extends GetxController {
   bool twoFilled = false;
   bool threeFilled = false;
   bool fourFilled = false;
+  bool fiveFilled = false;
 
   TextEditingController penyelenggaraController = TextEditingController();
   TextEditingController penanggungJawabController = TextEditingController();
   TextEditingController alamatController = TextEditingController();
   TextEditingController telpController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+
+  String imagePath = "";
+  String imgBase64 = "";
 
   @override
   void onInit() {
@@ -44,11 +52,36 @@ class CreatorRegistrationController extends GetxController {
     else if(position == 3){
       threeFilled = true;
     }
-    else {
+    else if(position == 4){
       fourFilled = true;
+    }
+    else{
+      fiveFilled = true;
     }
 
     update(["creator_registration"]);
+  }
+
+  Future<void> pickFile(BuildContext buildContext) async {
+    try{
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+      if (result != null) {
+        File file = File(result.files.single.path!);
+        imagePath = file.path;
+        imgBase64 = convertToBase64(file);
+        update(["creator_registration"]);
+      }
+    }
+    catch(e){
+      print(e);
+    }
+  }
+
+  String convertToBase64(File file) {
+    List<int> imageBytes = file.readAsBytesSync();
+    String base64Image = base64Encode(imageBytes);
+
+    return 'data:image/jpeg;base64,$base64Image';
   }
 
   Future<void> next(BuildContext context) async {
@@ -61,14 +94,16 @@ class CreatorRegistrationController extends GetxController {
     CustomLoading.showLoadingDialog(context, "Loading...");
 
     try{
-      var response = await myConnection.getDioConnection("").post(MyConstant.REGISTER, data: body);
+      await myConnection.getDioConnection("").post(MyConstant.REGISTER, data: body);
       Get.back();
 
       Map data = {};
       data["name"] = penyelenggaraController.text.toString().trim();
+      data["name_event_organizer"] = penanggungJawabController.text.toString().trim();
       data["alamat"] = alamatController.text.toString().trim();
       data["telp"] = "62${telpController.text.toString().trim()}";
       data["email"] = emailController.text.toString().trim();
+      data["image"] = imgBase64;
       data["type"] = "creator";
 
       Get.off(()=> const EmailVerificationView(), arguments: {

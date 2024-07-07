@@ -319,17 +319,19 @@ class EmailVerificationController extends GetxController {
       int userId = responseData["data"]["id"];
       String accessToken = responseData["access_token"];
 
-      Map<String,dynamic> talentBody = {};
+      Map<String,dynamic> creatorBody = {};
 
-      talentBody["name"] = data["name"];
-      talentBody["location"] = data["alamat"];
-      talentBody["phone_number"] = data["telp"];
-      talentBody["email"] = email;
-      talentBody["user_id"] = userId;
-      talentBody["status"] = "active";
+      creatorBody["name"] = data["name"];
+      creatorBody["name_event_organizer"] = data["name_event_organizer"];
+      creatorBody["location"] = data["alamat"];
+      creatorBody["phone_number"] = data["telp"];
+      creatorBody["email"] = email;
+      creatorBody["user_id"] = userId;
+      creatorBody["image"] = data["image"];
+      creatorBody["status"] = "active";
 
       await myConnection.getDioConnection(accessToken).post(
-          MyConstant.CREATE_CREATOR, data: talentBody);
+          MyConstant.CREATE_CREATOR, data: creatorBody);
 
       String strData = jsonEncode(responseData["data"]).toString();
 
@@ -346,6 +348,7 @@ class EmailVerificationController extends GetxController {
       Get.back();
       if(e is DioError){
         var data = e.response;
+        print(data);
         if(data != null){
           String message = "";
           String errors = "";

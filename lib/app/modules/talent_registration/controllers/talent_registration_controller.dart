@@ -111,7 +111,6 @@ class TalentRegistrationController extends GetxController {
       if(e is DioError){
         var data = e.response;
         if(data != null){
-          print(data);
           String message = "";
           String errors = "";
           String error = "";

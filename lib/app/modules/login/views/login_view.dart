@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
-import 'package:kolektix/app/modules/email_verification/views/email_verification_view.dart';
 import 'package:kolektix/app/modules/select_role/views/select_role_view.dart';
 
 import '../controllers/login_controller.dart';
