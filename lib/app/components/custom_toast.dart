@@ -14,7 +14,7 @@ class CustomToast{
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: Color.fromRGBO(243, 14, 14, 1.0),
+        color: const Color.fromRGBO(243, 14, 14, 1.0),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -41,7 +41,7 @@ class CustomToast{
 
     fToast.showToast(
       child: toast,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.TOP,
       toastDuration: Duration(seconds: 2),
     );
   }
@@ -82,7 +82,7 @@ class CustomToast{
 
     fToast.showToast(
       child: toast,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.TOP,
       toastDuration: Duration(seconds: 2),
     );
   }

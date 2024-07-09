@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class MyConstant {
   //APP NAME
   static String APP_NAME = "Kolektix";
-  static String BASE_URL = "http://dev.kolektix.store";
+  static String BASE_URL = "https://dev.kolektix.store";
 
   static String LOGIN = "/api/login";
   static String VERIFY_LOGIN = "/api/verify-login";
@@ -12,6 +12,9 @@ class MyConstant {
   static String VERIFY_REGISTER = "/api/verify-register";
   static String CREATE_TALENT = "/api/talent";
   static String CREATE_CREATOR = "/api/creator";
+  static String EVENT_FORMAT = "/api/event-format";
+  static String EVENT_TOPIK = "/api/event-topic";
+  static String EVENT = "/api/event";
 
   //FONTS
   static String STR_INTER_REGULAR = "InterRegular";
@@ -71,6 +74,11 @@ class MyConstant {
   static String IC_DASAR = "assets/icons/ic_informasi_dasar.svg";
   static String IC_COIN = "assets/icons/ic_coin.svg";
   static String IC_SEND = "assets/icons/ic_send.svg";
+  static String IC_ERASE = "assets/icons/ic_erase.svg";
+  static String IC_PIN_MAP = "assets/icons/ic_pin_map.svg";
+  static String IC_SCAN = "assets/icons/ic_scan.svg";
+  static String IC_GREEN_CIRCLE = "assets/icons/ic_green_circle.svg";
+  static String IC_RED_CIRCLE = "assets/icons/ic_circle_red.svg";
 
   //TEXT SIZE
   static double TEXT_12 = 10.5.sp;

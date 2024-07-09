@@ -51,7 +51,7 @@ class HomeItemView extends GetView<HomeItemController> {
                                               ),
                                               SizedBox(width: 0.02.sw),
                                               Text(
-                                                  "Ismaya Group",
+                                                  value.name,
                                                   textAlign: TextAlign.start,
                                                   maxLines: 1,
                                                   overflow: TextOverflow.ellipsis,
@@ -199,33 +199,33 @@ class HomeItemView extends GetView<HomeItemController> {
                                               SizedBox(width: 0.03.sw),
                                               Expanded(flex: 1, child: GestureDetector(
                                                 child: Container(
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      Container(
-                                                          width: 50,
-                                                          height: 50,
-                                                          child: Center(
-                                                              child: SvgPicture.asset(MyConstant.IC_EVENT)
-                                                          ),
-                                                          decoration: BoxDecoration(
-                                                              color: Color.fromRGBO(246, 250, 255, 1)
-                                                          )
-                                                      ),
-                                                      SizedBox(height: 0.01.sh),
-                                                      Text(
-                                                          "Event",
-                                                          textAlign: TextAlign.start,
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                              fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                              fontSize: MyConstant.TEXT_12,
-                                                              color: Colors.black
-                                                          )
-                                                      )
-                                                    ],
-                                                  )
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Container(
+                                                            width: 50,
+                                                            height: 50,
+                                                            child: Center(
+                                                                child: SvgPicture.asset(MyConstant.IC_EVENT)
+                                                            ),
+                                                            decoration: BoxDecoration(
+                                                                color: Color.fromRGBO(246, 250, 255, 1)
+                                                            )
+                                                        ),
+                                                        SizedBox(height: 0.01.sh),
+                                                        Text(
+                                                            "Event",
+                                                            textAlign: TextAlign.start,
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
+                                                            style: TextStyle(
+                                                                fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                                fontSize: MyConstant.TEXT_12,
+                                                                color: Colors.black
+                                                            )
+                                                        )
+                                                      ],
+                                                    )
                                                 ),
                                                 onTap: (){
                                                   Get.to(()=> const EventView());

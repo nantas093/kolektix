@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
 import 'package:kolektix/app/modules/login/views/login_view.dart';
@@ -8,10 +10,22 @@ class ProfileItemController extends GetxController {
   List<String> menus = [];
   List<String> icons = [];
 
+  String name = "";
+  String email = "";
+
   @override
   void onInit() {
+    loadUser();
     initList();
     super.onInit();
+  }
+
+  Future<void> loadUser() async {
+    var preference = await SharedPreferences.getInstance();
+    String data = preference.getString("data") ?? "";
+    name = jsonDecode(data)["name"] ?? "";
+    email = jsonDecode(data)["email"] ?? "";
+    update(["profile_item"]);
   }
 
   void initList(){

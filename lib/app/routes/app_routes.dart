@@ -23,6 +23,7 @@ abstract class Routes {
   static const SCAN = _Paths.SCAN;
   static const CREATE_LOWONGAN = _Paths.CREATE_LOWONGAN;
   static const CREATE_VENUE = _Paths.CREATE_VENUE;
+  static const CHECKIN_EVENT = _Paths.CHECKIN_EVENT;
 }
 
 abstract class _Paths {
@@ -47,4 +48,5 @@ abstract class _Paths {
   static const SCAN = '/scan';
   static const CREATE_LOWONGAN = '/create-lowongan';
   static const CREATE_VENUE = '/create-venue';
+  static const CHECKIN_EVENT = '/checkin-event';
 }

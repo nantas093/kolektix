@@ -7,6 +7,7 @@ class ScanController extends GetxController {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
+  int tabPosition = 1;
 
   @override
   void onInit() {
@@ -24,5 +25,10 @@ class ScanController extends GetxController {
     controller.scannedDataStream.listen((scanData) {
 
     });
+  }
+
+  void changeTabPosition(int position){
+    tabPosition = position;
+    update(["scan"]);
   }
 }

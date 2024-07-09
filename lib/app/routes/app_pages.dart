@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/chat_detail/bindings/chat_detail_binding.dart';
 import '../modules/chat_detail/views/chat_detail_view.dart';
+import '../modules/checkin_event/bindings/checkin_event_binding.dart';
+import '../modules/checkin_event/views/checkin_event_view.dart';
 import '../modules/create_event/bindings/create_event_binding.dart';
 import '../modules/create_event/views/create_event_view.dart';
 import '../modules/create_lowongan/bindings/create_lowongan_binding.dart';
@@ -148,6 +150,11 @@ class AppPages {
       name: _Paths.CREATE_VENUE,
       page: () => const CreateVenueView(),
       binding: CreateVenueBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECKIN_EVENT,
+      page: () => const CheckinEventView(),
+      binding: CheckinEventBinding(),
     ),
   ];
 }

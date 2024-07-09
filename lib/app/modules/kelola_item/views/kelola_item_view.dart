@@ -4,9 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
+import 'package:kolektix/app/modules/checkin_event/views/checkin_event_view.dart';
 import 'package:kolektix/app/modules/create_lowongan/views/create_lowongan_view.dart';
 import 'package:kolektix/app/modules/create_venue/views/create_venue_view.dart';
-import 'package:kolektix/app/modules/scan/views/scan_view.dart';
 
 import '../controllers/kelola_item_controller.dart';
 
@@ -291,7 +291,7 @@ class KelolaItemView extends GetView<KelolaItemController> {
                                   ),
                                   child: Center(
                                       child: Text(
-                                          "Scan Barcode",
+                                          "Check In Tiket",
                                           textAlign: TextAlign.center,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
@@ -305,7 +305,7 @@ class KelolaItemView extends GetView<KelolaItemController> {
                                   )
                               ),
                               onTap: (){
-                                Get.to(()=> ScanView());
+                                Get.to(()=> const CheckinEventView());
                               },
                             ),
                             SizedBox(width: 0.03.sw),

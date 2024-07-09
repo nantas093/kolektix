@@ -348,7 +348,6 @@ class EmailVerificationController extends GetxController {
       Get.back();
       if(e is DioError){
         var data = e.response;
-        print(data);
         if(data != null){
           String message = "";
           String errors = "";
