@@ -4,12 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:kolektix/app/callback/scan_callback.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
+import 'package:kolektix/app/utils/my_parse_date.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../controllers/scan_controller.dart';
 
-class ScanView extends GetView<ScanController> {
+class ScanView extends GetView<ScanController> implements ScanCallback{
   const ScanView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,8 @@ class ScanView extends GetView<ScanController> {
         id: "scan",
         init: ScanController(),
         builder: (value){
+          value.buildContext = context;
+          value.scanCallback = this;
           return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(
@@ -179,6 +183,7 @@ class ScanView extends GetView<ScanController> {
                         SvgPicture.asset(MyConstant.IC_SEARCH),
                         SizedBox(width: 0.02.sw),
                         Expanded(child: TextField(
+                            controller: value.editingController,
                             decoration: InputDecoration.collapsed(
                                 hintText: "Input kode tiket",
                                 hintStyle: TextStyle(
@@ -191,13 +196,16 @@ class ScanView extends GetView<ScanController> {
                               fontFamily: MyConstant.STR_INTER_REGULAR,
                               fontSize: MyConstant.TEXT_14,
                               color: Color.fromRGBO(143, 143, 143, 1),
-                            )
+                            ),
+                            onChanged: (text){
+                              value.searchTicket(text);
+                            }
                         ))
                       ],
                     )
                 )
             ),
-            Container(
+            value.ticketData != null ? Container(
                 width: double.maxFinite.w,
                 height: 0.25.sh,
                 margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw, top: 0.02.sh),
@@ -219,7 +227,7 @@ class ScanView extends GetView<ScanController> {
                           children: [
                             SizedBox(width: 0.03.sw),
                             Expanded(flex: 1, child: Text(
-                                "DJFAFNEAFO",
+                                value.ticketData!["invoice_no"] ?? "",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontFamily: MyConstant.STR_INTER_REGULAR,
@@ -230,7 +238,7 @@ class ScanView extends GetView<ScanController> {
                             )),
                             SizedBox(width: 0.03.sw),
                             Text(
-                                "40 Tiket",
+                                "${value.ticketData!["total_qty"]} Tiket",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontFamily: MyConstant.STR_INTER_REGULAR,
@@ -246,7 +254,7 @@ class ScanView extends GetView<ScanController> {
                           children: [
                             SizedBox(width: 0.03.sw),
                             Text(
-                                "Regular Ticket",
+                                value.ticketData!["category_ticket"] ?? "",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontFamily: MyConstant.STR_INTER_REGULAR,
@@ -294,7 +302,7 @@ class ScanView extends GetView<ScanController> {
                               children: [
                                 SizedBox(width: 0.03.sw),
                                 Text(
-                                    "Nassar",
+                                    value.ticketData!["name"] ?? "",
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                         fontFamily: MyConstant.STR_INTER_REGULAR,
@@ -340,14 +348,13 @@ class ScanView extends GetView<ScanController> {
                           )
                       ),
                       onTap: (){
-                        showTicketSuccess(context);
-                        //  showTicketError(context);
+                        value.checkIn(context, this);
                       },
                     ),
                     SizedBox(height: 0.02.sh)
                   ],
                 )
-            ),
+            ) : SizedBox(),
           ],
         )
     );
@@ -481,7 +488,7 @@ class ScanView extends GetView<ScanController> {
                                   children: [
                                     SizedBox(width: 0.03.sw),
                                     Text(
-                                        "Nassar",
+                                        value.ticketData!["name"],
                                         textAlign: TextAlign.start,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -515,7 +522,7 @@ class ScanView extends GetView<ScanController> {
                                   children: [
                                     SizedBox(width: 0.03.sw),
                                     Text(
-                                        "DJFAFNEAFO",
+                                        value.ticketData!["invoice_no"],
                                         textAlign: TextAlign.start,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -583,7 +590,7 @@ class ScanView extends GetView<ScanController> {
                                   children: [
                                     SizedBox(width: 0.03.sw),
                                     Text(
-                                        "4 Tiket",
+                                        "${value.ticketData!["total_qty"]} Tiket",
                                         textAlign: TextAlign.start,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -617,7 +624,8 @@ class ScanView extends GetView<ScanController> {
                                   children: [
                                     SizedBox(width: 0.03.sw),
                                     Text(
-                                        "02/01/2024 |12:30",
+                                        MyParseDate.parseGeneralDate(
+                                            DateTime.now(), "yyyy-MM-dd : HH:mm"),
                                         textAlign: TextAlign.start,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -655,6 +663,7 @@ class ScanView extends GetView<ScanController> {
                                       )
                                   ),
                                   onTap: (){
+                                    value.scanned = false;
                                     Get.back();
                                   },
                                 ),
@@ -687,6 +696,7 @@ class ScanView extends GetView<ScanController> {
                                       )
                                   ),
                                   onTap: (){
+                                    value.scanned = false;
                                     Get.back();
                                     Get.back();
                                   },
@@ -753,6 +763,7 @@ class ScanView extends GetView<ScanController> {
                                     InkWell(
                                       child: SvgPicture.asset(MyConstant.IC_CLOSE),
                                       onTap: (){
+                                        value.scanned = false;
                                         Get.back();
                                       },
                                     ),
@@ -833,6 +844,7 @@ class ScanView extends GetView<ScanController> {
                                       )
                                   ),
                                   onTap: (){
+                                    value.scanned = false;
                                     Get.back();
                                   },
                                 ),
@@ -865,6 +877,7 @@ class ScanView extends GetView<ScanController> {
                                       )
                                   ),
                                   onTap: (){
+                                    value.scanned = false;
                                     Get.back();
                                     Get.back();
                                   },
@@ -877,5 +890,15 @@ class ScanView extends GetView<ScanController> {
                 );
               });
         });
+  }
+
+  @override
+  void success(Map data, BuildContext context) {
+    showTicketSuccess(context);
+  }
+
+  @override
+  void failed(Map data, BuildContext context) {
+    showTicketError(context);
   }
 }

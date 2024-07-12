@@ -4,17 +4,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
-import 'package:kolektix/app/modules/scan/views/scan_view.dart';
+import 'package:kolektix/app/modules/jual_tiket_offline_list/views/jual_tiket_offline_list_view.dart';
+import 'package:kolektix/app/utils/my_parse_date.dart';
 
-import '../controllers/checkin_event_controller.dart';
+import '../controllers/jual_tiket_offline_controller.dart';
 
-class CheckinEventView extends GetView<CheckinEventController> {
-  const CheckinEventView({Key? key}) : super(key: key);
+class JualTiketOfflineView extends GetView<JualTiketOfflineController> {
+  const JualTiketOfflineView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CheckinEventController>(
-        id: "checkin_event",
-        init: CheckinEventController(),
+    return GetBuilder<JualTiketOfflineController>(
+        id: "jual_tiket",
+        init: JualTiketOfflineController(),
         builder: (value){
           return Scaffold(
               backgroundColor: Colors.white,
@@ -42,7 +43,7 @@ class CheckinEventView extends GetView<CheckinEventController> {
                                   ),
                                   SizedBox(width: 0.03.sw),
                                   Expanded(flex: 1, child: Text(
-                                      "Check In Event",
+                                      "Penjualan Tiket Offline",
                                       textAlign: TextAlign.start,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -115,10 +116,8 @@ class CheckinEventView extends GetView<CheckinEventController> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SvgPicture.asset(MyConstant.IC_SCAN),
-                                    SizedBox(width: 0.02.sw),
                                     Text(
-                                        "Check In Event",
+                                        "Penjualan Tiket Offline",
                                         textAlign: TextAlign.center,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -133,7 +132,8 @@ class CheckinEventView extends GetView<CheckinEventController> {
                             )
                         ),
                         onTap: (){
-                          Get.to(()=> const ScanView());
+                          Get.to(()=> const JualTiketOfflineListView(),
+                              arguments: {"data" : value.data});
                         },
                       ),
                       SizedBox(height: 0.02.sh),
@@ -146,8 +146,35 @@ class CheckinEventView extends GetView<CheckinEventController> {
                       Row(
                         children: [
                           SizedBox(width: 0.03.sw),
+                          Expanded(flex: 1, child: Text(
+                              "Total Penjualan Offline",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontFamily: MyConstant.STR_INTER_REGULAR,
+                                  fontSize: MyConstant.TEXT_16,
+                                  color: Color.fromRGBO(102, 102, 102, 1)
+                              )
+                          )),
+                          SvgPicture.asset(MyConstant.IC_DOWNLOAD_2),
+                          SizedBox(width: 0.015.sw),
                           Text(
-                              "Riwayat Check In",
+                              "Download Laporan",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontFamily: MyConstant.STR_INTER_REGULAR,
+                                  fontSize: MyConstant.TEXT_14,
+                                  color: Color.fromRGBO(11, 56, 124, 1)
+                              )
+                          ),
+                          SizedBox(width: 0.03.sw),
+                        ],
+                      ),
+                      SizedBox(height: 0.02.sh),
+                      Row(
+                        children: [
+                          SizedBox(width: 0.03.sw),
+                          Text(
+                              "Rp${value.grandTotal}",
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   fontFamily: MyConstant.STR_INTER_REGULAR,
@@ -158,97 +185,82 @@ class CheckinEventView extends GetView<CheckinEventController> {
                           )
                         ],
                       ),
+                      SizedBox(height: 0.015.sh),
+                      Container(
+                          width: double.maxFinite.w,
+                          height: 0.5,
+                          color: Color.fromRGBO(226, 237, 255, 1)
+                      ),
                       SizedBox(height: 0.02.sh),
-                      Expanded(flex: 1, child: RefreshIndicator(
-                          onRefresh: ()=> value.loadEvent(),
-                          color: Color.fromRGBO(11, 56, 124, 1),
-                          child: Stack(
-                            children: [
-                              SizedBox(
-                                  width: double.maxFinite.w,
-                                  height: double.maxFinite.w,
-                                  child: ListView.builder(itemBuilder: (context,index){
-                                    Map data = value.eventList[index];
-                                    return Container(
-                                        width: double.maxFinite.w,
-                                        padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                                        margin: EdgeInsets.only(top: index == 0 ? 0 : 0.015.sh),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Expanded(flex: 1, child: Text(
-                                                    data["name"],
-                                                    textAlign: TextAlign.start,
-                                                    style: TextStyle(
-                                                        fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                        fontSize: MyConstant.TEXT_16,
-                                                        color: Colors.black,
-                                                        fontWeight: FontWeight.bold
-                                                    )
-                                                )),
-                                                Text(
-                                                    data["checkin_time"],
-                                                    textAlign: TextAlign.start,
-                                                    style: TextStyle(
-                                                        fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                        fontSize: MyConstant.TEXT_16,
-                                                        color: Color.fromRGBO(102, 102, 102, 1)
-                                                    )
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(height: 0.005.sh),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                    "${data["category_ticket"]} ",
-                                                    textAlign: TextAlign.start,
-                                                    style: TextStyle(
-                                                        fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                        fontSize: MyConstant.TEXT_12,
-                                                        color: Color.fromRGBO(11, 56, 124, 1)
-                                                    )
-                                                ),
-                                                Text(
-                                                    "(${data["ticket_qty"]} Tiket)",
-                                                    textAlign: TextAlign.start,
-                                                    style: TextStyle(
-                                                        fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                        fontSize: MyConstant.TEXT_12,
-                                                        color: Color.fromRGBO(102, 102, 102, 1)
-                                                    )
-                                                ),
-                                                Expanded(flex: 1, child: SizedBox()),
-                                                Text(
-                                                    "${data["invoice_number"]}",
-                                                    textAlign: TextAlign.start,
-                                                    style: TextStyle(
-                                                        fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                        fontSize: MyConstant.TEXT_14,
-                                                        color: Color.fromRGBO(102, 102, 102, 1)
-                                                    )
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(height: 0.015.sh),
-                                            Container(
-                                                width: double.maxFinite.w,
-                                                height: 0.5,
-                                                color: Color.fromRGBO(226, 237, 255, 1)
-                                            )
-                                          ],
+                      Expanded(flex: 1, child: ListView.builder(itemBuilder: (context,index){
+                        Map data = value.eventList[index];
+                        return Container(
+                            width: double.maxFinite.w,
+                            padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                            margin: EdgeInsets.only(top: index == 0 ? 0 : 0.015.sh),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(flex: 1, child: Text(
+                                        "${data["total_qty"]} Tiket",
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontFamily: MyConstant.STR_INTER_REGULAR,
+                                            fontSize: MyConstant.TEXT_16,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold
                                         )
-                                    );
-                                  },
-                                      itemCount: value.eventList.length,
-                                      shrinkWrap: true,
-                                      padding: EdgeInsets.zero,
-                                      physics: AlwaysScrollableScrollPhysics()
-                                  )
-                              )
-                            ],
-                          )
+                                    )),
+                                    Text(
+                                        data["grandtotal"] ?? "",
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontFamily: MyConstant.STR_INTER_REGULAR,
+                                            fontSize: MyConstant.TEXT_16,
+                                            color: Color.fromRGBO(102, 102, 102, 1)
+                                        )
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 0.005.sh),
+                                Row(
+                                  children: [
+                                    Text(
+                                        data["invoice_no"] ?? "",
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontFamily: MyConstant.STR_INTER_REGULAR,
+                                            fontSize: MyConstant.TEXT_12,
+                                            color: Color.fromRGBO(11, 56, 124, 1)
+                                        )
+                                    ),
+                                    Expanded(flex: 1, child: SizedBox()),
+                                    Text(
+                                        MyParseDate.parseGeneralDate3(data["created_at"],
+                                            "yyyy-MM-dd'T'HH:mm:ss.Z", "dd/MM/yyyy | HH:mm"),
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontFamily: MyConstant.STR_INTER_REGULAR,
+                                            fontSize: MyConstant.TEXT_14,
+                                            color: Color.fromRGBO(102, 102, 102, 1)
+                                        )
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 0.015.sh),
+                                Container(
+                                    width: double.maxFinite.w,
+                                    height: 0.5,
+                                    color: Color.fromRGBO(226, 237, 255, 1)
+                                )
+                              ],
+                            )
+                        );
+                      },
+                        itemCount: value.eventList.length,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
                       ))
                     ],
                   )

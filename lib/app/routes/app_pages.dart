@@ -22,6 +22,10 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/home_item/bindings/home_item_binding.dart';
 import '../modules/home_item/views/home_item_view.dart';
+import '../modules/jual_tiket_offline/bindings/jual_tiket_offline_binding.dart';
+import '../modules/jual_tiket_offline/views/jual_tiket_offline_view.dart';
+import '../modules/jual_tiket_offline_list/bindings/jual_tiket_offline_list_binding.dart';
+import '../modules/jual_tiket_offline_list/views/jual_tiket_offline_list_view.dart';
 import '../modules/kelola_item/bindings/kelola_item_binding.dart';
 import '../modules/kelola_item/views/kelola_item_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -30,6 +34,8 @@ import '../modules/menu_screen/bindings/menu_screen_binding.dart';
 import '../modules/menu_screen/views/menu_screen_view.dart';
 import '../modules/notifikasi_item/bindings/notifikasi_item_binding.dart';
 import '../modules/notifikasi_item/views/notifikasi_item_view.dart';
+import '../modules/pembayaran/bindings/pembayaran_binding.dart';
+import '../modules/pembayaran/views/pembayaran_view.dart';
 import '../modules/pesan_item/bindings/pesan_item_binding.dart';
 import '../modules/pesan_item/views/pesan_item_view.dart';
 import '../modules/profile_item/bindings/profile_item_binding.dart';
@@ -155,6 +161,21 @@ class AppPages {
       name: _Paths.CHECKIN_EVENT,
       page: () => const CheckinEventView(),
       binding: CheckinEventBinding(),
+    ),
+    GetPage(
+      name: _Paths.JUAL_TIKET_OFFLINE,
+      page: () => const JualTiketOfflineView(),
+      binding: JualTiketOfflineBinding(),
+    ),
+    GetPage(
+      name: _Paths.JUAL_TIKET_OFFLINE_LIST,
+      page: () => const JualTiketOfflineListView(),
+      binding: JualTiketOfflineListBinding(),
+    ),
+    GetPage(
+      name: _Paths.PEMBAYARAN,
+      page: () => const PembayaranView(),
+      binding: PembayaranBinding(),
     ),
   ];
 }

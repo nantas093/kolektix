@@ -24,6 +24,9 @@ abstract class Routes {
   static const CREATE_LOWONGAN = _Paths.CREATE_LOWONGAN;
   static const CREATE_VENUE = _Paths.CREATE_VENUE;
   static const CHECKIN_EVENT = _Paths.CHECKIN_EVENT;
+  static const JUAL_TIKET_OFFLINE = _Paths.JUAL_TIKET_OFFLINE;
+  static const JUAL_TIKET_OFFLINE_LIST = _Paths.JUAL_TIKET_OFFLINE_LIST;
+  static const PEMBAYARAN = _Paths.PEMBAYARAN;
 }
 
 abstract class _Paths {
@@ -49,4 +52,7 @@ abstract class _Paths {
   static const CREATE_LOWONGAN = '/create-lowongan';
   static const CREATE_VENUE = '/create-venue';
   static const CHECKIN_EVENT = '/checkin-event';
+  static const JUAL_TIKET_OFFLINE = '/jual-tiket-offline';
+  static const JUAL_TIKET_OFFLINE_LIST = '/jual-tiket-offline-list';
+  static const PEMBAYARAN = '/pembayaran';
 }

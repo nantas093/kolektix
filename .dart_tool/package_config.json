@@ -51,7 +51,7 @@
     },
     {
       "name": "csslib",
-      "rootUri": "file:///Users/laelnaldisaputra/.pub-cache/hosted/pub.dev/csslib-1.0.0",
+      "rootUri": "file:///Users/laelnaldisaputra/.pub-cache/hosted/pub.dev/csslib-0.17.3",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
@@ -126,6 +126,12 @@
       "rootUri": "file:///Users/laelnaldisaputra/Documents/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.2"
+    },
+    {
+      "name": "flutter_html",
+      "rootUri": "file:///Users/laelnaldisaputra/.pub-cache/hosted/pub.dev/flutter_html-3.0.0-beta.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
     },
     {
       "name": "flutter_lints",
@@ -330,6 +336,12 @@
       "rootUri": "file:///Users/laelnaldisaputra/.pub-cache/hosted/pub.dev/lints-4.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.1"
+    },
+    {
+      "name": "list_counter",
+      "rootUri": "file:///Users/laelnaldisaputra/.pub-cache/hosted/pub.dev/list_counter-1.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "matcher",
@@ -578,7 +590,7 @@
       "languageVersion": "3.3"
     }
   ],
-  "generated": "2024-07-08T16:24:49.735137Z",
+  "generated": "2024-07-12T17:44:38.063223Z",
   "generator": "pub",
   "generatorVersion": "3.3.3"
 }

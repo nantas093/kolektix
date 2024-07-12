@@ -1,8 +1,11 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyConstant {
-  //APP NAME
-  static String APP_NAME = "Kolektix";
+
+  //https://bedev.kolektix.com -> https://i.diawi.com/E51kvY
+  //https://dev.kolektix.store -> https://i.diawi.com/RpBr1q
+
+  static String APP_NAME = "Kolektix Creator";
   static String BASE_URL = "https://dev.kolektix.store";
 
   static String LOGIN = "/api/login";
@@ -79,6 +82,8 @@ class MyConstant {
   static String IC_SCAN = "assets/icons/ic_scan.svg";
   static String IC_GREEN_CIRCLE = "assets/icons/ic_green_circle.svg";
   static String IC_RED_CIRCLE = "assets/icons/ic_circle_red.svg";
+  static String IC_TICKET = "assets/icons/ic_ticket.svg";
+  static String IC_WARNING = "assets/icons/ic_warning.svg";
 
   //TEXT SIZE
   static double TEXT_12 = 10.5.sp;

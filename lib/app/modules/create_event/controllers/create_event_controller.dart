@@ -46,9 +46,9 @@ class CreateEventController extends GetxController {
   String strEventTopik = "Pilih topik event";
   String strEventFormat = "Pilih format event";
 
-  int selectedRole = 0;
   int selectedFormatIndex = -1;
   int selectedTopikIndex = -1;
+  int selectedRole = 0;
   int selectedCategoryIndex = -1;
 
   List<dynamic> formatList = [];
@@ -92,7 +92,7 @@ class CreateEventController extends GetxController {
   TextEditingController syaratController = TextEditingController();
 
   //Tambah Tiket
-  List<Map> tickets = [];
+  List<dynamic> tickets = [];
 
   int selectedJenisTiket = 0;
   int selectedKategoriTiket = 0;
@@ -107,15 +107,76 @@ class CreateEventController extends GetxController {
 
   bool isEdit = false;
 
+  Map? data;
+  bool imageClicked = false;
+
   @override
   void onInit() {
+    if(Get.arguments != null){
+      if(Get.arguments["data"] != null){
+        data = Get.arguments["data"];
+      }
+    }
+
     initTotalMaxTicket();
     loadUser();
     loadFormat();
-    loadTopik();
     kGooglePlex = const CameraPosition(target: LatLng(-6.175376,
         106.827792), zoom: 10.5);
     super.onInit();
+  }
+
+  void initEditData(){
+    loadTickets();
+
+    imagePath = data!["image_url"];
+
+    is_name = data!["is_name"] == 1 ? true : false;
+    is_phone_number = data!["is_phone_number"] == 1 ? true : false;
+    is_birthday = data!["is_birthday"] == 1 ? true : false;
+    is_email = data!["is_email"] == 1 ? true : false;
+    is_noidentity = data!["is_noidentity"] == 1 ? true : false;
+    is_gender = data!["is_gender"] == 1 ? true : false;
+
+    eventNameController.text = data!["name"];
+    selectedFormatIndex = data!["event_format_id"] - 1;
+    selectedTopikIndex = data!["event_topic_id"] - 1;
+
+    strEventTopik = formatList[data!["event_format_id"] - 1]["name"];
+    strEventFormat = topikList[data!["event_topic_id"] - 1]["name"];
+    strEventCategory = strEventFormat;
+
+    eventTagController.text = data!["tag"];
+    selectedRole = data!["event_type_id"];
+
+    strStartDate = data!["start_date"];
+    strEndDate = data!["end_date"];
+    strDate = "$strStartDate - $strEndDate";
+
+    strEventTime = "${data!["start_time"]} - ${data!["end_time"]}";
+
+    startHourController.text = data!["start_time"].toString().split(":")[0];
+    startMinuteController.text = data!["start_time"].toString().split(":")[1];
+    endHourController.text = data!["end_time"].toString().split(":")[0];
+    endMinuteController.text = data!["end_time"].toString().split(":")[1];
+
+    selectedZone = 1;
+    selectedDiselenggarakan = data!["organization_method"] == "Offline" ? 1 : 2;
+    placeNameController.text = data!["location_name"];
+    addressController.text = data!["location_address"];
+    cityController.text = data!["location_city"];
+
+    latitude = data!["latitude"] ?? 0.0;
+    longitude = data!["longitude"] ?? 0.0;
+
+    strInfoTicket = data!["location_name"];
+    firstSwitched = data!["max_buy_ticket"] == 1 ? true : false;
+    secondSwitched = data!["one_id_one_ticket"] == 1 ? true : false;
+
+    deskripsiController.text = data!["description"];
+    syaratController.text = data!["term_condition"];
+
+    update(["create_event"]);
   }
 
   Future<void> loadUser() async {
@@ -180,6 +241,7 @@ class CreateEventController extends GetxController {
     try{
       FilePickerResult? result = await FilePicker.platform.pickFiles();
       if (result != null) {
+        imageClicked = true;
         File file = File(result.files.single.path!);
         imagePath = file.path;
         imgBase64 = convertToBase64(file);
@@ -203,6 +265,7 @@ class CreateEventController extends GetxController {
           MyConstant.EVENT_FORMAT);
       var responseData = response.data;
       formatList = responseData;
+      loadTopik();
       update(["create_event"]);
     }
     catch(e){
@@ -216,6 +279,11 @@ class CreateEventController extends GetxController {
           MyConstant.EVENT_TOPIK);
       var responseData = response.data;
       topikList = responseData;
+
+      if(data != null){
+        initEditData();
+      }
+
       update(["create_event"]);
     }
     catch(e){
@@ -672,8 +740,14 @@ class CreateEventController extends GetxController {
     CustomLoading.showLoadingDialog(context, "Loading...");
 
     try{
-      await myConnection.getDioConnection(accessToken).post(
-          MyConstant.EVENT, data: data);
+      if(this.data == null){
+        await myConnection.getDioConnection(accessToken).post(
+            MyConstant.EVENT, data: data);
+      }
+      else{
+        await myConnection.getDioConnection(accessToken).put(
+            "${MyConstant.EVENT}/${this.data!["id"]}", data: data);
+      }
 
       Get.back();
       Get.to(()=> const EventView());
@@ -709,6 +783,19 @@ class CreateEventController extends GetxController {
       else{
         CustomToast.showToast("Something went wrong, try again later", context);
       }
+    }
+  }
+
+  Future<void> loadTickets() async {
+    try{
+      var response = await myConnection.getDioConnection(accessToken).get(
+          "/api/event-ticket/${data!["id"]}");
+      var responseData = response.data;
+      tickets = responseData["data"];
+      update(["create_event"]);
+    }
+    catch(e){
+      print(e);
     }
   }
 }

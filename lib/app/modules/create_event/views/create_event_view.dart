@@ -51,7 +51,8 @@ class CreateEventView extends GetView<CreateEventController> {
                                         ),
                                         SizedBox(width: 0.03.sw),
                                         Text(
-                                            "Buat Event",
+                                            value.data != null ? "Edit Event"
+                                                : "Buat Event",
                                             textAlign: TextAlign.center,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
@@ -96,7 +97,15 @@ class CreateEventView extends GetView<CreateEventController> {
                                                   )
                                                 ],
                                               )
-                                          ) : Image.file(File(value.imagePath),
+                                          ) : value.data == null ? Image.file(File(value.imagePath),
+                                              width: double.maxFinite.w,
+                                              height: double.maxFinite.w,
+                                              fit: BoxFit.fill
+                                          ) : value.imageClicked ? Image.file(File(value.imagePath),
+                                              width: double.maxFinite.w,
+                                              height: double.maxFinite.w,
+                                              fit: BoxFit.fill
+                                          ) :  Image.network(value.imagePath,
                                               width: double.maxFinite.w,
                                               height: double.maxFinite.w,
                                               fit: BoxFit.fill
@@ -381,38 +390,42 @@ class CreateEventView extends GetView<CreateEventController> {
                             Row(
                               children: [
                                 SizedBox(width: 0.05.sw),
-                                Expanded(flex: 1, child: GestureDetector(
-                                  child: Container(
-                                      width: double.maxFinite.w,
-                                      height: 0.05.sh,
-                                      padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                                          border: Border.all(
-                                              width: 1,
-                                              color: Color.fromRGBO(226, 237, 255, 1)
-                                          )
-                                      ),
-                                      child: Center(
-                                          child: Text(
-                                              "Simpan Draft",
-                                              textAlign: TextAlign.center,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                  fontSize: MyConstant.TEXT_14,
-                                                  color: Color.fromRGBO(11, 56, 124, 1),
-                                                  fontWeight: FontWeight.bold
+                                value.data == null ? Expanded(flex: 1, child: Row(
+                                  children: [
+                                    Expanded(flex: 1, child: GestureDetector(
+                                      child: Container(
+                                          width: double.maxFinite.w,
+                                          height: 0.05.sh,
+                                          padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color: Color.fromRGBO(226, 237, 255, 1)
+                                              )
+                                          ),
+                                          child: Center(
+                                              child: Text(
+                                                  "Simpan Draft",
+                                                  textAlign: TextAlign.center,
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_14,
+                                                      color: Color.fromRGBO(11, 56, 124, 1),
+                                                      fontWeight: FontWeight.bold
+                                                  )
                                               )
                                           )
-                                      )
-                                  ),
-                                  onTap: (){
-                                    value.createEvent(context, true);
-                                  },
-                                )),
-                                SizedBox(width: 0.05.sw),
+                                      ),
+                                      onTap: (){
+                                        value.createEvent(context, true);
+                                      },
+                                    )),
+                                    SizedBox(width: 0.05.sw)
+                                  ],
+                                )) : SizedBox(),
                                 Expanded(flex: 1, child: GestureDetector(
                                   child: Container(
                                       width: double.maxFinite.w,
@@ -424,7 +437,8 @@ class CreateEventView extends GetView<CreateEventController> {
                                       ),
                                       child: Center(
                                           child: Text(
-                                              "Buat Event",
+                                              value.data != null ? "Edit Event"
+                                                  : "Buat Event",
                                               textAlign: TextAlign.center,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
@@ -506,7 +520,7 @@ class CreateEventView extends GetView<CreateEventController> {
                             children: [
                               SizedBox(width: 0.03.sw),
                               Expanded(flex: 1, child: Text(
-                                  data["ticket_type"],
+                                  data["name"] ?? "",
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       fontFamily: MyConstant.STR_INTER_REGULAR,
@@ -558,7 +572,7 @@ class CreateEventView extends GetView<CreateEventController> {
                       ),
                       Expanded(flex: 1, child: Row(
                         children: [
-                          Expanded(flex: 1, child: Expanded(flex: 1, child: Column(
+                          Expanded(flex: 1, child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -593,7 +607,7 @@ class CreateEventView extends GetView<CreateEventController> {
                                 ],
                               )
                             ],
-                          ))),
+                          )),
                           Row(
                             children: [
                               GestureDetector(
