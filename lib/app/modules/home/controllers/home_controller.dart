@@ -21,20 +21,20 @@ class HomeController extends GetxController {
 
   List<Widget> buildScreens() {
     return [
-      HomeItemView(),
-      KelolaItemView(),
-      PesanItemView(),
-      NotifikasiItemView(),
-      ProfileItemView()
+      const HomeItemView(),
+      const KelolaItemView(),
+      const PesanItemView(),
+      const NotifikasiItemView(),
+      const ProfileItemView()
     ];
   }
 
   List<PersistentBottomNavBarItem> navBarsItems() {
     return [
       persistentItem("Beranda", MyConstant.IC_BERANDA),
-      persistentItem("Kelola", MyConstant.IC_KELOLA),
+      persistentItem("Kelola", MyConstant.IC_KELOLA_NEW),
       persistentItem("Pesan", MyConstant.IC_PESAN),
-      persistentItem("Notifikasi", MyConstant.IC_NOTIFIKASI),
+      persistentItem("Pesanan", MyConstant.IC_KELOLA),
       persistentItem("Profile", MyConstant.IC_PROFILE)
     ];
   }

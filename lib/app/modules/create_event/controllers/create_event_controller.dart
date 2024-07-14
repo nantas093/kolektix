@@ -11,7 +11,8 @@ import 'package:kolektix/app/components/custom_toast.dart';
 import 'package:kolektix/app/connection/my_connection.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
 import 'package:kolektix/app/modules/event/views/event_view.dart';
-import 'package:kolektix/app/modules/menu_screen/views/menu_screen_view.dart';
+import 'package:http/http.dart' as http;
+import 'package:kolektix/app/modules/home/views/home_view.dart';
 import 'package:kolektix/app/utils/custom_loading.dart';
 import 'package:kolektix/app/utils/my_parse_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -126,10 +127,11 @@ class CreateEventController extends GetxController {
     super.onInit();
   }
 
-  void initEditData(){
+  Future<void> initEditData() async {
     loadTickets();
 
     imagePath = data!["image_url"];
+    imgBase64 = await networkImageToBase64(imagePath) ?? "";
 
     is_name = data!["is_name"] == 1 ? true : false;
     is_phone_number = data!["is_phone_number"] == 1 ? true : false;
@@ -698,7 +700,7 @@ class CreateEventController extends GetxController {
     Map data = {};
     data["creator_id"] = userId;
     data["name"] = bodyEventName;
-    data["image"] = imgBase64;
+    data["image"] = "data:image/png;base64,$imgBase64";
 
     data["event_format_id"] = formatList[selectedFormatIndex]["id"];
     data["event_topic_id"] = topikList[selectedTopikIndex]["id"];
@@ -750,13 +752,22 @@ class CreateEventController extends GetxController {
       }
 
       Get.back();
-      Get.to(()=> const EventView());
-      CustomToast.showSuccessToast("Berhasil bikin event", context);
+
+      if(this.data != null){
+        Get.offAll(()=> const HomeView());
+      }
+      else{
+        Get.to(()=> const EventView());
+      }
+
+      CustomToast.showSuccessToast(this.data != null ?
+      "Berhasil edit event" : "Berhasil bikin event", context);
     }
     catch(e){
       Get.back();
       if(e is DioError){
         var data = e.response;
+        print(data);
         if(data != null){
           String message = "";
           String errors = "";
@@ -797,5 +808,11 @@ class CreateEventController extends GetxController {
     catch(e){
       print(e);
     }
+  }
+
+  Future<String?> networkImageToBase64(String imageUrl) async {
+    http.Response response = await http.get(Uri.parse(imageUrl));
+    final bytes = response.bodyBytes;
+    return (bytes != null ? base64Encode(bytes) : null);
   }
 }

@@ -212,7 +212,7 @@ class JualTiketOfflineListView extends GetView<JualTiketOfflineListController> {
                                   ),
                                   Expanded(flex: 1, child: Row(
                                     children: [
-                                      Expanded(flex: 1, child: Expanded(flex: 1, child: Column(
+                                      Expanded(flex: 1, child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
@@ -232,7 +232,7 @@ class JualTiketOfflineListView extends GetView<JualTiketOfflineListController> {
                                             ],
                                           )
                                         ],
-                                      ))),
+                                      )),
                                       Row(
                                         children: [
                                           GestureDetector(

@@ -39,8 +39,7 @@ class KelolaItemController extends GetxController with GetTickerProviderStateMix
     try{
       var response = await myConnection.getDioConnection(accessToken).get(
           "/api/event-by-creator/$creatorId?status=${eventFilterPosition == 0 ? "active" :
-          eventFilterPosition == 1 ? "draf" : "completed"
-          }");
+          eventFilterPosition == 1 ? "draf" : "completed"}");
 
       var responseData = response.data;
       eventList = responseData["data"];

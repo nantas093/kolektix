@@ -27,6 +27,7 @@ abstract class Routes {
   static const JUAL_TIKET_OFFLINE = _Paths.JUAL_TIKET_OFFLINE;
   static const JUAL_TIKET_OFFLINE_LIST = _Paths.JUAL_TIKET_OFFLINE_LIST;
   static const PEMBAYARAN = _Paths.PEMBAYARAN;
+  static const DETAIL_PESANAN = _Paths.DETAIL_PESANAN;
 }
 
 abstract class _Paths {
@@ -55,4 +56,5 @@ abstract class _Paths {
   static const JUAL_TIKET_OFFLINE = '/jual-tiket-offline';
   static const JUAL_TIKET_OFFLINE_LIST = '/jual-tiket-offline-list';
   static const PEMBAYARAN = '/pembayaran';
+  static const DETAIL_PESANAN = '/detail-pesanan';
 }

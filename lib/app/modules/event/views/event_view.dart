@@ -140,46 +140,6 @@ class EventView extends GetView<EventController> {
                 child: Column(
                   children: [
                     SizedBox(height: 0.015.sh),
-                    GestureDetector(
-                      child: Container(
-                          width: double.maxFinite.w,
-                          height: 0.05.sh,
-                          padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                          margin: EdgeInsets.only(left: 0.05.sw, right: 0.05.sw),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              border: Border.all(
-                                  width: 1,
-                                  color: Color.fromRGBO(226, 237, 255, 1)
-                              )
-                          ),
-                          child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(MyConstant.IC_CIRCLE_PLUS),
-                                  SizedBox(width: 0.01.sw),
-                                  Text(
-                                      "Tambah Tiket",
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontFamily: MyConstant.STR_INTER_REGULAR,
-                                          fontSize: MyConstant.TEXT_14,
-                                          color: Color.fromRGBO(11, 56, 124, 1),
-                                          fontWeight: FontWeight.w600
-                                      )
-                                  )
-                                ],
-                              )
-                          )
-                      ),
-                      onTap: (){
-
-                      },
-                    ),
-                    SizedBox(height: 0.015.sh),
                     ListView.builder(itemBuilder: (context,index){
                       Map data = value.eventList[index];
                       String image = data["image_url"];
@@ -429,46 +389,6 @@ class EventView extends GetView<EventController> {
                 child: Column(
                   children: [
                     SizedBox(height: 0.015.sh),
-                    GestureDetector(
-                      child: Container(
-                          width: double.maxFinite.w,
-                          height: 0.05.sh,
-                          padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                          margin: EdgeInsets.only(left: 0.05.sw, right: 0.05.sw),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              border: Border.all(
-                                  width: 1,
-                                  color: Color.fromRGBO(226, 237, 255, 1)
-                              )
-                          ),
-                          child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(MyConstant.IC_CIRCLE_PLUS),
-                                  SizedBox(width: 0.01.sw),
-                                  Text(
-                                      "Tambah Tiket",
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontFamily: MyConstant.STR_INTER_REGULAR,
-                                          fontSize: MyConstant.TEXT_14,
-                                          color: Color.fromRGBO(11, 56, 124, 1),
-                                          fontWeight: FontWeight.w600
-                                      )
-                                  )
-                                ],
-                              )
-                          )
-                      ),
-                      onTap: (){
-
-                      },
-                    ),
-                    SizedBox(height: 0.015.sh),
                     ListView.builder(itemBuilder: (context,index){
                       Map data = value.draftList[index];
                       String image = data["image_url"];
@@ -717,46 +637,6 @@ class EventView extends GetView<EventController> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Column(
                   children: [
-                    SizedBox(height: 0.015.sh),
-                    GestureDetector(
-                      child: Container(
-                          width: double.maxFinite.w,
-                          height: 0.05.sh,
-                          padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                          margin: EdgeInsets.only(left: 0.05.sw, right: 0.05.sw),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              border: Border.all(
-                                  width: 1,
-                                  color: Color.fromRGBO(226, 237, 255, 1)
-                              )
-                          ),
-                          child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(MyConstant.IC_CIRCLE_PLUS),
-                                  SizedBox(width: 0.01.sw),
-                                  Text(
-                                      "Tambah Tiket",
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontFamily: MyConstant.STR_INTER_REGULAR,
-                                          fontSize: MyConstant.TEXT_14,
-                                          color: Color.fromRGBO(11, 56, 124, 1),
-                                          fontWeight: FontWeight.w600
-                                      )
-                                  )
-                                ],
-                              )
-                          )
-                      ),
-                      onTap: (){
-
-                      },
-                    ),
                     SizedBox(height: 0.015.sh),
                     ListView.builder(itemBuilder: (context,index){
                       Map data = value.completedList[index];

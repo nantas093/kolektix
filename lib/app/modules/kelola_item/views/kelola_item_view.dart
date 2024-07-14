@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
 import 'package:kolektix/app/modules/checkin_event/views/checkin_event_view.dart';
+import 'package:kolektix/app/modules/create_event/views/create_event_view.dart';
 import 'package:kolektix/app/modules/create_lowongan/views/create_lowongan_view.dart';
 import 'package:kolektix/app/modules/create_venue/views/create_venue_view.dart';
 import 'package:kolektix/app/modules/event_detail/views/event_detail_view.dart';
@@ -440,7 +441,7 @@ class KelolaItemView extends GetView<KelolaItemController> {
                           )
                       ),
                       onTap: (){
-
+                          Get.to(()=> const CreateEventView());
                       },
                     )
                   ],

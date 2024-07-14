@@ -12,6 +12,8 @@ import '../modules/create_venue/bindings/create_venue_binding.dart';
 import '../modules/create_venue/views/create_venue_view.dart';
 import '../modules/creator_registration/bindings/creator_registration_binding.dart';
 import '../modules/creator_registration/views/creator_registration_view.dart';
+import '../modules/detail_pesanan/bindings/detail_pesanan_binding.dart';
+import '../modules/detail_pesanan/views/detail_pesanan_view.dart';
 import '../modules/email_verification/bindings/email_verification_binding.dart';
 import '../modules/email_verification/views/email_verification_view.dart';
 import '../modules/event/bindings/event_binding.dart';
@@ -176,6 +178,11 @@ class AppPages {
       name: _Paths.PEMBAYARAN,
       page: () => const PembayaranView(),
       binding: PembayaranBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_PESANAN,
+      page: () => const DetailPesananView(),
+      binding: DetailPesananBinding(),
     ),
   ];
 }

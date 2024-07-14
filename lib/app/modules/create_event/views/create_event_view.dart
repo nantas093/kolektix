@@ -547,7 +547,7 @@ class CreateEventView extends GetView<CreateEventController> {
                             children: [
                               SizedBox(width: 0.03.sw),
                               Text(
-                                  data["description"],
+                                  data["description"] ?? "",
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                       fontFamily: MyConstant.STR_INTER_REGULAR,

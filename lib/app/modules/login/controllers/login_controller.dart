@@ -32,8 +32,7 @@ class LoginController extends GetxController {
     CustomLoading.showLoadingDialog(context, "Loading...");
 
     try{
-      var a = await myConnection.getDioConnection("").post(MyConstant.LOGIN, data: body);
-      print(a.data);
+      await myConnection.getDioConnection("").post(MyConstant.LOGIN, data: body);
       Get.back();
       Get.to(()=> const EmailVerificationView(), arguments: {"is_menu" :
       true, "email" : email});
