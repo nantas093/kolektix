@@ -109,108 +109,77 @@ class JualTiketOfflineListView extends GetView<JualTiketOfflineListController> {
                           color: Color.fromRGBO(226, 237, 255, 0.5)
                       ),
                       SizedBox(height: 0.02.sh),
-                      Container(
-                          width: double.maxFinite.w,
-                          height: 0.055.sh,
-                          child: ListView.builder(itemBuilder: (context,index){
-                            Map data = value.dateLists[index];
-                            return GestureDetector(
-                              child: Container(
-                                  width: 80,
-                                  margin: EdgeInsets.only(left: 0.03.sw),
-                                  height: double.maxFinite.w,decoration: BoxDecoration(
-                                  color: value.selectedIndex == index ? Color.fromRGBO(2, 37, 90, 1) : Colors.transparent,
-                                  border: value.selectedIndex == index ? null : Border.all(
-                                      color: Color.fromRGBO(226, 237, 255, 1),
-                                      width: 1
-                                  ),
-                                  borderRadius: BorderRadius.all(Radius.circular(8))
-                              ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                          MyParseDate.parseGeneralDate3(data["ticket_date"], "yyyy-MM-dd", "EEEE"),
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontFamily: MyConstant.STR_INTER_REGULAR,
-                                              fontSize: MyConstant.TEXT_12,
-                                              color: value.selectedIndex == index ? Colors.white.withOpacity(0.5) : Color.fromRGBO(102, 102, 102, 1)
-                                          )
-                                      ),
-                                      Text(
-                                          MyParseDate.parseGeneralDate3(data["ticket_date"], "yyyy-MM-dd", "dd MMM"),
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontFamily: MyConstant.STR_INTER_REGULAR,
-                                              fontSize: MyConstant.TEXT_16,
-                                              color: value.selectedIndex == index ? Colors.white : Colors.black,
-                                              fontWeight: FontWeight.bold
-                                          )
-                                      )
-                                    ],
-                                  )
-                              ),
-                              onTap: (){
-                                value.changeIndexPosition(index);
-                              },
-                            );
-                          },
-                              itemCount: value.dateLists.length,
-                              shrinkWrap: true,
-                              padding: EdgeInsets.zero,
-                              scrollDirection: Axis.horizontal
-                          )
-                      ),
                       Expanded(flex: 1, child: Column(
                         children: [
                           Container(
                               width: double.maxFinite.w,
-                              height: 0.15.sh,
-                              margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw,
-                                  top: 0.02.sh),
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(246, 250, 255, 1),
-                                  border: Border.all(
-                                      width: 1,
-                                      color: Color.fromRGBO(226, 237, 255, 1)
+                              height: 0.055.sh,
+                              child: ListView.builder(itemBuilder: (context,index){
+                                Map data = value.dateLists[index];
+                                return GestureDetector(
+                                  child: Container(
+                                      width: 80,
+                                      margin: EdgeInsets.only(left: 0.03.sw),
+                                      height: double.maxFinite.w,decoration: BoxDecoration(
+                                      color: value.selectedIndex == index ? Color.fromRGBO(2, 37, 90, 1) : Colors.transparent,
+                                      border: value.selectedIndex == index ? null : Border.all(
+                                          color: Color.fromRGBO(226, 237, 255, 1),
+                                          width: 1
+                                      ),
+                                      borderRadius: BorderRadius.all(Radius.circular(8))
                                   ),
-                                  borderRadius: BorderRadius.all(Radius.circular(8))
-                              ),
-                              child: Column(
-                                children: [
-                                  Expanded(flex: 1, child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Row(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          SizedBox(width: 0.03.sw),
                                           Text(
-                                              value.ticketName,
+                                              MyParseDate.parseGeneralDate3(data["ticket_date"], "yyyy-MM-dd", "EEEE"),
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                  fontSize: MyConstant.TEXT_12,
+                                                  color: value.selectedIndex == index ? Colors.white.withOpacity(0.5) : Color.fromRGBO(102, 102, 102, 1)
+                                              )
+                                          ),
+                                          Text(
+                                              MyParseDate.parseGeneralDate3(data["ticket_date"], "yyyy-MM-dd", "dd MMM"),
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   fontFamily: MyConstant.STR_INTER_REGULAR,
                                                   fontSize: MyConstant.TEXT_16,
-                                                  color: Colors.black
+                                                  color: value.selectedIndex == index ? Colors.white : Colors.black,
+                                                  fontWeight: FontWeight.bold
                                               )
                                           )
                                         ],
                                       )
-                                    ],
-                                  )),
-                                  const DottedLine(
-                                    direction: Axis.horizontal,
-                                    lineLength: double.infinity,
-                                    lineThickness: 1.0,
-                                    dashLength: 4.0,
-                                    dashColor: Color.fromRGBO(226, 237, 255, 1),
-                                    dashRadius: 0.0,
-                                    dashGapLength: 4.0,
-                                    dashGapColor: Colors.transparent,
-                                    dashGapRadius: 0.0,
                                   ),
-                                  Expanded(flex: 1, child: Row(
+                                  onTap: (){
+                                    value.changeIndexPosition(index);
+                                  },
+                                );
+                              },
+                                  itemCount: value.dateLists.length,
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                  scrollDirection: Axis.horizontal
+                              )
+                          ),
+                          Expanded(flex: 1, child: Column(
+                            children: [
+                              Container(
+                                  width: double.maxFinite.w,
+                                  height: 0.15.sh,
+                                  margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw,
+                                      top: 0.02.sh),
+                                  decoration: BoxDecoration(
+                                      color: Color.fromRGBO(246, 250, 255, 1),
+                                      border: Border.all(
+                                          width: 1,
+                                          color: Color.fromRGBO(226, 237, 255, 1)
+                                      ),
+                                      borderRadius: BorderRadius.all(Radius.circular(8))
+                                  ),
+                                  child: Column(
                                     children: [
                                       Expanded(flex: 1, child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -220,7 +189,65 @@ class JualTiketOfflineListView extends GetView<JualTiketOfflineListController> {
                                             children: [
                                               SizedBox(width: 0.03.sw),
                                               Text(
-                                                  "Rp${value.ticketPrice}",
+                                                  value.ticketName,
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_16,
+                                                      color: Colors.black
+                                                  )
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      )),
+                                      const DottedLine(
+                                        direction: Axis.horizontal,
+                                        lineLength: double.infinity,
+                                        lineThickness: 1.0,
+                                        dashLength: 4.0,
+                                        dashColor: Color.fromRGBO(226, 237, 255, 1),
+                                        dashRadius: 0.0,
+                                        dashGapLength: 4.0,
+                                        dashGapColor: Colors.transparent,
+                                        dashGapRadius: 0.0,
+                                      ),
+                                      Expanded(flex: 1, child: Row(
+                                        children: [
+                                          Expanded(flex: 1, child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  SizedBox(width: 0.03.sw),
+                                                  Text(
+                                                      "Rp${value.ticketPrice}",
+                                                      textAlign: TextAlign.start,
+                                                      style: TextStyle(
+                                                          fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                          fontSize: MyConstant.TEXT_16,
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight.bold
+                                                      )
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          )),
+                                          Row(
+                                            children: [
+                                              GestureDetector(
+                                                child: SvgPicture.asset(MyConstant.IC_CIRCLE_MINUS, color: Color.fromRGBO(11, 56, 124, 1),
+                                                  height: 24, width: 24,
+                                                ),
+                                                onTap: (){
+                                                  value.setMinMaxTicket(1);
+                                                },
+                                              ),
+                                              SizedBox(width: 0.05.sw),
+                                              Text(
+                                                  "${value.ticketQuantity}",
                                                   textAlign: TextAlign.start,
                                                   style: TextStyle(
                                                       fontFamily: MyConstant.STR_INTER_REGULAR,
@@ -228,48 +255,25 @@ class JualTiketOfflineListView extends GetView<JualTiketOfflineListController> {
                                                       color: Colors.black,
                                                       fontWeight: FontWeight.bold
                                                   )
+                                              ),
+                                              SizedBox(width: 0.05.sw),
+                                              GestureDetector(
+                                                child: SvgPicture.asset(MyConstant.IC_CIRCLE_PLUS, color: Color.fromRGBO(11, 56, 124, 1),
+                                                  height: 24, width: 24,),
+                                                onTap: (){
+                                                  value.setMinMaxTicket(2);
+                                                },
                                               )
                                             ],
-                                          )
-                                        ],
-                                      )),
-                                      Row(
-                                        children: [
-                                          GestureDetector(
-                                            child: SvgPicture.asset(MyConstant.IC_CIRCLE_MINUS, color: Color.fromRGBO(11, 56, 124, 1),
-                                              height: 24, width: 24,
-                                            ),
-                                            onTap: (){
-                                              value.setMinMaxTicket(1);
-                                            },
                                           ),
-                                          SizedBox(width: 0.05.sw),
-                                          Text(
-                                              "${value.ticketQuantity}",
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                  fontSize: MyConstant.TEXT_16,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold
-                                              )
-                                          ),
-                                          SizedBox(width: 0.05.sw),
-                                          GestureDetector(
-                                            child: SvgPicture.asset(MyConstant.IC_CIRCLE_PLUS, color: Color.fromRGBO(11, 56, 124, 1),
-                                              height: 24, width: 24,),
-                                            onTap: (){
-                                              value.setMinMaxTicket(2);
-                                            },
-                                          )
+                                          SizedBox(width: 0.03.sw),
                                         ],
-                                      ),
-                                      SizedBox(width: 0.03.sw),
+                                      ))
                                     ],
-                                  ))
-                                ],
+                                  )
                               )
-                          )
+                            ],
+                          ))
                         ],
                       )),
                       Container(

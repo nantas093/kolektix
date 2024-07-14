@@ -18,6 +18,8 @@ class JualTiketOfflineController extends GetxController {
   int talentId = 0;
   int grandTotal = 0;
 
+  bool loading = false;
+
   @override
   void onInit() {
     data = Get.arguments["data"];
@@ -38,16 +40,22 @@ class JualTiketOfflineController extends GetxController {
   }
 
   Future<void> loadEvent() async {
+    loading = true;
+    eventList.clear();
+    update(["jual_tiket"]);
+
     try{
       var response = await myConnection.getDioConnection(accessToken).get(
           "/api/list-transaction-by-event?event_id=${data["id"]}&type_transaction=offline");
       var responseData = response.data;
       grandTotal = responseData["grand_total"] ?? 0;
       eventList = responseData["data"];
+      loading = false;
       update(["jual_tiket"]);
     }
     catch(e){
-      print(e);
+      loading = false;
+      update(["jual_tiket"]);
     }
   }
 }

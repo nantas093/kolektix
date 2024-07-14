@@ -75,6 +75,25 @@ class EventDetailView extends GetView<EventDetailController> {
                                         arguments: {"data" : value.data});
                                   },
                                 ),
+                                SizedBox(width: 0.02.sw),
+                                GestureDetector(
+                                  child: Container(
+                                      height: 0.05.sh,
+                                      padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.1),
+                                          borderRadius: BorderRadius.all(Radius.circular(8))
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(MyConstant.IC_THREE_DOTS)
+                                        ],
+                                      )
+                                  ),
+                                  onTap: (){
+                                    showOpsi(context);
+                                  },
+                                ),
                                 SizedBox(width: 0.03.sw)
                               ],
                             ),
@@ -2040,6 +2059,132 @@ class EventDetailView extends GetView<EventDetailController> {
                                   )
                                 ]
                             ),
+                          ),
+                        ))
+                      ],
+                    )
+                );
+              });
+        });
+  }
+
+  void showOpsi(BuildContext context){
+    showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        barrierColor: Colors.white.withOpacity(0.3),
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return GetBuilder<EventDetailController>(
+              id: "event_detail",
+              init: EventDetailController(),
+              builder: (value){
+                return Container(
+                    width: double.maxFinite.w,
+                    height: double.maxFinite.w,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 0.78.sh),
+                        Expanded(flex: 1, child: Container(
+                          height: double.maxFinite.w,
+                          width: double.maxFinite.w,
+                          decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(25),
+                                  topRight: Radius.circular(25)),
+                              boxShadow: [BoxShadow(
+                                color: Color.fromRGBO(99, 108, 119, 0.1),
+                                blurRadius: 1.5,
+                                spreadRadius: 1.5,
+                              )]
+                          ),
+                          child: Column(
+                              children: [
+                                SizedBox(height: 0.02.sh),
+                                Row(
+                                  children: [
+                                    SizedBox(width: 0.03.sw),
+                                    Expanded(flex: 1, child: Text(
+                                        "Opsi Lainnya",
+                                        textAlign: TextAlign.start,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontFamily: MyConstant.STR_INTER_REGULAR,
+                                            fontSize: MyConstant.TEXT_16,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600
+                                        )
+                                    )),
+                                    InkWell(
+                                      child: SvgPicture.asset(MyConstant.IC_CLOSE),
+                                      onTap: (){
+                                        Get.back();
+                                      },
+                                    ),
+                                    SizedBox(width: 0.03.sw)
+                                  ],
+                                ),
+                                Container(
+                                  width: double.maxFinite.w,
+                                  height: 1,
+                                  color: Color.fromRGBO(226, 237, 255, 1),
+                                  margin: EdgeInsets.only(top: 0.02.sh,
+                                      bottom: 0.01.sh),
+                                ),
+                                Container(
+                                    width: double.maxFinite.w,
+                                    height: 0.04.sh,
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 0.03.sw),
+                                        Expanded(flex: 1, child: Text(
+                                            "Simpan ke Draft",
+                                            textAlign: TextAlign.start,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                fontSize: MyConstant.TEXT_14,
+                                                color: Colors.black
+                                            )
+                                        )),
+                                        SvgPicture.asset(MyConstant.IC_CIRCLE_RIGHT_ARROW),
+                                        SizedBox(width: 0.03.sw)
+                                      ],
+                                    )
+                                ),
+                                Container(
+                                  width: double.maxFinite.w,
+                                  height: 1,
+                                  color: Color.fromRGBO(226, 237, 255, 1),
+                                  margin: EdgeInsets.only(top: 0.02.sh,
+                                      bottom: 0.01.sh),
+                                ),
+                                Container(
+                                    width: double.maxFinite.w,
+                                    height: 0.04.sh,
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 0.03.sw),
+                                        Expanded(flex: 1, child: Text(
+                                            "Akhiri Event",
+                                            textAlign: TextAlign.start,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                fontSize: MyConstant.TEXT_14,
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold
+                                            )
+                                        )),
+                                        SvgPicture.asset(MyConstant.IC_CIRCLE_RIGHT_ARROW),
+                                        SizedBox(width: 0.03.sw)
+                                      ],
+                                    )
+                                )
+                              ]
                           ),
                         ))
                       ],

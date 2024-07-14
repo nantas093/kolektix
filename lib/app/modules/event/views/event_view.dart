@@ -132,248 +132,269 @@ class EventView extends GetView<EventController> {
     return SizedBox(
         width: double.maxFinite.w,
         height: double.maxFinite.w,
-        child: RefreshIndicator(child: SizedBox(
-            width: double.maxFinite.w,
-            height: double.maxFinite.w,
-            child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
+        child: RefreshIndicator(
+            backgroundColor: Colors.white,
+            color: Color.fromRGBO(11, 56, 124, 1),
+            child: SizedBox(
+                width: double.maxFinite.w,
+                height: double.maxFinite.w,
+                child: Stack(
                   children: [
-                    SizedBox(height: 0.015.sh),
-                    ListView.builder(itemBuilder: (context,index){
-                      Map data = value.eventList[index];
-                      String image = data["image_url"];
-                      return Container(
-                          width: double.maxFinite.w,
-                          padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw,
-                              top: 0.01.sh, bottom: 0.01.sh),
-                          margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw, top: 0.02.sh),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              border: Border.all(
-                                  width: 1,
-                                  color: Color.fromRGBO(226, 237, 255, 1)
-                              )
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                    value.loading ? const Center(
+                        child: CircularProgressIndicator(
+                            color: Color.fromRGBO(11, 56, 124, 1)
+                        )
+                    ) : SizedBox(),
+                    !value.loading && value.eventList.isEmpty ? Center(
+                        child: Text(
+                            "Tidak ada data",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontFamily: MyConstant.STR_INTER_REGULAR,
+                                fontSize: MyConstant.TEXT_16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold
+                            )
+                        )
+                    ) : SizedBox(),
+                    SizedBox(
+                        width: double.maxFinite.w,
+                        height: double.maxFinite.w,
+                        child: ListView.builder(itemBuilder: (context,index){
+                          Map data = value.eventList[index];
+                          String image = data["image_url"];
+                          return Container(
+                              width: double.maxFinite.w,
+                              padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw,
+                                  top: 0.01.sh, bottom: 0.01.sh),
+                              margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw, top: 0.02.sh),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  border: Border.all(
+                                      width: 1,
+                                      color: Color.fromRGBO(226, 237, 255, 1)
+                                  )
+                              ),
+                              child: Column(
                                 children: [
-                                  Expanded(flex: 1, child: Column(
+                                  Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: 0.012.sh),
-                                      Text(
-                                          data["name"] ?? "",
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontFamily: MyConstant.STR_INTER_REGULAR,
-                                              fontSize: MyConstant.TEXT_16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold
-                                          )
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Text(
-                                          "Tanggal & Waktu",
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontFamily: MyConstant.STR_INTER_REGULAR,
-                                              fontSize: MyConstant.TEXT_14,
-                                              color: Color.fromRGBO(102, 102, 102, 1)
-                                          )
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Row(
+                                      Expanded(flex: 1, child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          SvgPicture.asset(MyConstant.IC_CALENDAR),
-                                          SizedBox(width: 0.01.sw),
+                                          SizedBox(height: 0.012.sh),
                                           Text(
-                                              "${data["start_date"]} - ${data["end_date"]}",
+                                              data["name"] ?? "",
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                  fontSize: MyConstant.TEXT_16,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold
+                                              )
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Text(
+                                              "Tanggal & Waktu",
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   fontFamily: MyConstant.STR_INTER_REGULAR,
                                                   fontSize: MyConstant.TEXT_14,
                                                   color: Color.fromRGBO(102, 102, 102, 1)
                                               )
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(MyConstant.IC_TIME),
-                                          SizedBox(width: 0.01.sw),
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(MyConstant.IC_CALENDAR),
+                                              SizedBox(width: 0.01.sw),
+                                              Text(
+                                                  "${data["start_date"]} - ${data["end_date"]}",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_14,
+                                                      color: Color.fromRGBO(102, 102, 102, 1)
+                                                  )
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(MyConstant.IC_TIME),
+                                              SizedBox(width: 0.01.sw),
+                                              Text(
+                                                  "${data["start_time"]} - ${data["end_time"]}",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_14,
+                                                      color: Color.fromRGBO(102, 102, 102, 1)
+                                                  )
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(height: 0.015.sh),
                                           Text(
-                                              "${data["start_time"]} - ${data["end_time"]}",
+                                              "Venue",
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   fontFamily: MyConstant.STR_INTER_REGULAR,
                                                   fontSize: MyConstant.TEXT_14,
                                                   color: Color.fromRGBO(102, 102, 102, 1)
                                               )
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(height: 0.015.sh),
-                                      Text(
-                                          "Venue",
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontFamily: MyConstant.STR_INTER_REGULAR,
-                                              fontSize: MyConstant.TEXT_14,
-                                              color: Color.fromRGBO(102, 102, 102, 1)
-                                          )
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(MyConstant.IC_LOCATION),
-                                          SizedBox(width: 0.01.sw),
-                                          Text(
-                                              "${data["location_name"]}, ${data["location_city"]}",
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                  fontSize: MyConstant.TEXT_14,
-                                                  color: Color.fromRGBO(102, 102, 102, 1)
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(MyConstant.IC_LOCATION),
+                                              SizedBox(width: 0.01.sw),
+                                              Text(
+                                                  "${data["location_name"]}, ${data["location_city"]}",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_14,
+                                                      color: Color.fromRGBO(102, 102, 102, 1)
+                                                  )
                                               )
-                                          )
+                                            ],
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Container(
+                                              width: double.maxFinite.w,
+                                              height: 0.5,
+                                              color: Color.fromRGBO(226, 237, 255, 1)
+                                          ),
+                                          SizedBox(height: 0.01.sh)
                                         ],
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Container(
-                                          width: double.maxFinite.w,
-                                          height: 0.5,
-                                          color: Color.fromRGBO(226, 237, 255, 1)
-                                      ),
-                                      SizedBox(height: 0.01.sh)
-                                    ],
-                                  )),
-                                  SizedBox(width: 0.02.sw),
-                                  ClipRRect(
-                                    child: Image.network(image, height: 60, width: 100, fit: BoxFit.fill),
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 0.01.sh),
-                              GestureDetector(
-                                child: Container(
-                                    width: double.maxFinite.w,
-                                    height: 0.05.sh,
-                                    padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                                    decoration: const BoxDecoration(
+                                      )),
+                                      SizedBox(width: 0.02.sw),
+                                      ClipRRect(
+                                        child: Image.network(image, height: 60, width: 100, fit: BoxFit.fill),
                                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                                        color: Color.fromRGBO(11, 56, 124, 1)
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 0.01.sh),
+                                  GestureDetector(
+                                    child: Container(
+                                        width: double.maxFinite.w,
+                                        height: 0.05.sh,
+                                        padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                        decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                                            color: Color.fromRGBO(11, 56, 124, 1)
+                                        ),
+                                        child: Center(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                    "Lihat Detail",
+                                                    textAlign: TextAlign.center,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontFamily: MyConstant.STR_INTER_BOLD,
+                                                        fontSize: MyConstant.TEXT_14,
+                                                        color: Colors.white
+                                                    )
+                                                ),
+                                              ],
+                                            )
+                                        )
                                     ),
-                                    child: Center(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                                "Lihat Detail",
-                                                textAlign: TextAlign.center,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontFamily: MyConstant.STR_INTER_BOLD,
-                                                    fontSize: MyConstant.TEXT_14,
-                                                    color: Colors.white
+                                    onTap: (){
+                                      Get.to(()=> const EventDetailView(),
+                                          arguments: {"data" : data});
+                                    },
+                                  ),
+                                  SizedBox(height: 0.01.sh),
+                                  Row(
+                                    children: [
+                                      Expanded(flex: 1, child: GestureDetector(
+                                        child: Container(
+                                            width: 120,
+                                            height: 0.05.sh,
+                                            padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Color.fromRGBO(226, 237, 255, 1)
                                                 )
                                             ),
-                                          ],
-                                        )
-                                    )
-                                ),
-                                onTap: (){
-                                  Get.to(()=> const EventDetailView(),
-                                      arguments: {"data" : data});
-                                },
-                              ),
-                              SizedBox(height: 0.01.sh),
-                              Row(
-                                children: [
-                                  Expanded(flex: 1, child: GestureDetector(
-                                    child: Container(
-                                        width: 120,
-                                        height: 0.05.sh,
-                                        padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Color.fromRGBO(226, 237, 255, 1)
-                                            )
-                                        ),
-                                        child: Center(
-                                            child: Text(
-                                                "Check In Tiket",
-                                                textAlign: TextAlign.center,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                    fontSize: MyConstant.TEXT_14,
-                                                    color: Color.fromRGBO(11, 56, 124, 1),
-                                                    fontWeight: FontWeight.bold
+                                            child: Center(
+                                                child: Text(
+                                                    "Check In Tiket",
+                                                    textAlign: TextAlign.center,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                        fontSize: MyConstant.TEXT_14,
+                                                        color: Color.fromRGBO(11, 56, 124, 1),
+                                                        fontWeight: FontWeight.bold
+                                                    )
                                                 )
                                             )
-                                        )
-                                    ),
-                                    onTap: (){
-                                      Get.to(()=> const CheckinEventView(),
-                                          arguments: {"data" : data});
-                                    },
-                                  )),
-                                  SizedBox(width: 0.03.sw),
-                                  Expanded(flex: 1, child: GestureDetector(
-                                    child: Container(
-                                        width: 120,
-                                        height: 0.05.sh,
-                                        padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Color.fromRGBO(226, 237, 255, 1)
-                                            )
                                         ),
-                                        child: Center(
-                                            child: Text(
-                                                "Jual Offline",
-                                                textAlign: TextAlign.center,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                    fontSize: MyConstant.TEXT_14,
-                                                    color: Color.fromRGBO(11, 56, 124, 1),
-                                                    fontWeight: FontWeight.bold
+                                        onTap: (){
+                                          Get.to(()=> const CheckinEventView(),
+                                              arguments: {"data" : data});
+                                        },
+                                      )),
+                                      SizedBox(width: 0.03.sw),
+                                      Expanded(flex: 1, child: GestureDetector(
+                                        child: Container(
+                                            width: 120,
+                                            height: 0.05.sh,
+                                            padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Color.fromRGBO(226, 237, 255, 1)
+                                                )
+                                            ),
+                                            child: Center(
+                                                child: Text(
+                                                    "Jual Offline",
+                                                    textAlign: TextAlign.center,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                        fontSize: MyConstant.TEXT_14,
+                                                        color: Color.fromRGBO(11, 56, 124, 1),
+                                                        fontWeight: FontWeight.bold
+                                                    )
                                                 )
                                             )
-                                        )
-                                    ),
-                                    onTap: (){
-                                      Get.to(()=> const JualTiketOfflineView(),
-                                          arguments: {"data" : data});
-                                    },
-                                  ))
+                                        ),
+                                        onTap: (){
+                                          Get.to(()=> const JualTiketOfflineView(),
+                                              arguments: {"data" : data});
+                                        },
+                                      ))
+                                    ],
+                                  )
                                 ],
                               )
-                            ],
-                          )
-                      );
-                    },
-                        itemCount: value.eventList.length,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,primary: false
+                          );
+                        },
+                            itemCount: value.eventList.length,
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            physics: const AlwaysScrollableScrollPhysics()
+                        )
                     )
                   ],
                 )
-            )
-        ), onRefresh: ()=> value.loadEvent())
+            ), onRefresh: ()=> value.loadEvent())
     );
   }
 
@@ -381,248 +402,269 @@ class EventView extends GetView<EventController> {
     return SizedBox(
         width: double.maxFinite.w,
         height: double.maxFinite.w,
-        child: RefreshIndicator(child: SizedBox(
-            width: double.maxFinite.w,
-            height: double.maxFinite.w,
-            child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
+        child: RefreshIndicator(
+            backgroundColor: Colors.white,
+            color: Color.fromRGBO(11, 56, 124, 1),
+            child: SizedBox(
+                width: double.maxFinite.w,
+                height: double.maxFinite.w,
+                child: Stack(
                   children: [
-                    SizedBox(height: 0.015.sh),
-                    ListView.builder(itemBuilder: (context,index){
-                      Map data = value.draftList[index];
-                      String image = data["image_url"];
-                      return Container(
-                          width: double.maxFinite.w,
-                          padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw,
-                              top: 0.01.sh, bottom: 0.01.sh),
-                          margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw, top: 0.02.sh),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              border: Border.all(
-                                  width: 1,
-                                  color: Color.fromRGBO(226, 237, 255, 1)
-                              )
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                    value.draftLoading ? const Center(
+                        child: CircularProgressIndicator(
+                            color: Color.fromRGBO(11, 56, 124, 1)
+                        )
+                    ) : SizedBox(),
+                    !value.draftLoading && value.draftList.isEmpty ? Center(
+                        child: Text(
+                            "Tidak ada data",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontFamily: MyConstant.STR_INTER_REGULAR,
+                                fontSize: MyConstant.TEXT_16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold
+                            )
+                        )
+                    ) : SizedBox(),
+                    SizedBox(
+                        width: double.maxFinite.w,
+                        height: double.maxFinite.w,
+                        child: ListView.builder(itemBuilder: (context,index){
+                          Map data = value.draftList[index];
+                          String image = data["image_url"];
+                          return Container(
+                              width: double.maxFinite.w,
+                              padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw,
+                                  top: 0.01.sh, bottom: 0.01.sh),
+                              margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw, top: 0.02.sh),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  border: Border.all(
+                                      width: 1,
+                                      color: Color.fromRGBO(226, 237, 255, 1)
+                                  )
+                              ),
+                              child: Column(
                                 children: [
-                                  Expanded(flex: 1, child: Column(
+                                  Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: 0.012.sh),
-                                      Text(
-                                          data["name"] ?? "",
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontFamily: MyConstant.STR_INTER_REGULAR,
-                                              fontSize: MyConstant.TEXT_16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold
-                                          )
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Text(
-                                          "Tanggal & Waktu",
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontFamily: MyConstant.STR_INTER_REGULAR,
-                                              fontSize: MyConstant.TEXT_14,
-                                              color: Color.fromRGBO(102, 102, 102, 1)
-                                          )
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Row(
+                                      Expanded(flex: 1, child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          SvgPicture.asset(MyConstant.IC_CALENDAR),
-                                          SizedBox(width: 0.01.sw),
+                                          SizedBox(height: 0.012.sh),
                                           Text(
-                                              "${data["start_date"]} - ${data["end_date"]}",
+                                              data["name"] ?? "",
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                  fontSize: MyConstant.TEXT_16,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold
+                                              )
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Text(
+                                              "Tanggal & Waktu",
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   fontFamily: MyConstant.STR_INTER_REGULAR,
                                                   fontSize: MyConstant.TEXT_14,
                                                   color: Color.fromRGBO(102, 102, 102, 1)
                                               )
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(MyConstant.IC_TIME),
-                                          SizedBox(width: 0.01.sw),
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(MyConstant.IC_CALENDAR),
+                                              SizedBox(width: 0.01.sw),
+                                              Text(
+                                                  "${data["start_date"]} - ${data["end_date"]}",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_14,
+                                                      color: Color.fromRGBO(102, 102, 102, 1)
+                                                  )
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(MyConstant.IC_TIME),
+                                              SizedBox(width: 0.01.sw),
+                                              Text(
+                                                  "${data["start_time"]} - ${data["end_time"]}",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_14,
+                                                      color: Color.fromRGBO(102, 102, 102, 1)
+                                                  )
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(height: 0.015.sh),
                                           Text(
-                                              "${data["start_time"]} - ${data["end_time"]}",
+                                              "Venue",
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   fontFamily: MyConstant.STR_INTER_REGULAR,
                                                   fontSize: MyConstant.TEXT_14,
                                                   color: Color.fromRGBO(102, 102, 102, 1)
                                               )
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(height: 0.015.sh),
-                                      Text(
-                                          "Venue",
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontFamily: MyConstant.STR_INTER_REGULAR,
-                                              fontSize: MyConstant.TEXT_14,
-                                              color: Color.fromRGBO(102, 102, 102, 1)
-                                          )
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(MyConstant.IC_LOCATION),
-                                          SizedBox(width: 0.01.sw),
-                                          Text(
-                                              "${data["location_name"]}, ${data["location_city"]}",
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                  fontSize: MyConstant.TEXT_14,
-                                                  color: Color.fromRGBO(102, 102, 102, 1)
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(MyConstant.IC_LOCATION),
+                                              SizedBox(width: 0.01.sw),
+                                              Text(
+                                                  "${data["location_name"]}, ${data["location_city"]}",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_14,
+                                                      color: Color.fromRGBO(102, 102, 102, 1)
+                                                  )
                                               )
-                                          )
+                                            ],
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Container(
+                                              width: double.maxFinite.w,
+                                              height: 0.5,
+                                              color: Color.fromRGBO(226, 237, 255, 1)
+                                          ),
+                                          SizedBox(height: 0.01.sh)
                                         ],
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Container(
-                                          width: double.maxFinite.w,
-                                          height: 0.5,
-                                          color: Color.fromRGBO(226, 237, 255, 1)
-                                      ),
-                                      SizedBox(height: 0.01.sh)
-                                    ],
-                                  )),
-                                  SizedBox(width: 0.02.sw),
-                                  ClipRRect(
-                                    child: Image.network(image, height: 60, width: 100, fit: BoxFit.fill),
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 0.01.sh),
-                              GestureDetector(
-                                child: Container(
-                                    width: double.maxFinite.w,
-                                    height: 0.05.sh,
-                                    padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                                    decoration: const BoxDecoration(
+                                      )),
+                                      SizedBox(width: 0.02.sw),
+                                      ClipRRect(
+                                        child: Image.network(image, height: 60, width: 100, fit: BoxFit.fill),
                                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                                        color: Color.fromRGBO(11, 56, 124, 1)
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 0.01.sh),
+                                  GestureDetector(
+                                    child: Container(
+                                        width: double.maxFinite.w,
+                                        height: 0.05.sh,
+                                        padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                        decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                                            color: Color.fromRGBO(11, 56, 124, 1)
+                                        ),
+                                        child: Center(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                    "Lihat Detail",
+                                                    textAlign: TextAlign.center,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontFamily: MyConstant.STR_INTER_BOLD,
+                                                        fontSize: MyConstant.TEXT_14,
+                                                        color: Colors.white
+                                                    )
+                                                ),
+                                              ],
+                                            )
+                                        )
                                     ),
-                                    child: Center(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                                "Lihat Detail",
-                                                textAlign: TextAlign.center,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontFamily: MyConstant.STR_INTER_BOLD,
-                                                    fontSize: MyConstant.TEXT_14,
-                                                    color: Colors.white
+                                    onTap: (){
+                                      Get.to(()=> const EventDetailView(),
+                                          arguments: {"data" : data});
+                                    },
+                                  ),
+                                  SizedBox(height: 0.01.sh),
+                                  Row(
+                                    children: [
+                                      Expanded(flex: 1, child: GestureDetector(
+                                        child: Container(
+                                            width: 120,
+                                            height: 0.05.sh,
+                                            padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Color.fromRGBO(226, 237, 255, 1)
                                                 )
                                             ),
-                                          ],
-                                        )
-                                    )
-                                ),
-                                onTap: (){
-                                  Get.to(()=> const EventDetailView(),
-                                      arguments: {"data" : data});
-                                },
-                              ),
-                              SizedBox(height: 0.01.sh),
-                              Row(
-                                children: [
-                                  Expanded(flex: 1, child: GestureDetector(
-                                    child: Container(
-                                        width: 120,
-                                        height: 0.05.sh,
-                                        padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Color.fromRGBO(226, 237, 255, 1)
-                                            )
-                                        ),
-                                        child: Center(
-                                            child: Text(
-                                                "Check In Tiket",
-                                                textAlign: TextAlign.center,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                    fontSize: MyConstant.TEXT_14,
-                                                    color: Color.fromRGBO(11, 56, 124, 1),
-                                                    fontWeight: FontWeight.bold
+                                            child: Center(
+                                                child: Text(
+                                                    "Check In Tiket",
+                                                    textAlign: TextAlign.center,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                        fontSize: MyConstant.TEXT_14,
+                                                        color: Color.fromRGBO(11, 56, 124, 1),
+                                                        fontWeight: FontWeight.bold
+                                                    )
                                                 )
                                             )
-                                        )
-                                    ),
-                                    onTap: (){
-                                      Get.to(()=> const CheckinEventView(),
-                                          arguments: {"data" : data});
-                                    },
-                                  )),
-                                  SizedBox(width: 0.03.sw),
-                                  Expanded(flex: 1, child: GestureDetector(
-                                    child: Container(
-                                        width: 120,
-                                        height: 0.05.sh,
-                                        padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Color.fromRGBO(226, 237, 255, 1)
-                                            )
                                         ),
-                                        child: Center(
-                                            child: Text(
-                                                "Jual Offline",
-                                                textAlign: TextAlign.center,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                    fontSize: MyConstant.TEXT_14,
-                                                    color: Color.fromRGBO(11, 56, 124, 1),
-                                                    fontWeight: FontWeight.bold
+                                        onTap: (){
+                                          Get.to(()=> const CheckinEventView(),
+                                              arguments: {"data" : data});
+                                        },
+                                      )),
+                                      SizedBox(width: 0.03.sw),
+                                      Expanded(flex: 1, child: GestureDetector(
+                                        child: Container(
+                                            width: 120,
+                                            height: 0.05.sh,
+                                            padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Color.fromRGBO(226, 237, 255, 1)
+                                                )
+                                            ),
+                                            child: Center(
+                                                child: Text(
+                                                    "Jual Offline",
+                                                    textAlign: TextAlign.center,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                        fontSize: MyConstant.TEXT_14,
+                                                        color: Color.fromRGBO(11, 56, 124, 1),
+                                                        fontWeight: FontWeight.bold
+                                                    )
                                                 )
                                             )
-                                        )
-                                    ),
-                                    onTap: (){
-                                      Get.to(()=> const JualTiketOfflineView(),
-                                          arguments: {"data" : data});
-                                    },
-                                  ))
+                                        ),
+                                        onTap: (){
+                                          Get.to(()=> const JualTiketOfflineView(),
+                                              arguments: {"data" : data});
+                                        },
+                                      ))
+                                    ],
+                                  )
                                 ],
                               )
-                            ],
-                          )
-                      );
-                    },
-                        itemCount: value.draftList.length,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,primary: false
+                          );
+                        },
+                            itemCount: value.draftList.length,
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            physics: const AlwaysScrollableScrollPhysics()
+                        )
                     )
                   ],
                 )
-            )
-        ), onRefresh: ()=> value.loadEvent())
+            ), onRefresh: ()=> value.loadEvent())
     );
   }
 
@@ -630,248 +672,269 @@ class EventView extends GetView<EventController> {
     return SizedBox(
         width: double.maxFinite.w,
         height: double.maxFinite.w,
-        child: RefreshIndicator(child: SizedBox(
-            width: double.maxFinite.w,
-            height: double.maxFinite.w,
-            child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
+        child: RefreshIndicator(
+            backgroundColor: Colors.white,
+            color: Color.fromRGBO(11, 56, 124, 1),
+            child: SizedBox(
+                width: double.maxFinite.w,
+                height: double.maxFinite.w,
+                child: Stack(
                   children: [
-                    SizedBox(height: 0.015.sh),
-                    ListView.builder(itemBuilder: (context,index){
-                      Map data = value.completedList[index];
-                      String image = data["image_url"];
-                      return Container(
-                          width: double.maxFinite.w,
-                          padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw,
-                              top: 0.01.sh, bottom: 0.01.sh),
-                          margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw, top: 0.02.sh),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              border: Border.all(
-                                  width: 1,
-                                  color: Color.fromRGBO(226, 237, 255, 1)
-                              )
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                    value.completedLoading ? const Center(
+                        child: CircularProgressIndicator(
+                            color: Color.fromRGBO(11, 56, 124, 1)
+                        )
+                    ) : SizedBox(),
+                    !value.completedLoading && value.completedList.isEmpty ? Center(
+                        child: Text(
+                            "Tidak ada data",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontFamily: MyConstant.STR_INTER_REGULAR,
+                                fontSize: MyConstant.TEXT_16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold
+                            )
+                        )
+                    ) : SizedBox(),
+                    SizedBox(
+                        width: double.maxFinite.w,
+                        height: double.maxFinite.w,
+                        child: ListView.builder(itemBuilder: (context,index){
+                          Map data = value.completedList[index];
+                          String image = data["image_url"];
+                          return Container(
+                              width: double.maxFinite.w,
+                              padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw,
+                                  top: 0.01.sh, bottom: 0.01.sh),
+                              margin: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw, top: 0.02.sh),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  border: Border.all(
+                                      width: 1,
+                                      color: Color.fromRGBO(226, 237, 255, 1)
+                                  )
+                              ),
+                              child: Column(
                                 children: [
-                                  Expanded(flex: 1, child: Column(
+                                  Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: 0.012.sh),
-                                      Text(
-                                          data["name"] ?? "",
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontFamily: MyConstant.STR_INTER_REGULAR,
-                                              fontSize: MyConstant.TEXT_16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold
-                                          )
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Text(
-                                          "Tanggal & Waktu",
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontFamily: MyConstant.STR_INTER_REGULAR,
-                                              fontSize: MyConstant.TEXT_14,
-                                              color: Color.fromRGBO(102, 102, 102, 1)
-                                          )
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Row(
+                                      Expanded(flex: 1, child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          SvgPicture.asset(MyConstant.IC_CALENDAR),
-                                          SizedBox(width: 0.01.sw),
+                                          SizedBox(height: 0.012.sh),
                                           Text(
-                                              "${data["start_date"]} - ${data["end_date"]}",
+                                              data["name"] ?? "",
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                  fontSize: MyConstant.TEXT_16,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold
+                                              )
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Text(
+                                              "Tanggal & Waktu",
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   fontFamily: MyConstant.STR_INTER_REGULAR,
                                                   fontSize: MyConstant.TEXT_14,
                                                   color: Color.fromRGBO(102, 102, 102, 1)
                                               )
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(MyConstant.IC_TIME),
-                                          SizedBox(width: 0.01.sw),
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(MyConstant.IC_CALENDAR),
+                                              SizedBox(width: 0.01.sw),
+                                              Text(
+                                                  "${data["start_date"]} - ${data["end_date"]}",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_14,
+                                                      color: Color.fromRGBO(102, 102, 102, 1)
+                                                  )
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(MyConstant.IC_TIME),
+                                              SizedBox(width: 0.01.sw),
+                                              Text(
+                                                  "${data["start_time"]} - ${data["end_time"]}",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_14,
+                                                      color: Color.fromRGBO(102, 102, 102, 1)
+                                                  )
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(height: 0.015.sh),
                                           Text(
-                                              "${data["start_time"]} - ${data["end_time"]}",
+                                              "Venue",
                                               textAlign: TextAlign.start,
                                               style: TextStyle(
                                                   fontFamily: MyConstant.STR_INTER_REGULAR,
                                                   fontSize: MyConstant.TEXT_14,
                                                   color: Color.fromRGBO(102, 102, 102, 1)
                                               )
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(height: 0.015.sh),
-                                      Text(
-                                          "Venue",
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              fontFamily: MyConstant.STR_INTER_REGULAR,
-                                              fontSize: MyConstant.TEXT_14,
-                                              color: Color.fromRGBO(102, 102, 102, 1)
-                                          )
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(MyConstant.IC_LOCATION),
-                                          SizedBox(width: 0.01.sw),
-                                          Text(
-                                              "${data["location_name"]}, ${data["location_city"]}",
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                  fontSize: MyConstant.TEXT_14,
-                                                  color: Color.fromRGBO(102, 102, 102, 1)
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Row(
+                                            children: [
+                                              SvgPicture.asset(MyConstant.IC_LOCATION),
+                                              SizedBox(width: 0.01.sw),
+                                              Text(
+                                                  "${data["location_name"]}, ${data["location_city"]}",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_14,
+                                                      color: Color.fromRGBO(102, 102, 102, 1)
+                                                  )
                                               )
-                                          )
+                                            ],
+                                          ),
+                                          SizedBox(height: 0.01.sh),
+                                          Container(
+                                              width: double.maxFinite.w,
+                                              height: 0.5,
+                                              color: Color.fromRGBO(226, 237, 255, 1)
+                                          ),
+                                          SizedBox(height: 0.01.sh)
                                         ],
-                                      ),
-                                      SizedBox(height: 0.01.sh),
-                                      Container(
-                                          width: double.maxFinite.w,
-                                          height: 0.5,
-                                          color: Color.fromRGBO(226, 237, 255, 1)
-                                      ),
-                                      SizedBox(height: 0.01.sh)
-                                    ],
-                                  )),
-                                  SizedBox(width: 0.02.sw),
-                                  ClipRRect(
-                                    child: Image.network(image, height: 60, width: 100, fit: BoxFit.fill),
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 0.01.sh),
-                              GestureDetector(
-                                child: Container(
-                                    width: double.maxFinite.w,
-                                    height: 0.05.sh,
-                                    padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                                    decoration: const BoxDecoration(
+                                      )),
+                                      SizedBox(width: 0.02.sw),
+                                      ClipRRect(
+                                        child: Image.network(image, height: 60, width: 100, fit: BoxFit.fill),
                                         borderRadius: BorderRadius.all(Radius.circular(8)),
-                                        color: Color.fromRGBO(11, 56, 124, 1)
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 0.01.sh),
+                                  GestureDetector(
+                                    child: Container(
+                                        width: double.maxFinite.w,
+                                        height: 0.05.sh,
+                                        padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                        decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                                            color: Color.fromRGBO(11, 56, 124, 1)
+                                        ),
+                                        child: Center(
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                    "Lihat Detail",
+                                                    textAlign: TextAlign.center,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontFamily: MyConstant.STR_INTER_BOLD,
+                                                        fontSize: MyConstant.TEXT_14,
+                                                        color: Colors.white
+                                                    )
+                                                ),
+                                              ],
+                                            )
+                                        )
                                     ),
-                                    child: Center(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                                "Lihat Detail",
-                                                textAlign: TextAlign.center,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontFamily: MyConstant.STR_INTER_BOLD,
-                                                    fontSize: MyConstant.TEXT_14,
-                                                    color: Colors.white
+                                    onTap: (){
+                                      Get.to(()=> const EventDetailView(),
+                                          arguments: {"data" : data});
+                                    },
+                                  ),
+                                  SizedBox(height: 0.01.sh),
+                                  Row(
+                                    children: [
+                                      Expanded(flex: 1, child: GestureDetector(
+                                        child: Container(
+                                            width: 120,
+                                            height: 0.05.sh,
+                                            padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Color.fromRGBO(226, 237, 255, 1)
                                                 )
                                             ),
-                                          ],
-                                        )
-                                    )
-                                ),
-                                onTap: (){
-                                  Get.to(()=> const EventDetailView(),
-                                      arguments: {"data" : data});
-                                },
-                              ),
-                              SizedBox(height: 0.01.sh),
-                              Row(
-                                children: [
-                                  Expanded(flex: 1, child: GestureDetector(
-                                    child: Container(
-                                        width: 120,
-                                        height: 0.05.sh,
-                                        padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Color.fromRGBO(226, 237, 255, 1)
-                                            )
-                                        ),
-                                        child: Center(
-                                            child: Text(
-                                                "Check In Tiket",
-                                                textAlign: TextAlign.center,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                    fontSize: MyConstant.TEXT_14,
-                                                    color: Color.fromRGBO(11, 56, 124, 1),
-                                                    fontWeight: FontWeight.bold
+                                            child: Center(
+                                                child: Text(
+                                                    "Check In Tiket",
+                                                    textAlign: TextAlign.center,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                        fontSize: MyConstant.TEXT_14,
+                                                        color: Color.fromRGBO(11, 56, 124, 1),
+                                                        fontWeight: FontWeight.bold
+                                                    )
                                                 )
                                             )
-                                        )
-                                    ),
-                                    onTap: (){
-                                      Get.to(()=> const CheckinEventView(),
-                                          arguments: {"data" : data});
-                                    },
-                                  )),
-                                  SizedBox(width: 0.03.sw),
-                                  Expanded(flex: 1, child: GestureDetector(
-                                    child: Container(
-                                        width: 120,
-                                        height: 0.05.sh,
-                                        padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: Color.fromRGBO(226, 237, 255, 1)
-                                            )
                                         ),
-                                        child: Center(
-                                            child: Text(
-                                                "Jual Offline",
-                                                textAlign: TextAlign.center,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontFamily: MyConstant.STR_INTER_REGULAR,
-                                                    fontSize: MyConstant.TEXT_14,
-                                                    color: Color.fromRGBO(11, 56, 124, 1),
-                                                    fontWeight: FontWeight.bold
+                                        onTap: (){
+                                          Get.to(()=> const CheckinEventView(),
+                                              arguments: {"data" : data});
+                                        },
+                                      )),
+                                      SizedBox(width: 0.03.sw),
+                                      Expanded(flex: 1, child: GestureDetector(
+                                        child: Container(
+                                            width: 120,
+                                            height: 0.05.sh,
+                                            padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(Radius.circular(8)),
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: Color.fromRGBO(226, 237, 255, 1)
+                                                )
+                                            ),
+                                            child: Center(
+                                                child: Text(
+                                                    "Jual Offline",
+                                                    textAlign: TextAlign.center,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                        fontSize: MyConstant.TEXT_14,
+                                                        color: Color.fromRGBO(11, 56, 124, 1),
+                                                        fontWeight: FontWeight.bold
+                                                    )
                                                 )
                                             )
-                                        )
-                                    ),
-                                    onTap: (){
-                                      Get.to(()=> const JualTiketOfflineView(),
-                                          arguments: {"data" : data});
-                                    },
-                                  ))
+                                        ),
+                                        onTap: (){
+                                          Get.to(()=> const JualTiketOfflineView(),
+                                              arguments: {"data" : data});
+                                        },
+                                      ))
+                                    ],
+                                  )
                                 ],
                               )
-                            ],
-                          )
-                      );
-                    },
-                        itemCount: value.completedList.length,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,primary: false
+                          );
+                        },
+                            itemCount: value.completedList.length,
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            physics: const AlwaysScrollableScrollPhysics()
+                        )
                     )
                   ],
                 )
-            )
-        ), onRefresh: ()=> value.loadEvent())
+            ), onRefresh: ()=> value.loadEvent())
     );
   }
 }

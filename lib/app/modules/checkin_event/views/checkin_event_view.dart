@@ -161,9 +161,27 @@ class CheckinEventView extends GetView<CheckinEventController> {
                       SizedBox(height: 0.02.sh),
                       Expanded(flex: 1, child: RefreshIndicator(
                           onRefresh: ()=> value.loadEvent(),
+                          backgroundColor: Colors.white,
                           color: Color.fromRGBO(11, 56, 124, 1),
                           child: Stack(
                             children: [
+                              value.loading ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: Color.fromRGBO(11, 56, 124, 1)
+                                )
+                              ) : SizedBox(),
+                              !value.loading && value.eventList.isEmpty ? Center(
+                                  child: Text(
+                                      "Tidak ada data",
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                          fontFamily: MyConstant.STR_INTER_REGULAR,
+                                          fontSize: MyConstant.TEXT_16,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold
+                                      )
+                                  )
+                              ) : SizedBox(),
                               SizedBox(
                                   width: double.maxFinite.w,
                                   height: double.maxFinite.w,

@@ -18,6 +18,10 @@ class EventController extends GetxController with GetTickerProviderStateMixin {
   int creatorId = 0;
   int talentId = 0;
 
+  bool loading = false;
+  bool draftLoading = false;
+  bool completedLoading = false;
+
   @override
   void onInit() {
     tabController = TabController(length: 3, vsync: this);
@@ -42,44 +46,65 @@ class EventController extends GetxController with GetTickerProviderStateMixin {
   }
 
   Future<void> loadEvent() async {
+    loading = true;
+    eventList.clear();
+    update(["event"]);
+
     try{
       var response = await myConnection.getDioConnection(accessToken).get(
           "/api/event-by-creator/$creatorId?status=active");
 
       var responseData = response.data;
       eventList = responseData["data"];
+
+      loading = false;
       update(["event"]);
     }
     catch(e){
-      print(e);
+      loading = false;
+      update(["event"]);
     }
   }
 
   Future<void> loadDraftEvent() async {
+    draftLoading = true;
+    draftList.clear();
+    update(["event"]);
+
     try{
       var response = await myConnection.getDioConnection(accessToken).get(
           "/api/event-by-creator/$creatorId?status=draft");
 
       var responseData = response.data;
       draftList = responseData["data"];
+
+      draftLoading = false;
       update(["event"]);
     }
     catch(e){
-      print(e);
+      draftLoading = false;
+      update(["event"]);
     }
   }
 
   Future<void> loadCompletedEvent() async {
+    completedLoading = true;
+    completedList.clear();
+    update(["event"]);
+
     try{
       var response = await myConnection.getDioConnection(accessToken).get(
           "/api/event-by-creator/$creatorId?status=completed");
 
       var responseData = response.data;
       completedList = responseData["data"];
+
+      completedLoading = false;
       update(["event"]);
     }
     catch(e){
-      print(e);
+      completedLoading = false;
+      update(["event"]);
     }
   }
 }

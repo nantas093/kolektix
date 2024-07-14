@@ -1,12 +1,11 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyConstant {
-
   //https://bedev.kolektix.com
   //https://dev.kolektix.store
 
   static String APP_NAME = "Kolektix Creator";
-  static String BASE_URL = "https://bedev.kolektix.com";
+  static String BASE_URL = "https://dev.kolektix.store";
 
   static String LOGIN = "/api/login";
   static String VERIFY_LOGIN = "/api/verify-login";
@@ -87,6 +86,7 @@ class MyConstant {
   static String IC_KELOLA_NEW = "assets/icons/ic_kelola_new.svg";
   static String IC_CAR = "assets/icons/ic_car.svg";
   static String IC_COPY = "assets/icons/ic_copy.svg";
+  static String IC_THREE_DOTS = "assets/icons/ic_three_dots.svg";
 
   //TEXT SIZE
   static double TEXT_12 = 10.5.sp;

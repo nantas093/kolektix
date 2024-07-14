@@ -16,6 +16,8 @@ class CheckinEventController extends GetxController {
   int creatorId = 0;
   int talentId = 0;
 
+  bool loading = false;
+
   @override
   void onInit() {
     data = Get.arguments["data"];
@@ -36,15 +38,22 @@ class CheckinEventController extends GetxController {
   }
 
   Future<void> loadEvent() async {
+    loading = true;
+    eventList.clear();
+    update(["checkin_event"]);
+
     try{
       var response = await myConnection.getDioConnection(accessToken).get(
           "/api/transaction-history-ticket/${data["id"]}");
       var responseData = response.data;
       eventList = responseData["data"];
+
+      loading = false;
       update(["checkin_event"]);
     }
     catch(e){
-      print(e);
+      loading = false;
+      update(["checkin_event"]);
     }
   }
 }

@@ -192,75 +192,105 @@ class JualTiketOfflineView extends GetView<JualTiketOfflineController> {
                           color: Color.fromRGBO(226, 237, 255, 1)
                       ),
                       SizedBox(height: 0.02.sh),
-                      Expanded(flex: 1, child: ListView.builder(itemBuilder: (context,index){
-                        Map data = value.eventList[index];
-                        return Container(
-                            width: double.maxFinite.w,
-                            padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
-                            margin: EdgeInsets.only(top: index == 0 ? 0 : 0.015.sh),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(flex: 1, child: Text(
-                                        "${data["total_qty"]} Tiket",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                            fontFamily: MyConstant.STR_INTER_REGULAR,
-                                            fontSize: MyConstant.TEXT_16,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold
-                                        )
-                                    )),
-                                    Text(
-                                        data["grandtotal"] ?? "",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                            fontFamily: MyConstant.STR_INTER_REGULAR,
-                                            fontSize: MyConstant.TEXT_16,
-                                            color: Color.fromRGBO(102, 102, 102, 1)
-                                        )
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 0.005.sh),
-                                Row(
-                                  children: [
-                                    Text(
-                                        data["invoice_no"] ?? "",
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                            fontFamily: MyConstant.STR_INTER_REGULAR,
-                                            fontSize: MyConstant.TEXT_12,
-                                            color: Color.fromRGBO(11, 56, 124, 1)
-                                        )
-                                    ),
-                                    Expanded(flex: 1, child: SizedBox()),
-                                    Text(
-                                        MyParseDate.parseGeneralDate3(data["created_at"],
-                                            "yyyy-MM-dd'T'HH:mm:ss.Z", "dd/MM/yyyy | HH:mm"),
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                            fontFamily: MyConstant.STR_INTER_REGULAR,
-                                            fontSize: MyConstant.TEXT_14,
-                                            color: Color.fromRGBO(102, 102, 102, 1)
-                                        )
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 0.015.sh),
-                                Container(
-                                    width: double.maxFinite.w,
-                                    height: 0.5,
-                                    color: Color.fromRGBO(226, 237, 255, 1)
+                      Expanded(flex: 1, child: RefreshIndicator(
+                        backgroundColor: Colors.white,
+                        color: Color.fromRGBO(11, 56, 124, 1),
+                        onRefresh: ()=> value.loadEvent(),
+                        child: Stack(
+                          children: [
+                            value.loading ? const Center(
+                                child: CircularProgressIndicator(
+                                    color: Color.fromRGBO(11, 56, 124, 1)
                                 )
-                              ],
+                            ) : SizedBox(),
+                            !value.loading && value.eventList.isEmpty ? Center(
+                                child: Text(
+                                    "Tidak ada data",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                        fontFamily: MyConstant.STR_INTER_REGULAR,
+                                        fontSize: MyConstant.TEXT_16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold
+                                    )
+                                )
+                            ) : SizedBox(),
+                            SizedBox(
+                                width: double.maxFinite.w,
+                                height: double.maxFinite.w,
+                                child: ListView.builder(itemBuilder: (context,index){
+                                  Map data = value.eventList[index];
+                                  return Container(
+                                      width: double.maxFinite.w,
+                                      padding: EdgeInsets.only(left: 0.03.sw, right: 0.03.sw),
+                                      margin: EdgeInsets.only(top: index == 0 ? 0 : 0.015.sh),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Expanded(flex: 1, child: Text(
+                                                  "${data["total_qty"]} Tiket",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_16,
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.bold
+                                                  )
+                                              )),
+                                              Text(
+                                                  data["grandtotal"] ?? "",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_16,
+                                                      color: Color.fromRGBO(102, 102, 102, 1)
+                                                  )
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(height: 0.005.sh),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                  data["invoice_no"] ?? "",
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_12,
+                                                      color: Color.fromRGBO(11, 56, 124, 1)
+                                                  )
+                                              ),
+                                              Expanded(flex: 1, child: SizedBox()),
+                                              Text(
+                                                  MyParseDate.parseGeneralDate3(data["created_at"],
+                                                      "yyyy-MM-dd'T'HH:mm:ss.Z", "dd/MM/yyyy | HH:mm"),
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      fontFamily: MyConstant.STR_INTER_REGULAR,
+                                                      fontSize: MyConstant.TEXT_14,
+                                                      color: Color.fromRGBO(102, 102, 102, 1)
+                                                  )
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(height: 0.015.sh),
+                                          Container(
+                                              width: double.maxFinite.w,
+                                              height: 0.5,
+                                              color: Color.fromRGBO(226, 237, 255, 1)
+                                          )
+                                        ],
+                                      )
+                                  );
+                                },
+                                  itemCount: value.eventList.length,
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                )
                             )
-                        );
-                      },
-                        itemCount: value.eventList.length,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
+                          ],
+                        )
                       ))
                     ],
                   )
