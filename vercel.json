@@ -2,8 +2,9 @@
   "version": 2,
   "public": true,
   "outputDirectory": "build/web",
-  "buildCommand": null,
-  "devCommand": null,
+  "buildCommand": "",
+  "devCommand": "",
+  "installCommand": "",
   "rewrites": [
     {
       "source": "/(.*)",
