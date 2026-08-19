@@ -1,8 +1,9 @@
 {
   "version": 2,
   "public": true,
-  "buildCommand": "echo 'Flutter web build artifacts already present'",
   "outputDirectory": "build/web",
+  "buildCommand": null,
+  "devCommand": null,
   "rewrites": [
     {
       "source": "/(.*)",
@@ -20,16 +21,7 @@
       ]
     },
     {
-      "source": "/.*\\.js",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/.*\\.css",
+      "source": "/.*(js|css|wasm|png|jpg|jpeg|gif|svg|ico|webp)$",
       "headers": [
         {
           "key": "Cache-Control",
@@ -37,7 +29,5 @@
         }
       ]
     }
-  ],
-  "cleanUrls": true,
-  "trailingSlash": false
+  ]
 }
