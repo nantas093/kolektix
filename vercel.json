@@ -1,6 +1,4 @@
 {
-  "version": 2,
-  "outputDirectory": "build/web",
-  "buildCommand": "echo 'Using pre-built Flutter web artifacts'",
-  "installCommand": "echo 'No installation needed'"
+  "buildCommand": "echo done",
+  "outputDirectory": "build/web"
 }
