@@ -1,17 +1,47 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kolektix/app/components/custom_toast.dart';
-import 'package:kolektix/app/connection/my_connection.dart';
 import 'package:kolektix/app/modules/pembayaran/views/pembayaran_view.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+const _dummyTickets = [
+  {
+    "id": 1,
+    "name": "VIP",
+    "price": 250000,
+    "ticket_date": "2026-09-01",
+    "ticket_end": "2026-09-03",
+    "ticket_type": "Berbayar",
+    "ticket_category": "Festival",
+    "qty": 100,
+    "description": "Akses VIP ke semua area",
+  },
+  {
+    "id": 2,
+    "name": "Regular",
+    "price": 150000,
+    "ticket_date": "2026-09-01",
+    "ticket_end": "2026-09-03",
+    "ticket_type": "Berbayar",
+    "ticket_category": "Festival",
+    "qty": 500,
+    "description": "Akses regular ke area utama",
+  },
+  {
+    "id": 3,
+    "name": "Festival Pass",
+    "price": 100000,
+    "ticket_date": "2026-09-01",
+    "ticket_end": "2026-09-03",
+    "ticket_type": "Berbayar",
+    "ticket_category": "Festival",
+    "qty": 1000,
+    "description": "Akses 3 hari festival",
+  },
+];
 
 class JualTiketOfflineListController extends GetxController {
 
   int selectedIndex = 0;
-
-  MyConnection myConnection = MyConnection();
 
   List<dynamic> dateLists = [];
   List<dynamic> selectedTicketList = [];
@@ -19,13 +49,7 @@ class JualTiketOfflineListController extends GetxController {
   Map data = {};
   String image = "";
 
-  String accessToken = "";
-
-  int creatorId = 0;
-  int talentId = 0;
-
   int totalPrice = 0;
-
   int max_buy_ticket = 0;
   int totalOrderedTickets = 0;
 
@@ -37,23 +61,14 @@ class JualTiketOfflineListController extends GetxController {
   void onInit() {
     data = Get.arguments["data"];
     image = data["image_url"] ?? "";
-    max_buy_ticket = data["max_buy_ticket"] ?? 0;
-    loadProfile();
+    max_buy_ticket = data["max_buy_ticket"] ?? 5;
+    loadDate();
     super.onInit();
   }
 
-  Future<void> loadProfile() async {
-    var preference = await SharedPreferences.getInstance();
-    String data = preference.getString("data") ?? "";
-    Map dataMap = jsonDecode(data);
-    accessToken = preference.getString("access_token") ?? "";
-    if(dataMap["has_creator"] != null) {
-      creatorId = dataMap["has_creator"]["id"];
-    }
-    loadDate();
-  }
+  Future<void> loadProfile() async {}
 
-  void changeIndexPosition(int index){
+  void changeIndexPosition(int index) {
     selectedIndex = index;
     ticketName = dateLists[selectedIndex]["name"];
     ticketPrice = dateLists[selectedIndex]["price"];
@@ -61,14 +76,13 @@ class JualTiketOfflineListController extends GetxController {
     update(["jual_tiket_offline"]);
   }
 
-  void setMinMaxTicket(int from){
-    if(from == 1){
-      if(dateLists[selectedIndex]["ticket_quantity"] > 0){
+  void setMinMaxTicket(int from) {
+    if (from == 1) {
+      if (dateLists[selectedIndex]["ticket_quantity"] > 0) {
         dateLists[selectedIndex]["ticket_quantity"]--;
       }
-    }
-    else{
-      if(dateLists[selectedIndex]["ticket_quantity"] < max_buy_ticket){
+    } else {
+      if (dateLists[selectedIndex]["ticket_quantity"] < max_buy_ticket) {
         dateLists[selectedIndex]["ticket_quantity"]++;
       }
     }
@@ -78,56 +92,45 @@ class JualTiketOfflineListController extends GetxController {
     totalOrderedTickets = 0;
     totalPrice = 0;
 
-    for(int i = 0 ; i < dateLists.length; i++){
-      totalOrderedTickets = totalOrderedTickets + (dateLists[i][
-      "ticket_quantity"] as int);
-      totalPrice = totalPrice + ((dateLists[i][
-      "ticket_quantity"] as int) * (dateLists[i][
-      "price"] as int));
+    for (int i = 0; i < dateLists.length; i++) {
+      totalOrderedTickets += (dateLists[i]["ticket_quantity"] as int);
+      totalPrice += (dateLists[i]["ticket_quantity"] as int) *
+          (dateLists[i]["price"] as int);
     }
 
     update(["jual_tiket_offline"]);
   }
 
   Future<void> loadDate() async {
-    try{
-      var response = await myConnection.getDioConnection(accessToken).get(
-          "/api/event-ticket/${data["id"]}");
-      var responseData = response.data;
-      dateLists = responseData["data"];
+    dateLists = _dummyTickets.map((t) => Map<String, dynamic>.from(t)..["ticket_quantity"] = 0).toList();
 
-      for(int i = 0; i < dateLists.length; i++){
-        dateLists[i]["ticket_quantity"] = 0;
-      }
-
-      if(dateLists.isNotEmpty){
-        ticketName = dateLists[0]["name"];
-        ticketPrice = dateLists[0]["price"];
-        ticketQuantity = dateLists[0]["ticket_quantity"];
-      }
-
-      update(["jual_tiket_offline"]);
+    if (dateLists.isNotEmpty) {
+      ticketName = dateLists[0]["name"];
+      ticketPrice = dateLists[0]["price"];
+      ticketQuantity = dateLists[0]["ticket_quantity"];
     }
-    catch(e){
-      print(e);
-    }
+
+    update(["jual_tiket_offline"]);
   }
 
-  void goToPembayaran(BuildContext context){
+  void goToPembayaran(BuildContext context) {
     selectedTicketList.clear();
-    for(int i = 0; i < dateLists.length; i++){
-      if(dateLists[i]["ticket_quantity"] > 0){
+    for (int i = 0; i < dateLists.length; i++) {
+      if (dateLists[i]["ticket_quantity"] > 0) {
         selectedTicketList.add(dateLists[i]);
       }
     }
 
-    if(selectedTicketList.isEmpty){
+    if (selectedTicketList.isEmpty) {
       CustomToast.showToast("Pilih tiket terlebih dahulu", context);
       return;
     }
 
-    Get.to(()=> PembayaranView(), arguments: {"dataList"
-        : selectedTicketList, "data" : data, "totalTicketPrice"
-        : totalPrice});
+    Get.to(() => PembayaranView(),
+        arguments: {
+          "dataList": selectedTicketList,
+          "data": data,
+          "totalTicketPrice": totalPrice
+        });
   }
 }

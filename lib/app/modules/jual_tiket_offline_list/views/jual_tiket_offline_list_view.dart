@@ -15,9 +15,7 @@ class JualTiketOfflineListView extends GetView<JualTiketOfflineListController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<JualTiketOfflineListController>(
-        id: "jual_tiket_offline",
-        init: JualTiketOfflineListController(),
-        builder: (value){
+        id: "jual_tiket_offline",        builder: (value){
           return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(

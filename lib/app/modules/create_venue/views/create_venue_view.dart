@@ -12,9 +12,7 @@ class CreateVenueView extends GetView<CreateVenueController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CreateVenueController>(
-        id: "create_venue",
-        init: CreateVenueController(),
-        builder: (value){
+        id: "create_venue",        builder: (value){
           return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(

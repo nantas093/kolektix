@@ -11,11 +11,7 @@ class PesanItemView extends GetView<PesanItemController> {
   const PesanItemView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<PesanItemController>(
-        id: "pesan_item",
-        init: PesanItemController(),
-        builder: (value){
-          return Scaffold(
+    return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(
                   width: double.maxFinite.w,
@@ -144,9 +140,8 @@ class PesanItemView extends GetView<PesanItemController> {
                           padding: EdgeInsets.zero
                       ))
                     ],
-                  )
-              )
-          );
-        });
-  }
-}
+                   )
+               )
+           );
+   }
+ }

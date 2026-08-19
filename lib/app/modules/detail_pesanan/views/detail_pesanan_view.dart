@@ -12,9 +12,7 @@ class DetailPesananView extends GetView<DetailPesananController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DetailPesananController>(
-        id: "detail_pesanan",
-        init: DetailPesananController(),
-        builder: (value){
+        id: "detail_pesanan",        builder: (value){
           return Scaffold(
               backgroundColor: Color.fromRGBO(246, 250, 255, 1),
               body: SizedBox(

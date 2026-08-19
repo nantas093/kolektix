@@ -13,9 +13,7 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<LoginController>(
-        id: "login",
-        init: LoginController(),
-        builder: (value){
+        id: "login",        builder: (value){
           return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(

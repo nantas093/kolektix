@@ -16,9 +16,7 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<EmailVerificationController>(
-        id: "email_verification",
-        init: EmailVerificationController(),
-        builder: (value){
+        id: "email_verification",        builder: (value){
           return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(
@@ -162,7 +160,7 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
                               Expanded(flex: 1, child: VerificationCode(
                                 textStyle: Theme.of(context)
                                     .textTheme
-                                    .bodyText2!
+                                    .bodyMedium!
                                     .copyWith(color: Theme.of(context).primaryColor),
                                 keyboardType: TextInputType.number,
                                 underlineColor: Color.fromRGBO(226, 237, 255, 1),

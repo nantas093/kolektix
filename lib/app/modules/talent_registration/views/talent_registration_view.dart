@@ -14,9 +14,7 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<TalentRegistrationController>(
-        id: "talent_registration",
-        init: TalentRegistrationController(),
-        builder: (value){
+        id: "talent_registration",        builder: (value){
           return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(
@@ -876,9 +874,7 @@ class TalentRegistrationView extends GetView<TalentRegistrationController> {
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<TalentRegistrationController>(
-              id: "create_event",
-              init: TalentRegistrationController(),
-              builder: (value){
+              id: "create_event",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,

@@ -16,9 +16,7 @@ class EventView extends GetView<EventController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<EventController>(
-        id: "event",
-        init: EventController(),
-        builder: (value){
+        id: "event",        builder: (value){
           return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(

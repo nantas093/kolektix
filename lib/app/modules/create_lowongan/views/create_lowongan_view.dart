@@ -12,9 +12,7 @@ class CreateLowonganView extends GetView<CreateLowonganController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CreateLowonganController>(
-        id: "create_lowongan",
-        init: CreateLowonganController(),
-        builder: (value){
+        id: "create_lowongan",        builder: (value){
           return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(

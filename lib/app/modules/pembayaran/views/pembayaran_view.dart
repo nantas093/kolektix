@@ -12,9 +12,7 @@ class PembayaranView extends GetView<PembayaranController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PembayaranController>(
-        id: "pembayaran",
-        init: PembayaranController(),
-        builder: (value){
+        id: "pembayaran",        builder: (value){
           return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(

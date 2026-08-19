@@ -12,9 +12,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context);
     return GetBuilder<SplashScreenController>(
-        id: "splash_screen",
-        init: SplashScreenController(),
-        builder: (value){
+        id: "splash_screen",        builder: (value){
       return Scaffold(
         backgroundColor: Color.fromRGBO(2, 37, 90, 1),
         body: SizedBox(

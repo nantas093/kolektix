@@ -17,11 +17,7 @@ class KelolaItemView extends GetView<KelolaItemController> {
   const KelolaItemView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<KelolaItemController>(
-        id: "kelola_item",
-        init: KelolaItemController(),
-        builder: (value){
-          return Scaffold(
+    return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(
                   width: double.maxFinite.w,
@@ -65,7 +61,7 @@ class KelolaItemView extends GetView<KelolaItemController> {
                                 children: [
                                   Expanded(flex: 1, child: TabBar.secondary(
                                     tabAlignment: TabAlignment.start,
-                                    controller: value.tabController,
+                                    controller: controller.tabController,
                                     isScrollable: true,
                                     labelStyle: TextStyle(
                                         fontFamily: "PoppinsRegular",
@@ -99,28 +95,27 @@ class KelolaItemView extends GetView<KelolaItemController> {
                           )
                       ),
                       Expanded(flex: 1, child: TabBarView(
-                        controller: value.tabController,
+                        controller: controller.tabController,
                         children: <Widget>[
-                          eventView(value),
-                          merchandiseView(value),
-                          lowonganView(value),
-                          venueView(value),
-                          eventView(value)
+                          eventView(controller),
+                          merchandiseView(controller),
+                          lowonganView(controller),
+                          venueView(controller),
+                          eventView(controller)
                         ],
-                      ))
-                    ],
-                  )
-              )
-          );
-        });
-  }
+                       ))
+                     ],
+                   )
+               )
+           );
+   }
 
   Widget eventView(KelolaItemController value){
     return SizedBox(
         width: double.maxFinite.w,
         height: double.maxFinite.w,
         child: RefreshIndicator(
-            onRefresh: ()=> value.loadEvent(),
+            onRefresh: ()=> controller.loadEvent(),
             color: const Color.fromRGBO(11, 56, 124, 1),
             child: SizedBox(
               width: double.maxFinite.w,
@@ -140,11 +135,11 @@ class KelolaItemView extends GetView<KelolaItemController> {
                                     top: 0.007.sh, bottom: 0.007.sh),
                                 margin: EdgeInsets.only(left: 0.03.sw),
                                 decoration: BoxDecoration(
-                                    color: value.eventFilterPosition == index ?
+                                    color: controller.eventFilterPosition == index ?
                                     Color.fromRGBO(246, 250, 255, 1) : Colors.transparent,
                                     borderRadius: BorderRadius.all(Radius.circular(25)),
                                     border: Border.all(
-                                        color: value.eventFilterPosition == index ?
+                                        color: controller.eventFilterPosition == index ?
                                         Color.fromRGBO(11, 56, 124, 1) : Color.fromRGBO(102, 102, 102, 1),
                                         width: 1
                                     )
@@ -158,13 +153,13 @@ class KelolaItemView extends GetView<KelolaItemController> {
                                         fontFamily: MyConstant.STR_INTER_REGULAR,
                                         fontSize: MyConstant.TEXT_14,
                                         fontWeight: FontWeight.bold,
-                                        color: value.eventFilterPosition == index ?
+                                        color: controller.eventFilterPosition == index ?
                                         Color.fromRGBO(11, 56, 124, 1) : Color.fromRGBO(102, 102, 102, 1)
                                     )
                                 )
                             ),
                             onTap: (){
-                              value.changeFilterPosition(index);
+                              controller.changeFilterPosition(index);
                             },
                           );
                         },
@@ -175,7 +170,7 @@ class KelolaItemView extends GetView<KelolaItemController> {
                         )
                     ),
                     ListView.builder(itemBuilder: (context,index){
-                      Map data = value.eventList[index];
+                      Map data = controller.eventList[index];
                       String image = data["image_url"];
                       return Container(
                           width: double.maxFinite.w,
@@ -400,7 +395,7 @@ class KelolaItemView extends GetView<KelolaItemController> {
                           )
                       );
                     },
-                        itemCount: value.eventList.length,
+                        itemCount: controller.eventList.length,
                         shrinkWrap: true,
                         padding: EdgeInsets.zero,primary: false
                     ),

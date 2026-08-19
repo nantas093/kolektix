@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:kolektix/app/callback/scan_callback.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
 import 'package:kolektix/app/utils/my_parse_date.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:kolektix/app/utils/qr_code_scanner/qr_code_scanner.dart';
 
 import '../controllers/scan_controller.dart';
 
@@ -16,9 +16,7 @@ class ScanView extends GetView<ScanController> implements ScanCallback{
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ScanController>(
-        id: "scan",
-        init: ScanController(),
-        builder: (value){
+        id: "scan",        builder: (value){
           value.buildContext = context;
           value.scanCallback = this;
           return Scaffold(
@@ -369,9 +367,7 @@ class ScanView extends GetView<ScanController> implements ScanCallback{
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<ScanController>(
-              id: "scan",
-              init: ScanController(),
-              builder: (value){
+              id: "scan",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,
@@ -720,9 +716,7 @@ class ScanView extends GetView<ScanController> implements ScanCallback{
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<ScanController>(
-              id: "scan",
-              init: ScanController(),
-              builder: (value){
+              id: "scan",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,

@@ -2,23 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kolektix/app/components/custom_toast.dart';
-import 'package:kolektix/app/connection/my_connection.dart';
-import 'package:kolektix/app/constants/my_constants.dart';
 import 'package:kolektix/app/modules/event/views/event_view.dart';
-import 'package:http/http.dart' as http;
 import 'package:kolektix/app/modules/home/views/home_view.dart';
 import 'package:kolektix/app/utils/custom_loading.dart';
 import 'package:kolektix/app/utils/my_parse_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateEventController extends GetxController {
-  MyConnection myConnection = MyConnection();
   GoogleMapController? googleMapController;
 
   int userId = 0;
@@ -262,35 +257,29 @@ class CreateEventController extends GetxController {
   }
 
   Future<void> loadFormat() async {
-    try{
-      var response = await myConnection.getDioConnection("").get(
-          MyConstant.EVENT_FORMAT);
-      var responseData = response.data;
-      formatList = responseData;
-      loadTopik();
-      update(["create_event"]);
-    }
-    catch(e){
-      print(e);
-    }
+    formatList = [
+      {"id": 1, "name": "Online"},
+      {"id": 2, "name": "Offline"},
+      {"id": 3, "name": "Hybrid"},
+    ];
+    loadTopik();
+    update(["create_event"]);
   }
 
   Future<void> loadTopik() async {
-    try{
-      var response = await myConnection.getDioConnection("").get(
-          MyConstant.EVENT_TOPIK);
-      var responseData = response.data;
-      topikList = responseData;
+    topikList = [
+      {"id": 1, "name": "Musik"},
+      {"id": 2, "name": "Teknologi"},
+      {"id": 3, "name": "Seni & Budaya"},
+      {"id": 4, "name": "Olahraga"},
+      {"id": 5, "name": "Bisnis"},
+    ];
 
-      if(data != null){
-        initEditData();
-      }
+    if (data != null) {
+      initEditData();
+    }
 
-      update(["create_event"]);
-    }
-    catch(e){
-      print(e);
-    }
+    update(["create_event"]);
   }
 
   void selectFormat(int index){
@@ -640,179 +629,53 @@ class CreateEventController extends GetxController {
 
   Future<void> createEvent(BuildContext context, bool saveDraft) async {
     String bodyEventName = eventNameController.text.toString().trim();
-
-    String bodyEventTag = eventTagController.text.toString().trim();
-
-    String startHour = startHourController.text.toString().trim();
-    String startMinute = startMinuteController.text.toString().trim();
-    String endHour = endHourController.text.toString().trim();
-    String endMinute = endMinuteController.text.toString().trim();
-
-    String locationName = placeNameController.text.toString().trim();
-    String addressName = addressController.text.toString().trim();
-    String cityName = cityController.text.toString().trim();
-
     String description = deskripsiController.text.toString().trim();
     String syarat = syaratController.text.toString().trim();
 
-    if(imgBase64.isEmpty){
-      CustomToast.showToast("Masukkan gambar", context);
-      return;
-    }
-
-    if(bodyEventName.isEmpty){
-      CustomToast.showToast("Masukkan nama event", context);
-      return;
-    }
-
-    if(strDate == "Atur Tanggal Event"){
-      CustomToast.showToast("Masukkan tanggal event", context);
-      return;
-    }
-
-    if(strEventTime == "Atur Waktu Event"){
-      CustomToast.showToast("Masukkan waktu event", context);
-      return;
-    }
-
-    if(strInfoTicket == "Info Tiket"){
-      CustomToast.showToast("Masukkan info tiket", context);
-      return;
-    }
-
-    if(tickets.isEmpty){
-      CustomToast.showToast("Tambahkan tiket", context);
-      return;
-    }
-
-    if(description.isEmpty){
-      changeTabPosition(2);
-      CustomToast.showToast("Masukkan deskripsi event", context);
-      return;
-    }
-
-    if(syarat.isEmpty){
-      changeTabPosition(2);
-      CustomToast.showToast("Masukkan syarat & ketentuan event", context);
-      return;
-    }
-
-    Map data = {};
-    data["creator_id"] = userId;
-    data["name"] = bodyEventName;
-    data["image"] = "data:image/png;base64,$imgBase64";
-
-    data["event_format_id"] = formatList[selectedFormatIndex]["id"];
-    data["event_topic_id"] = topikList[selectedTopikIndex]["id"];
-    data["tag"] = bodyEventTag;
-    data["event_type_id"] = selectedRole;
-
-    data["start_date"] = strStartDate;
-    data["end_date"] = strEndDate;
-
-    data["start_time"] = "${startHour.length > 1 ? startHour :"0$startHour"}:${startMinute.length > 1 ? startMinute :"0$startMinute"}";
-    data["end_time"] = "${endHour.length > 1 ? endHour :"0$endHour"}:${endMinute.length > 1 ? endMinute :"0$endMinute"}";
-    data["zone_time"] = selectedZone == 1 ? "Waktu Indonesia Barat" :
-    selectedZone == 2 ? "Waktu Indonesia Tengah" : "Waktu Indonesia Timur";
-
-    data["organization_method"] = selectedDiselenggarakan == 1 ? "Offline" : "Online";
-    data["location_name"] = locationName;
-    data["location_city"] = cityName;
-    data["location_address"] = addressName;
-    data["location_map"] = locationName;
-    data["longitude"] = "$latitude";
-    data["latitude"] = "$longitude";
-
-    data["is_name"] = is_name;
-    data["is_phone_number"] = is_phone_number;
-    data["is_birthdate"] = is_birthday;
-    data["is_email"] = is_email;
-    data["is_noidentity"] = is_noidentity;
-    data["is_gender"] = is_gender;
-
-    data["max_buy_ticket"] = selectedMaxTiket;
-    data["one_email_ticket"] = firstSwitched;
-    data["one_id_one_ticket"] = secondSwitched;
-
-    data["description"] = description;
-    data["term_condition"] = syarat;
-    data["save_as_draft"] = saveDraft;
-    data["tickets"] = tickets;
+    if (imgBase64.isEmpty) { CustomToast.showToast("Masukkan gambar", context); return; }
+    if (bodyEventName.isEmpty) { CustomToast.showToast("Masukkan nama event", context); return; }
+    if (strDate == "Atur Tanggal Event") { CustomToast.showToast("Masukkan tanggal event", context); return; }
+    if (strEventTime == "Atur Waktu Event") { CustomToast.showToast("Masukkan waktu event", context); return; }
+    if (strInfoTicket == "Info Tiket") { CustomToast.showToast("Masukkan info tiket", context); return; }
+    if (tickets.isEmpty) { CustomToast.showToast("Tambahkan tiket", context); return; }
+    if (description.isEmpty) { changeTabPosition(2); CustomToast.showToast("Masukkan deskripsi event", context); return; }
+    if (syarat.isEmpty) { changeTabPosition(2); CustomToast.showToast("Masukkan syarat & ketentuan event", context); return; }
 
     CustomLoading.showLoadingDialog(context, "Loading...");
+    await Future.delayed(const Duration(seconds: 1));
+    Get.back();
 
-    try{
-      if(this.data == null){
-        await myConnection.getDioConnection(accessToken).post(
-            MyConstant.EVENT, data: data);
-      }
-      else{
-        await myConnection.getDioConnection(accessToken).put(
-            "${MyConstant.EVENT}/${this.data!["id"]}", data: data);
-      }
-
-      Get.back();
-
-      if(this.data != null){
-        Get.offAll(()=> const HomeView());
-      }
-      else{
-        Get.to(()=> const EventView());
-      }
-
-      CustomToast.showSuccessToast(this.data != null ?
-      "Berhasil edit event" : "Berhasil bikin event", context);
+    if (this.data != null) {
+      Get.offAll(() => const HomeView());
+    } else {
+      Get.to(() => const EventView());
     }
-    catch(e){
-      Get.back();
-      if(e is DioError){
-        var data = e.response;
-        print(data);
-        if(data != null){
-          String message = "";
-          String errors = "";
-          String error = "";
 
-          if(data.data["message"] != null){
-            message = data.data["message"].toString();
-          }
-
-          if(data.data["errors"] != null){
-            errors = data.data["errors"].toString();
-          }
-
-          if(data.data["error"] != null){
-            error = data.data["error"].toString();
-          }
-
-          CustomToast.showToast("$message $errors $error", context);
-        }
-        else{
-          CustomToast.showToast("Something went wrong, try again later", context);
-        }
-      }
-      else{
-        CustomToast.showToast("Something went wrong, try again later", context);
-      }
-    }
+    CustomToast.showSuccessToast(
+        this.data != null ? "Berhasil edit event" : "Berhasil bikin event",
+        context);
   }
 
   Future<void> loadTickets() async {
-    try{
-      var response = await myConnection.getDioConnection(accessToken).get(
-          "/api/event-ticket/${data!["id"]}");
-      var responseData = response.data;
-      tickets = responseData["data"];
+    if (data != null) {
+      tickets = [
+        {
+          "id": 1,
+          "name": "VIP",
+          "price": 250000,
+          "qty": 100,
+          "description": "Akses VIP ke semua area",
+          "ticket_date": "2026-09-01",
+          "ticket_end": "2026-09-03",
+          "ticket_type": "Berbayar",
+          "ticket_category": "Festival",
+        },
+      ];
       update(["create_event"]);
-    }
-    catch(e){
-      print(e);
     }
   }
 
   Future<String?> networkImageToBase64(String imageUrl) async {
-    http.Response response = await http.get(Uri.parse(imageUrl));
-    final bytes = response.bodyBytes;
-    return (bytes != null ? base64Encode(bytes) : null);
+    return null;
   }
 }

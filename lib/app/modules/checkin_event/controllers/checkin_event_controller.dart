@@ -1,59 +1,53 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
-import 'package:kolektix/app/connection/my_connection.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+const _dummyCheckins = [
+  {
+    "id": 1,
+    "invoice_no": "INV-001",
+    "buyer_name": "Andi Wijaya",
+    "ticket_name": "VIP",
+    "status": "checked_in",
+    "qty": 2,
+  },
+  {
+    "id": 2,
+    "invoice_no": "INV-002",
+    "buyer_name": "Siti Rahayu",
+    "ticket_name": "Regular",
+    "status": "not_checked_in",
+    "qty": 1,
+  },
+  {
+    "id": 3,
+    "invoice_no": "INV-003",
+    "buyer_name": "Rudi Hartono",
+    "ticket_name": "Festival",
+    "status": "checked_in",
+    "qty": 3,
+  },
+];
 
 class CheckinEventController extends GetxController {
 
-  MyConnection myConnection = MyConnection();
   List<dynamic> eventList = [];
-
   Map data = {};
   String image = "";
-
-  String accessToken = "";
-  int creatorId = 0;
-  int talentId = 0;
-
   bool loading = false;
 
   @override
   void onInit() {
     data = Get.arguments["data"];
     image = data["image_url"] ?? "";
-    loadProfile();
+    loadEvent();
     super.onInit();
   }
 
-  Future<void> loadProfile() async {
-    var preference = await SharedPreferences.getInstance();
-    String data = preference.getString("data") ?? "";
-    Map dataMap = jsonDecode(data);
-    accessToken = preference.getString("access_token") ?? "";
-    if(dataMap["has_creator"] != null) {
-      creatorId = dataMap["has_creator"]["id"];
-    }
-    loadEvent();
-  }
+  Future<void> loadProfile() async {}
 
   Future<void> loadEvent() async {
     loading = true;
-    eventList.clear();
+    eventList = List<dynamic>.from(_dummyCheckins);
+    loading = false;
     update(["checkin_event"]);
-
-    try{
-      var response = await myConnection.getDioConnection(accessToken).get(
-          "/api/transaction-history-ticket/${data["id"]}");
-      var responseData = response.data;
-      eventList = responseData["data"];
-
-      loading = false;
-      update(["checkin_event"]);
-    }
-    catch(e){
-      loading = false;
-      update(["checkin_event"]);
-    }
   }
 }

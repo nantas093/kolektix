@@ -1,61 +1,57 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
-import 'package:kolektix/app/connection/my_connection.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+const _dummyTransactions = [
+  {
+    "id": 1,
+    "invoice_no": "INV-001",
+    "buyer_name": "Andi Wijaya",
+    "ticket_name": "VIP",
+    "total_price": 500000,
+    "qty": 2,
+    "payment_status": "verified",
+  },
+  {
+    "id": 2,
+    "invoice_no": "INV-002",
+    "buyer_name": "Siti Rahayu",
+    "ticket_name": "Regular",
+    "total_price": 150000,
+    "qty": 1,
+    "payment_status": "verified",
+  },
+  {
+    "id": 3,
+    "invoice_no": "INV-003",
+    "buyer_name": "Rudi Hartono",
+    "ticket_name": "Festival",
+    "total_price": 300000,
+    "qty": 3,
+    "payment_status": "verified",
+  },
+];
 
 class JualTiketOfflineController extends GetxController {
 
-  MyConnection myConnection = MyConnection();
   List<dynamic> eventList = [];
-
   Map data = {};
   String image = "";
-
-  String accessToken = "";
-
-  int creatorId = 0;
-  int talentId = 0;
-  int grandTotal = 0;
-
+  int grandTotal = 950000;
   bool loading = false;
 
   @override
   void onInit() {
     data = Get.arguments["data"];
     image = data["image_url"] ?? "";
-    loadProfile();
+    loadEvent();
     super.onInit();
   }
 
-  Future<void> loadProfile() async {
-    var preference = await SharedPreferences.getInstance();
-    String data = preference.getString("data") ?? "";
-    Map dataMap = jsonDecode(data);
-    accessToken = preference.getString("access_token") ?? "";
-    if(dataMap["has_creator"] != null) {
-      creatorId = dataMap["has_creator"]["id"];
-    }
-    loadEvent();
-  }
+  Future<void> loadProfile() async {}
 
   Future<void> loadEvent() async {
     loading = true;
-    eventList.clear();
+    eventList = List<dynamic>.from(_dummyTransactions);
+    loading = false;
     update(["jual_tiket"]);
-
-    try{
-      var response = await myConnection.getDioConnection(accessToken).get(
-          "/api/list-transaction-by-event?event_id=${data["id"]}&type_transaction=offline");
-      var responseData = response.data;
-      grandTotal = responseData["grand_total"] ?? 0;
-      eventList = responseData["data"];
-      loading = false;
-      update(["jual_tiket"]);
-    }
-    catch(e){
-      loading = false;
-      update(["jual_tiket"]);
-    }
   }
 }

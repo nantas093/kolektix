@@ -13,11 +13,7 @@ class NotifikasiItemView extends GetView<NotifikasiItemController> {
   const NotifikasiItemView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<NotifikasiItemController>(
-        id: "notifikasi",
-        init: NotifikasiItemController(),
-        builder: (value){
-          return Scaffold(
+    return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(
                   width: double.maxFinite.w,
@@ -60,7 +56,7 @@ class NotifikasiItemView extends GetView<NotifikasiItemController> {
                                 children: [
                                   Expanded(flex: 1, child: TabBar.secondary(
                                     tabAlignment: TabAlignment.start,
-                                    controller: value.tabController,
+                                    controller: controller.tabController,
                                     isScrollable: true,
                                     labelStyle: TextStyle(
                                         fontFamily: "PoppinsRegular",
@@ -97,18 +93,17 @@ class NotifikasiItemView extends GetView<NotifikasiItemController> {
                           )
                       ),
                       Expanded(flex: 1, child: TabBarView(
-                        controller: value.tabController,
+                        controller: controller.tabController,
                         children: <Widget>[
-                          merchandiseView(value),
-                          merchandiseView(value),
-                          merchandiseView(value),
+                          merchandiseView(controller),
+                          merchandiseView(controller),
+                          merchandiseView(controller),
                         ],
-                      ))
-                    ],
-                  )
-              )
-          );
-        });
+                       ))
+                     ],
+                   )
+               )
+           );
   }
 
   Widget merchandiseView(NotifikasiItemController value){
@@ -128,33 +123,33 @@ class NotifikasiItemView extends GetView<NotifikasiItemController> {
                             top: 0.007.sh, bottom: 0.007.sh),
                         margin: EdgeInsets.only(left: 0.03.sw),
                         decoration: BoxDecoration(
-                            color: value.merchandiseTabIndex == index ?
+                            color: controller.merchandiseTabIndex == index ?
                             Color.fromRGBO(246, 250, 255, 1) : Colors.transparent,
                             borderRadius: BorderRadius.all(Radius.circular(25)),
                             border: Border.all(
-                                color: value.merchandiseTabIndex == index ?
+                                color: controller.merchandiseTabIndex == index ?
                                 Color.fromRGBO(11, 56, 124, 1) : Color.fromRGBO(102, 102, 102, 1),
                                 width: 1
                             )
                         ),
                         child: Text(
-                            value.tabs[index],
+                            controller.tabs[index],
                             textAlign: TextAlign.start,
                             style: TextStyle(
                                 fontFamily: MyConstant.STR_INTER_REGULAR,
                                 fontSize: MyConstant.TEXT_14,
                                 fontWeight: FontWeight.bold,
-                                color: value.merchandiseTabIndex == index ?
+                                color: controller.merchandiseTabIndex == index ?
                                 Color.fromRGBO(11, 56, 124, 1) : Color.fromRGBO(102, 102, 102, 1)
                             )
                         )
                     ),
                     onTap: (){
-                      value.changeMerchandiseTabIndex(index);
+                      controller.changeMerchandiseTabIndex(index);
                     },
                   );
                 },
-                  itemCount: value.tabs.length,
+                  itemCount: controller.tabs.length,
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,

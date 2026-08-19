@@ -11,11 +11,7 @@ class ProfileItemView extends GetView<ProfileItemController> {
   const ProfileItemView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ProfileItemController>(
-        id: "profile_item",
-        init: ProfileItemController(),
-        builder: (value){
-          return Scaffold(
+    return Scaffold(
               backgroundColor: Color.fromRGBO(246, 250, 255, 1),
               body: SizedBox(
                   width: double.maxFinite.w,
@@ -71,7 +67,7 @@ class ProfileItemView extends GetView<ProfileItemController> {
                                             Row(
                                               children: [
                                                 Text(
-                                                    value.name,
+                                                    controller.name,
                                                     textAlign: TextAlign.start,
                                                     style: TextStyle(
                                                         fontFamily: MyConstant.STR_INTER_REGULAR,
@@ -85,7 +81,7 @@ class ProfileItemView extends GetView<ProfileItemController> {
                                               ],
                                             ),
                                             Text(
-                                                value.email,
+                                                controller.email,
                                                 textAlign: TextAlign.start,
                                                 style: TextStyle(
                                                     fontFamily: MyConstant.STR_INTER_REGULAR,
@@ -116,10 +112,10 @@ class ProfileItemView extends GetView<ProfileItemController> {
                                     Row(
                                       children: [
                                         SizedBox(width: 0.03.sw),
-                                        SvgPicture.asset(value.icons[index]),
+                                        SvgPicture.asset(controller.icons[index]),
                                         SizedBox(width: 0.03.sw),
                                         Expanded(flex: 1, child: Text(
-                                            value.menus[index],
+                                            controller.menus[index],
                                             textAlign: TextAlign.start,
                                             style: TextStyle(
                                                 fontFamily: MyConstant.STR_INTER_REGULAR,
@@ -141,7 +137,7 @@ class ProfileItemView extends GetView<ProfileItemController> {
                                 )
                             );
                           },
-                            itemCount: value.menus.length,
+                            itemCount: controller.menus.length,
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
                           )
@@ -182,13 +178,12 @@ class ProfileItemView extends GetView<ProfileItemController> {
                             )
                         ),
                         onTap: (){
-                          value.logout();
+                          controller.logout();
                         },
                       )
                     ],
-                  )
-              )
-          );
-        });
-  }
-}
+                   )
+               )
+           );
+   }
+ }

@@ -1,13 +1,18 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kolektix/app/callback/scan_callback.dart';
-import 'package:kolektix/app/connection/my_connection.dart';
 import 'package:kolektix/app/utils/custom_loading.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:kolektix/app/utils/qr_code_scanner/qr_code_scanner.dart';
+
+const _dummyTicketData = {
+  "invoice_no": "INV-001",
+  "buyer_name": "Andi Wijaya",
+  "ticket_name": "VIP",
+  "event_name": "Java Jazz Festival 2026",
+  "qty": 2,
+  "status": "verified",
+};
 
 class ScanController extends GetxController {
 
@@ -18,13 +23,6 @@ class ScanController extends GetxController {
   QRViewController? controller;
 
   int tabPosition = 1;
-
-  MyConnection myConnection = MyConnection();
-
-  String accessToken = "";
-
-  int creatorId = 0;
-  int talentId = 0;
 
   bool scanned = false;
 
@@ -39,7 +37,6 @@ class ScanController extends GetxController {
 
   @override
   void onInit() {
-    loadProfile();
     super.onInit();
   }
 
@@ -49,22 +46,14 @@ class ScanController extends GetxController {
     super.dispose();
   }
 
-  Future<void> loadProfile() async {
-    var preference = await SharedPreferences.getInstance();
-    String data = preference.getString("data") ?? "";
-    Map dataMap = jsonDecode(data);
-    accessToken = preference.getString("access_token") ?? "";
-    if(dataMap["has_creator"] != null) {
-      creatorId = dataMap["has_creator"]["id"];
-    }
-  }
+  Future<void> loadProfile() async {}
 
   void onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      if(buildContext != null){
-        if(scanData.code != null){
-          if(!scanned){
+      if (buildContext != null) {
+        if (scanData.code != null) {
+          if (!scanned) {
             scanned = true;
             code = scanData.code!;
             checkIn(buildContext!, scanCallback!);
@@ -74,7 +63,7 @@ class ScanController extends GetxController {
     });
   }
 
-  void changeTabPosition(int position){
+  void changeTabPosition(int position) {
     tabPosition = position;
     update(["scan"]);
   }
@@ -82,40 +71,19 @@ class ScanController extends GetxController {
   Future<void> searchTicket(String search) async {
     ticketData = null;
     update(["scan"]);
-    if(!loading){
-      try{
-        var response = await myConnection.getDioConnection(accessToken).get(
-            "/api/search-invoice-number?invoice_no=$search");
-        var responseData = response.data;
-        if(responseData["data"] != null){
-          ticketData = responseData["data"];
-          code = ticketData!["invoice_no"] ?? "";
-          loading = false;
-          update(["scan"]);
-        }
-      }
-      catch(e){
-        loading = false;
-      }
+    if (search.isNotEmpty) {
+      ticketData = Map<String, dynamic>.from(_dummyTicketData);
+      code = ticketData!["invoice_no"] ?? "";
+      loading = false;
+      update(["scan"]);
     }
   }
 
   Future<void> checkIn(BuildContext context, ScanCallback scanCallback) async {
     CustomLoading.showLoadingDialog(context, "Loading...");
-    Map body = {};
-    body["invoice_no"] = code;
-
-    try{
-      var response = await myConnection.getDioConnection(accessToken).post(
-          "/api/transaction-scan-ticket", data: body);
-      var responseData = response.data;
-      ticketData = responseData["data"];
-      Get.back();
-      scanCallback.success(ticketData!, context);
-    }
-    catch(e){
-      Get.back();
-      scanCallback.failed(ticketData!, context);
-    }
+    await Future.delayed(const Duration(seconds: 1));
+    ticketData = Map<String, dynamic>.from(_dummyTicketData);
+    Get.back();
+    scanCallback.success(ticketData!, context);
   }
 }

@@ -16,9 +16,7 @@ class EventDetailView extends GetView<EventDetailController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<EventDetailController>(
-        id: "event_detail",
-        init: EventDetailController(),
-        builder: (value){
+        id: "event_detail",        builder: (value){
           value.buildContext = context;
           return Scaffold(
               backgroundColor: Colors.white,
@@ -1224,9 +1222,7 @@ class EventDetailView extends GetView<EventDetailController> {
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<EventDetailController>(
-              id: "event_detail",
-              init: EventDetailController(),
-              builder: (value){
+              id: "event_detail",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,
@@ -2076,9 +2072,7 @@ class EventDetailView extends GetView<EventDetailController> {
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<EventDetailController>(
-              id: "event_detail",
-              init: EventDetailController(),
-              builder: (value){
+              id: "event_detail",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,

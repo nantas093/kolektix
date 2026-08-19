@@ -18,13 +18,9 @@ class CreateEventView extends GetView<CreateEventController> {
   const CreateEventView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CreateEventController>(
-        init: CreateEventController(),
-        builder: (value){
+    return GetBuilder<CreateEventController>(        builder: (value){
           return GetBuilder<CreateEventController>(
-              id: "create_event",
-              init: CreateEventController(),
-              builder: (value){
+              id: "create_event",              builder: (value){
                 return Scaffold(
                     backgroundColor: Colors.white,
                     body: SizedBox(
@@ -1308,9 +1304,7 @@ class CreateEventView extends GetView<CreateEventController> {
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<CreateEventController>(
-              id: "create_event",
-              init: CreateEventController(),
-              builder: (value){
+              id: "create_event",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,
@@ -1760,9 +1754,7 @@ class CreateEventView extends GetView<CreateEventController> {
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<CreateEventController>(
-              id: "create_event",
-              init: CreateEventController(),
-              builder: (value){
+              id: "create_event",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,
@@ -1991,9 +1983,7 @@ class CreateEventView extends GetView<CreateEventController> {
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<CreateEventController>(
-              id: "create_event",
-              init: CreateEventController(),
-              builder: (value){
+              id: "create_event",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,
@@ -2562,9 +2552,7 @@ class CreateEventView extends GetView<CreateEventController> {
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<CreateEventController>(
-              id: "create_event",
-              init: CreateEventController(),
-              builder: (value){
+              id: "create_event",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,
@@ -3096,9 +3084,7 @@ class CreateEventView extends GetView<CreateEventController> {
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<CreateEventController>(
-              id: "create_event",
-              init: CreateEventController(),
-              builder: (value){
+              id: "create_event",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,
@@ -3948,9 +3934,7 @@ class CreateEventView extends GetView<CreateEventController> {
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<CreateEventController>(
-              id: "create_event",
-              init: CreateEventController(),
-              builder: (value){
+              id: "create_event",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,
@@ -4058,9 +4042,7 @@ class CreateEventView extends GetView<CreateEventController> {
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<CreateEventController>(
-              id: "create_event",
-              init: CreateEventController(),
-              builder: (value){
+              id: "create_event",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,
@@ -4168,9 +4150,7 @@ class CreateEventView extends GetView<CreateEventController> {
         isScrollControlled: true,
         builder: (BuildContext context) {
           return GetBuilder<CreateEventController>(
-              id: "create_event",
-              init: CreateEventController(),
-              builder: (value){
+              id: "create_event",              builder: (value){
                 return Container(
                     width: double.maxFinite.w,
                     height: double.maxFinite.w,

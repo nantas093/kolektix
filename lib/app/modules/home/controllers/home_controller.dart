@@ -3,12 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:kolektix/app/constants/my_constants.dart';
+import 'package:kolektix/app/modules/home_item/bindings/home_item_binding.dart';
 import 'package:kolektix/app/modules/home_item/views/home_item_view.dart';
+import 'package:kolektix/app/modules/kelola_item/bindings/kelola_item_binding.dart';
 import 'package:kolektix/app/modules/kelola_item/views/kelola_item_view.dart';
+import 'package:kolektix/app/modules/notifikasi_item/bindings/notifikasi_item_binding.dart';
 import 'package:kolektix/app/modules/notifikasi_item/views/notifikasi_item_view.dart';
+import 'package:kolektix/app/modules/pesan_item/bindings/pesan_item_binding.dart';
 import 'package:kolektix/app/modules/pesan_item/views/pesan_item_view.dart';
+import 'package:kolektix/app/modules/profile_item/bindings/profile_item_binding.dart';
 import 'package:kolektix/app/modules/profile_item/views/profile_item_view.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:kolektix/app/utils/persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class HomeController extends GetxController {
 
@@ -20,6 +25,13 @@ class HomeController extends GetxController {
   }
 
   List<Widget> buildScreens() {
+    // Initialize bindings for each screen
+    HomeItemBinding().dependencies();
+    KelolaItemBinding().dependencies();
+    PesanItemBinding().dependencies();
+    NotifikasiItemBinding().dependencies();
+    ProfileItemBinding().dependencies();
+    
     return [
       const HomeItemView(),
       const KelolaItemView(),

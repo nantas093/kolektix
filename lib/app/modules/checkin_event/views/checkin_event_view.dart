@@ -13,9 +13,7 @@ class CheckinEventView extends GetView<CheckinEventController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CheckinEventController>(
-        id: "checkin_event",
-        init: CheckinEventController(),
-        builder: (value){
+        id: "checkin_event",        builder: (value){
           return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(

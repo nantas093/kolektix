@@ -12,9 +12,7 @@ class SelectRoleView extends GetView<SelectRoleController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SelectRoleController>(
-        id: "select_role",
-        init: SelectRoleController(),
-        builder: (value){
+        id: "select_role",        builder: (value){
           return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(

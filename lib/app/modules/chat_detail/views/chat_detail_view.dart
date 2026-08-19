@@ -12,9 +12,7 @@ class ChatDetailView extends GetView<ChatDetailController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ChatDetailController>(
-        id: "chat_detail",
-        init: ChatDetailController(),
-        builder: (value){
+        id: "chat_detail",        builder: (value){
           return Scaffold(
               backgroundColor: Color.fromRGBO(246, 250, 255, 1),
               body: SizedBox(

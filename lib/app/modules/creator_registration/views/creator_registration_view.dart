@@ -16,9 +16,7 @@ class CreatorRegistrationView extends GetView<CreatorRegistrationController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CreatorRegistrationController>(
-        id: "creator_registration",
-        init: CreatorRegistrationController(),
-        builder: (value){
+        id: "creator_registration",        builder: (value){
           return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(

@@ -13,11 +13,7 @@ class HomeItemView extends GetView<HomeItemController> {
   const HomeItemView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeItemController>(
-        id: "home_item",
-        init: HomeItemController(),
-        builder: (value){
-          return Scaffold(
+    return Scaffold(
               backgroundColor: Colors.white,
               body: SizedBox(
                   width: double.maxFinite.w,
@@ -51,7 +47,7 @@ class HomeItemView extends GetView<HomeItemController> {
                                               ),
                                               SizedBox(width: 0.02.sw),
                                               Text(
-                                                  value.name,
+                                                  controller.name,
                                                   textAlign: TextAlign.start,
                                                   maxLines: 1,
                                                   overflow: TextOverflow.ellipsis,
@@ -860,17 +856,16 @@ class HomeItemView extends GetView<HomeItemController> {
                               )),
                               SizedBox(width: 0.03.sw)
                             ],
-                          ),
-                          Container(
-                              width: double.maxFinite.w,
-                              height: 1,
-                              color: Color.fromRGBO(226, 237, 255, 1)
-                          )
-                        ],
-                      )
-                  )
-              )
-          );
-        });
-  }
-}
+                           ),
+                           Container(
+                               width: double.maxFinite.w,
+                               height: 1,
+                               color: Color.fromRGBO(226, 237, 255, 1)
+                           )
+                         ],
+                       )
+                   )
+               )
+           );
+   }
+ }
