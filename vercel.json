@@ -2,9 +2,8 @@
   "version": 2,
   "public": true,
   "outputDirectory": "build/web",
-  "buildCommand": "",
-  "devCommand": "",
-  "installCommand": "",
+  "buildCommand": "bash build.sh",
+  "installCommand": "echo 'Skipping install'",
   "rewrites": [
     {
       "source": "/(.*)",
