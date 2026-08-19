@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "public": true,
   "outputDirectory": "build/web",
   "buildCommand": "bash build.sh",
   "installCommand": "echo 'Skipping install'",
