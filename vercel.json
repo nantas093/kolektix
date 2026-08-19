@@ -1,6 +1,7 @@
 {
   "version": 2,
   "public": true,
+  "buildCommand": "echo 'Flutter web build artifacts already present'",
   "outputDirectory": "build/web",
   "rewrites": [
     {
